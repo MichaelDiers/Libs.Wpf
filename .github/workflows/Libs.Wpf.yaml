@@ -3,6 +3,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+permissions:
+  contents: write
+  packages: write
 jobs:
   build-and-test:
     uses: MichaelDiers/github-workflows/.github/workflows/dotnet-build-and-test.yaml@main
