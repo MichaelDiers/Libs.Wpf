@@ -17,5 +17,5 @@ jobs:
     uses: MichaelDiers/github-workflows/.github/workflows/dotnet-nuget.yaml@main
     with:
       project-name: Lib.Wpf
-      solution-directory: ./
+      solution-directory: .
       runs-on: windows-latest
