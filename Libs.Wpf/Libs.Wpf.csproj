@@ -32,4 +32,10 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Assets\license.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
