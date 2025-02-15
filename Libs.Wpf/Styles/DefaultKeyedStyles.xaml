@@ -6,7 +6,7 @@
         <ResourceDictionary
             Source="DefaultValues.xaml" />
         <ResourceDictionary
-            Source="/Templates/ValidationErrorTemplate.xaml" />
+            Source="../Templates/ValidationErrorTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style
