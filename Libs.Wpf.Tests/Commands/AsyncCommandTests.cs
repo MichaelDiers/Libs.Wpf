@@ -19,7 +19,7 @@ public class AsyncCommandTests
     }
 
     [Fact]
-    public void Cancel()
+    public async Task Cancel()
     {
         const int commandParameter = 10;
 
@@ -35,7 +35,7 @@ public class AsyncCommandTests
             {
                 executeCalledPre = true;
                 await Task.Delay(
-                    2000,
+                    3000,
                     cancellationToken);
                 executeCalledPost = true;
                 return value + 1;
@@ -58,10 +58,18 @@ public class AsyncCommandTests
         Assert.NotNull(command.CancelCommand);
         command.CancelCommand.Execute(null);
 
+        for (var i = 0; command.IsActive && i < 30; i += 1)
+        {
+            DispatcherHelperCore.DoEvents();
+            await Task.Delay(
+                300,
+                CancellationToken.None);
+        }
+
         Assert.True(preExecuteCalled);
         Assert.True(executeCalledPre);
         Assert.False(executeCalledPost);
-        Assert.False(postExecuteCalled);
+        Assert.True(postExecuteCalled);
     }
 
     [Fact]
@@ -80,7 +88,7 @@ public class AsyncCommandTests
     }
 
     [Fact]
-    public void Execute()
+    public async Task Execute()
     {
         var called = false;
         var command = this.commandFactory.CreateAsyncCommand<int, bool>(
@@ -97,7 +105,14 @@ public class AsyncCommandTests
             task => { });
 
         command.Execute(10);
-        DispatcherHelperCore.DoEvents();
+
+        for (var i = 0; command.IsActive && i < 30; i += 1)
+        {
+            DispatcherHelperCore.DoEvents();
+            await Task.Delay(
+                300,
+                CancellationToken.None);
+        }
 
         Assert.True(called);
     }
@@ -131,11 +146,14 @@ public class AsyncCommandTests
         Assert.True(command.CanExecute(commandParameter));
 
         command.Execute(commandParameter);
-        DispatcherHelperCore.DoEvents();
 
-        await Task.Delay(
-            100,
-            CancellationToken.None);
+        for (var i = 0; command.IsActive && i < 30; i += 1)
+        {
+            DispatcherHelperCore.DoEvents();
+            await Task.Delay(
+                300,
+                CancellationToken.None);
+        }
 
         Assert.True(preExecuteCalled);
         Assert.True(executeCalled);
