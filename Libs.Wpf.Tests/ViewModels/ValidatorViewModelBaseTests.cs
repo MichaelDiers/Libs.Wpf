@@ -1,6 +1,7 @@
 ﻿namespace Libs.Wpf.Tests.ViewModels;
 
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Libs.Wpf.ViewModels;
 
 /// <summary>
@@ -8,195 +9,334 @@ using Libs.Wpf.ViewModels;
 /// </summary>
 public class ValidatorViewModelBaseTests : ValidatorViewModelBase
 {
-    private const string ErrorProperty = nameof(ValidatorViewModelBaseTests.ErrorProperty);
-    private const string ErrorValue = nameof(ValidatorViewModelBaseTests.ErrorValue);
+    private const string ErrorValueMultiple = nameof(ValidatorViewModelBaseTests.ErrorValueMultiple);
 
-    [Fact]
-    public void ErrorsChangedTest()
+    private const string ErrorValueSingle = nameof(ValidatorViewModelBaseTests.ErrorValueSingle);
+    private const string NoErrorValue = nameof(ValidatorViewModelBaseTests.NoErrorValue);
+
+    /// <summary>
+    ///     The another error handling property.
+    /// </summary>
+    private string anotherErrorProperty = string.Empty;
+
+    /// <summary>
+    ///     The value of the error handling property.
+    /// </summary>
+    private string errorProperty = string.Empty;
+
+    /// <summary>
+    ///     The error free property.
+    /// </summary>
+    private string noErrorProperty = string.Empty;
+
+    /// <summary>
+    ///     Gets or sets the another error handling property.
+    /// </summary>
+    public string AnotherErrorProperty
     {
-        var called = false;
-
-        void HandleErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
+        get => this.anotherErrorProperty;
+        set
         {
-            Assert.Equal(
-                this,
-                sender);
-            Assert.Equal(
-                e.PropertyName,
-                ValidatorViewModelBaseTests.ErrorProperty);
-            called = true;
+            this.SetField(
+                ref this.anotherErrorProperty,
+                value);
+            this.ValidateErrorProperty(value);
         }
+    }
 
-        this.ErrorsChanged += HandleErrorsChanged;
+    /// <summary>
+    ///     Gets or sets the error handling property.
+    /// </summary>
+    public string ErrorProperty
+    {
+        get => this.errorProperty;
+        set
+        {
+            this.SetField(
+                ref this.errorProperty,
+                value);
+            this.ValidateErrorProperty(value);
+        }
+    }
 
-        this.SetError(
-            ValidatorViewModelBaseTests.ErrorValue,
-            ValidatorViewModelBaseTests.ErrorProperty);
-
-        Assert.True(called);
-
-        called = false;
-
-        this.SetErrors(
-            [ValidatorViewModelBaseTests.ErrorValue],
-            ValidatorViewModelBaseTests.ErrorProperty);
-
-        Assert.True(called);
-
-        this.ErrorsChanged -= HandleErrorsChanged;
+    /// <summary>
+    ///     Gets or sets the error free property.
+    /// </summary>
+    public string NoErrorProperty
+    {
+        get => this.noErrorProperty;
+        set =>
+            this.SetField(
+                ref this.noErrorProperty,
+                value);
     }
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    [InlineData(ValidatorViewModelBaseTests.ErrorProperty)]
-    public void GetErrorsTest(string? propertyName)
+    [InlineData(nameof(ValidatorViewModelBaseTests.ErrorProperty))]
+    public void GetErrors_ShouldReturnMultipleValidationErrors_WhenErrorsAreSet(string? propertyName)
+    {
+        this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueMultiple;
+
+        this.GetErrors(
+            propertyName,
+            [ValidatorViewModelBaseTests.ErrorValueSingle, ValidatorViewModelBaseTests.ErrorValueMultiple]);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData(nameof(ValidatorViewModelBaseTests.ErrorProperty))]
+    public void GetErrors_ShouldReturnNoValidationErrors_WhenNoErrorIsSet(string? propertyName)
     {
         this.GetErrors(
             propertyName,
             []);
+    }
 
-        this.SetError(
-            ValidatorViewModelBaseTests.ErrorValue,
-            ValidatorViewModelBaseTests.ErrorProperty);
-        this.GetErrors(
-            propertyName,
-            [ValidatorViewModelBaseTests.ErrorValue]);
+    [Fact]
+    public void GetErrors_ShouldReturnNoValidationErrors_WhenNoErrorPropertyIsRequested()
+    {
+        this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueSingle;
 
-        this.SetErrors(
-            [ValidatorViewModelBaseTests.ErrorValue, ValidatorViewModelBaseTests.ErrorValue],
-            ValidatorViewModelBaseTests.ErrorProperty);
         this.GetErrors(
-            propertyName,
-            [ValidatorViewModelBaseTests.ErrorValue, ValidatorViewModelBaseTests.ErrorValue]);
+            nameof(ValidatorViewModelBaseTests.NoErrorProperty),
+            []);
+    }
+
+    [Fact]
+    public void GetErrors_ShouldReturnSpecificMultipleValidationErrors_WhenMultipleValidationErrorsAreSet()
+    {
+        this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueMultiple;
+        this.AnotherErrorProperty = ValidatorViewModelBaseTests.ErrorValueSingle;
+
+        this.GetErrors(
+            nameof(ValidatorViewModelBaseTests.ErrorProperty),
+            [ValidatorViewModelBaseTests.ErrorValueSingle, ValidatorViewModelBaseTests.ErrorValueMultiple]);
+        this.GetErrors(
+            nameof(ValidatorViewModelBaseTests.AnotherErrorProperty),
+            [ValidatorViewModelBaseTests.ErrorValueSingle]);
+        this.GetErrors(
+            nameof(ValidatorViewModelBaseTests.NoErrorProperty),
+            []);
+        this.GetErrors(
+            null,
+            [
+                ValidatorViewModelBaseTests.ErrorValueSingle, ValidatorViewModelBaseTests.ErrorValueMultiple,
+                ValidatorViewModelBaseTests.ErrorValueSingle
+            ]);
+        this.GetErrors(
+            string.Empty,
+            [
+                ValidatorViewModelBaseTests.ErrorValueSingle, ValidatorViewModelBaseTests.ErrorValueMultiple,
+                ValidatorViewModelBaseTests.ErrorValueSingle
+            ]);
     }
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void GetMultipleErrorsTest(string? propertyName)
+    [InlineData(nameof(ValidatorViewModelBaseTests.ErrorProperty))]
+    public void GetErrors_ShouldReturnValidationErrors_WhenErrorIsSet(string? propertyName)
     {
-        var errors = new List<string>();
-        for (var i = 1; i < 10; ++i)
-        {
-            var propErrors = Enumerable.Range(
-                    0,
-                    i)
-                .Select(j => $"error_{j}")
-                .ToArray();
-            this.SetErrors(
-                propErrors,
-                $"property_{i}");
-            errors.AddRange(propErrors);
-        }
+        this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueSingle;
 
         this.GetErrors(
             propertyName,
-            errors.ToArray());
+            [ValidatorViewModelBaseTests.ErrorValueSingle]);
     }
 
     [Fact]
-    public void HasErrorsTest()
+    public void ResetErrors_ShouldNotRaiseErrorsChanged_WhenNoErrorIsSet()
     {
-        Assert.False(this.HasErrors);
+        this.ErrorsChanged += OnErrorsChanged;
 
-        this.SetError(
-            ValidatorViewModelBaseTests.ErrorValue,
-            ValidatorViewModelBaseTests.ErrorProperty);
+        this.ErrorProperty = ValidatorViewModelBaseTests.NoErrorValue;
 
-        Assert.True(this.HasErrors);
+        this.ErrorsChanged -= OnErrorsChanged;
+        return;
 
-        this.ResetErrors(ValidatorViewModelBaseTests.ErrorProperty);
-
-        Assert.False(this.HasErrors);
-
-        this.SetErrors(
-            [ValidatorViewModelBaseTests.ErrorValue],
-            ValidatorViewModelBaseTests.ErrorProperty);
-
-        Assert.True(this.HasErrors);
-
-        this.ResetErrors(ValidatorViewModelBaseTests.ErrorProperty);
-
-        Assert.False(this.HasErrors);
-    }
-
-    [Fact]
-    public void ResetErrorsTest()
-    {
-        Assert.False(this.HasErrors);
-
-        this.ResetErrors(ValidatorViewModelBaseTests.ErrorProperty);
-        Assert.False(this.HasErrors);
-
-        this.SetError(
-            ValidatorViewModelBaseTests.ErrorValue,
-            ValidatorViewModelBaseTests.ErrorProperty);
-        Assert.True(this.HasErrors);
-
-        this.ResetErrors($"{ValidatorViewModelBaseTests.ErrorProperty}x");
-        Assert.True(this.HasErrors);
-
-        this.ResetErrors($"{ValidatorViewModelBaseTests.ErrorProperty}");
-        Assert.False(this.HasErrors);
-    }
-
-    [Fact]
-    public void SetErrorsTest()
-    {
-        Assert.False(this.HasErrors);
-        for (var i = 0; i < 10; ++i)
+        void OnErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
         {
-            this.SetErrors(
-                Enumerable.Range(
-                        0,
-                        i + 1)
-                    .Select(j => $"{ValidatorViewModelBaseTests.ErrorValue}_{i}_{j}")
-                    .ToArray(),
-                $"{ValidatorViewModelBaseTests.ErrorProperty}_{i}");
-        }
-
-        for (var i = 0; i < 10; ++i)
-        {
-            this.GetErrors(
-                $"{ValidatorViewModelBaseTests.ErrorProperty}_{i}",
-                Enumerable.Range(
-                        0,
-                        i + 1)
-                    .Select(j => $"{ValidatorViewModelBaseTests.ErrorValue}_{i}_{j}")
-                    .ToArray());
+            Assert.Fail("should not be called.");
         }
     }
 
     [Fact]
-    public void SetErrorTest()
+    public void ResetErrors_ShouldRaiseErrorsChanged_WhenErrorIsSet()
     {
-        Assert.False(this.HasErrors);
-        for (var i = 0; i < 10; ++i)
-        {
-            this.SetError(
-                $"{ValidatorViewModelBaseTests.ErrorValue}{i}",
-                $"{ValidatorViewModelBaseTests.ErrorProperty}{i}");
-        }
+        var called = false;
 
-        for (var i = 0; i < 10; ++i)
+        this.ErrorsChanged += OnErrorsChanged;
+
+        this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueSingle;
+
+        this.ErrorsChanged -= OnErrorsChanged;
+
+        Assert.True(called);
+        return;
+
+        void OnErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
         {
-            this.GetErrors(
-                $"{ValidatorViewModelBaseTests.ErrorProperty}{i}",
-                [$"{ValidatorViewModelBaseTests.ErrorValue}{i}"]);
+            called = true;
         }
+    }
+
+    [Fact]
+    public void ResetErrors_ShouldRemoveValidationError()
+    {
+        this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueSingle;
+
+        Assert.True(this.HasErrors);
+
+        this.ErrorProperty = ValidatorViewModelBaseTests.NoErrorValue;
+
+        Assert.False(this.HasErrors);
+    }
+
+    [Fact]
+    public void SetError_RaisesArgumentException_WhenErrorIsNotSet()
+    {
+        Assert.Throws<ArgumentException>(
+            () => this.SetError(
+                string.Empty,
+                nameof(ValidatorViewModelBaseTests.ErrorProperty)));
+    }
+
+    [Fact]
+    public void SetError_RaisesErrorsChanged()
+    {
+        var raised = false;
+
+        this.ErrorsChanged += OnErrorsChanged;
+
+        this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueSingle;
+
+        this.ErrorsChanged -= OnErrorsChanged;
+
+        Assert.True(raised);
+        return;
+
+        void OnErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
+        {
+            raised = true;
+            Assert.Equal(
+                nameof(ValidatorViewModelBaseTests.ErrorProperty),
+                e.PropertyName);
+        }
+    }
+
+    [Theory]
+    [InlineData(
+        null,
+        typeof(ArgumentNullException))]
+    [InlineData(
+        "",
+        typeof(ArgumentException))]
+    public void SetError_RaisesException_WhenPropertyNameIsNotSet(string? propertyName, Type expectedException)
+    {
+        Assert.Throws(
+            expectedException,
+            () => this.SetError(
+                ValidatorViewModelBaseTests.ErrorValueSingle,
+                propertyName!));
+    }
+
+    [Fact]
+    public void SetError_Succeeds()
+    {
+        this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueSingle;
+
+        this.GetErrors(
+            nameof(ValidatorViewModelBaseTests.ErrorProperty),
+            [ValidatorViewModelBaseTests.ErrorValueSingle]);
+    }
+
+    [Fact]
+    public void SetErrors_RaisesArgumentException_WhenErrorsAreNotSet()
+    {
+        Assert.Throws<ArgumentException>(
+            () => this.SetErrors(
+                [],
+                nameof(ValidatorViewModelBaseTests.ErrorProperty)));
+    }
+
+    [Fact]
+    public void SetErrors_RaisesErrorsChanged()
+    {
+        var raised = false;
+
+        this.ErrorsChanged += OnErrorsChanged;
+
+        this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueMultiple;
+
+        this.ErrorsChanged -= OnErrorsChanged;
+
+        Assert.True(raised);
+        return;
+
+        void OnErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
+        {
+            raised = true;
+            Assert.Equal(
+                nameof(ValidatorViewModelBaseTests.ErrorProperty),
+                e.PropertyName);
+        }
+    }
+
+    [Theory]
+    [InlineData(
+        null,
+        typeof(ArgumentNullException))]
+    [InlineData(
+        "",
+        typeof(ArgumentException))]
+    public void SetErrors_RaisesException_WhenPropertyNameIsNotSet(string? propertyName, Type expectedException)
+    {
+        Assert.Throws(
+            expectedException,
+            () => this.SetErrors(
+                [ValidatorViewModelBaseTests.ErrorValueSingle],
+                propertyName!));
+    }
+
+    [Fact]
+    public void SetErrors_Succeeds()
+    {
+        this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueMultiple;
+
+        this.GetErrors(
+            nameof(ValidatorViewModelBaseTests.ErrorProperty),
+            [ValidatorViewModelBaseTests.ErrorValueSingle, ValidatorViewModelBaseTests.ErrorValueMultiple]);
     }
 
     private void GetErrors(string? propertyName, string[] expectedErrors)
     {
-        var actualErrors = new List<string>();
-        foreach (string error in this.GetErrors(propertyName))
-        {
-            actualErrors.Add(error);
-        }
+        var actualErrors = this.GetErrors(propertyName).Cast<string>().ToList();
 
         Assert.Equal(
             expectedErrors,
             actualErrors);
+    }
+
+    private void ValidateErrorProperty(string value, [CallerMemberName] string propertyName = "")
+    {
+        switch (value)
+        {
+            case ValidatorViewModelBaseTests.ErrorValueSingle:
+                this.SetError(
+                    ValidatorViewModelBaseTests.ErrorValueSingle,
+                    propertyName);
+                break;
+            case ValidatorViewModelBaseTests.ErrorValueMultiple:
+                this.SetErrors(
+                    [ValidatorViewModelBaseTests.ErrorValueSingle, ValidatorViewModelBaseTests.ErrorValueMultiple],
+                    propertyName);
+                break;
+            default:
+                this.ResetErrors(propertyName);
+                break;
+        }
     }
 }

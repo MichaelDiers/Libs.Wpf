@@ -28,11 +28,6 @@ public class ViewModelBaseTests : ViewModelBase
     [Fact]
     public void PropertyChanged_NotRaisedIfPropertyNotChanged()
     {
-        void HandlePropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            Assert.Fail("should not occur");
-        }
-
         this.TestProperty = "foo";
 
         this.PropertyChanged += HandlePropertyChanged;
@@ -40,20 +35,18 @@ public class ViewModelBaseTests : ViewModelBase
         this.TestProperty = "foo";
 
         this.PropertyChanged -= HandlePropertyChanged;
+        return;
+
+        void HandlePropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            Assert.Fail("should not occur");
+        }
     }
 
     [Fact]
     public void PropertyChanged_RaisedIfPropertyChanged()
     {
         var propertyChangedRaised = false;
-
-        void HandlePropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            propertyChangedRaised = true;
-            Assert.Equal(
-                nameof(ViewModelBaseTests.TestProperty),
-                e.PropertyName);
-        }
 
         this.PropertyChanged += HandlePropertyChanged;
 
@@ -62,5 +55,14 @@ public class ViewModelBaseTests : ViewModelBase
         this.PropertyChanged -= HandlePropertyChanged;
 
         Assert.True(propertyChangedRaised);
+        return;
+
+        void HandlePropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            propertyChangedRaised = true;
+            Assert.Equal(
+                nameof(ViewModelBaseTests.TestProperty),
+                e.PropertyName);
+        }
     }
 }

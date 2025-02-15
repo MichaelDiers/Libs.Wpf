@@ -58,10 +58,12 @@ public class ValidatorViewModelBase : ViewModelBase, INotifyDataErrorInfo
     /// <param name="propertyName">Name of the property.</param>
     protected void ResetErrors([CallerMemberName] string propertyName = "")
     {
-        this.errors.Remove(propertyName);
-        this.ErrorsChanged?.Invoke(
-            this,
-            new DataErrorsChangedEventArgs(propertyName));
+        if (this.errors.Remove(propertyName))
+        {
+            this.ErrorsChanged?.Invoke(
+                this,
+                new DataErrorsChangedEventArgs(propertyName));
+        }
     }
 
     /// <summary>
@@ -71,6 +73,8 @@ public class ValidatorViewModelBase : ViewModelBase, INotifyDataErrorInfo
     /// <param name="propertyName">Name of the property.</param>
     protected void SetError(string propertyError, [CallerMemberName] string propertyName = "")
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(propertyError);
+
         this.SetErrors(
             [propertyError],
             propertyName);
