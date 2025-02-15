@@ -1,8 +1,8 @@
-﻿namespace Md.Libs.Wpf.Controls;
+﻿namespace Libs.Wpf.Controls;
 
 using System.Windows;
 using System.Windows.Media;
-using Md.Libs.Wpf.Commands;
+using Libs.Wpf.Commands;
 
 /// <summary>
 ///     Interaction logic for CancelButtonOverlay.xaml

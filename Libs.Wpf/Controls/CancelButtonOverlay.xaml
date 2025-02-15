@@ -1,8 +1,8 @@
 ﻿<UserControl
-    x:Class="Md.Libs.Wpf.Controls.CancelButtonOverlay"
+    x:Class="Libs.Wpf.Controls.CancelButtonOverlay"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:Md.Libs.Wpf.Controls"
+    xmlns:controls="clr-namespace:Libs.Wpf.Controls"
     xmlns:dependencyProperties="clr-namespace:Libs.Wpf.DependencyProperties">
     <UserControl.Resources>
         <ResourceDictionary
