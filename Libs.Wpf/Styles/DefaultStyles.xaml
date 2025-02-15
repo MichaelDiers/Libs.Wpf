@@ -1,0 +1,44 @@
+﻿<!-- Default styles for controls. -->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary
+            Source="DefaultKeyedStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style
+        TargetType="Button"
+        BasedOn="{StaticResource DefaultButtonStyle}" />
+
+    <Style
+        TargetType="ComboBox"
+        BasedOn="{StaticResource DefaultComboBoxStyle}" />
+
+    <Style
+        TargetType="Expander"
+        BasedOn="{StaticResource DefaultExpanderStyle}" />
+
+    <Style
+        TargetType="Label"
+        BasedOn="{StaticResource DefaultLabelStyle}" />
+
+    <Style
+        TargetType="PasswordBox"
+        BasedOn="{StaticResource DefaultPasswordBoxStyle}" />
+
+    <Style
+        TargetType="ScrollViewer"
+        BasedOn="{StaticResource DefaultScrollViewerStyle}" />
+
+    <Style
+        TargetType="TextBlock"
+        BasedOn="{StaticResource DefaultTextBlockStyle}" />
+
+    <Style
+        TargetType="TextBox"
+        BasedOn="{StaticResource DefaultTextBoxStyle}" />
+
+    <Style
+        TargetType="Window"
+        BasedOn="{StaticResource DefaultWindowStyle}" />
+</ResourceDictionary>
