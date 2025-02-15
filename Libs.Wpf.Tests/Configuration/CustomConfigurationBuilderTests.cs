@@ -35,7 +35,7 @@ public class CustomConfigurationBuilderTests
         "  ",
         typeof(ArgumentException))]
     public void GetConfiguration_ThrowsException_WhenAppSettingsFileNameIsNotSet(
-        string appSettingsFileName,
+        string? appSettingsFileName,
         Type expectedExceptionType
     )
     {

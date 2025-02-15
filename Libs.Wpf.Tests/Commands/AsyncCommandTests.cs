@@ -19,9 +19,9 @@ public class AsyncCommandTests
     }
 
     [Fact]
-    public async Task CancelAsync()
+    public void Cancel()
     {
-        var commandParameter = 10;
+        const int commandParameter = 10;
 
         var preExecuteCalled = false;
         var executeCalledPre = false;
@@ -105,7 +105,7 @@ public class AsyncCommandTests
     [Fact]
     public async Task ExecuteAsync()
     {
-        var commandParameter = 10;
+        const int commandParameter = 10;
 
         var preExecuteCalled = false;
         var executeCalled = false;
@@ -133,7 +133,9 @@ public class AsyncCommandTests
         command.Execute(commandParameter);
         DispatcherHelperCore.DoEvents();
 
-        await Task.Delay(100);
+        await Task.Delay(
+            100,
+            CancellationToken.None);
 
         Assert.True(preExecuteCalled);
         Assert.True(executeCalled);
