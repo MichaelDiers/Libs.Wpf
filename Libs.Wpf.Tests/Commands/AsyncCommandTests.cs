@@ -58,13 +58,12 @@ public class AsyncCommandTests
         Assert.NotNull(command.CancelCommand);
         command.CancelCommand.Execute(null);
 
-        for (var i = 0; command.IsActive && i < 30; i += 1)
-        {
-            DispatcherHelperCore.DoEvents();
-            await Task.Delay(
-                300,
-                CancellationToken.None);
-        }
+        await AsyncCommandTests.Wait(
+            command,
+            () => Assert.True(preExecuteCalled),
+            () => Assert.True(executeCalledPre),
+            () => Assert.False(executeCalledPost),
+            () => Assert.True(postExecuteCalled));
 
         Assert.True(preExecuteCalled);
         Assert.True(executeCalledPre);
@@ -106,13 +105,9 @@ public class AsyncCommandTests
 
         command.Execute(10);
 
-        for (var i = 0; command.IsActive && i < 30; i += 1)
-        {
-            DispatcherHelperCore.DoEvents();
-            await Task.Delay(
-                300,
-                CancellationToken.None);
-        }
+        await AsyncCommandTests.Wait(
+            command,
+            () => Assert.True(called));
 
         Assert.True(called);
     }
@@ -147,13 +142,11 @@ public class AsyncCommandTests
 
         command.Execute(commandParameter);
 
-        for (var i = 0; command.IsActive && i < 30; i += 1)
-        {
-            DispatcherHelperCore.DoEvents();
-            await Task.Delay(
-                300,
-                CancellationToken.None);
-        }
+        await AsyncCommandTests.Wait(
+            command,
+            () => Assert.True(preExecuteCalled),
+            () => Assert.True(executeCalled),
+            () => Assert.True(postExecuteCalled));
 
         Assert.True(preExecuteCalled);
         Assert.True(executeCalled);
@@ -190,5 +183,40 @@ public class AsyncCommandTests
         command.Execute(10);
 
         Assert.True(called);
+    }
+
+    private static async Task Wait(IAsyncCommand command, params Action[] asserts)
+    {
+        for (var i = 0; command.IsActive && i < 30; i += 1)
+        {
+            DispatcherHelperCore.DoEvents();
+
+            await Task.Delay(
+                200,
+                CancellationToken.None);
+        }
+
+        for (var i = 0; i < 30; i += 1)
+        {
+            DispatcherHelperCore.DoEvents();
+
+            await Task.Delay(
+                200,
+                CancellationToken.None);
+
+            try
+            {
+                foreach (var assert in asserts)
+                {
+                    assert();
+                }
+
+                return;
+            }
+            catch
+            {
+                // next round
+            }
+        }
     }
 }
