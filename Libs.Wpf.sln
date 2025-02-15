@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libs.Wpf", "Libs.Wpf\Libs.Wpf.csproj", "{FD79BC75-A848-4238-BA63-0CADF3682365}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libs.Wpf.Tests", "Libs.Wpf.Tests\Libs.Wpf.Tests.csproj", "{56E69091-2D49-429D-99B0-4A19A39CA6E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libs.Wpf.TestApplication", "Libs.Wpf.TestApplication\Libs.Wpf.TestApplication.csproj", "{ADC3D19B-5CB4-400A-BE7D-6E6AE102AFDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{56E69091-2D49-429D-99B0-4A19A39CA6E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56E69091-2D49-429D-99B0-4A19A39CA6E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56E69091-2D49-429D-99B0-4A19A39CA6E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADC3D19B-5CB4-400A-BE7D-6E6AE102AFDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC3D19B-5CB4-400A-BE7D-6E6AE102AFDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADC3D19B-5CB4-400A-BE7D-6E6AE102AFDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC3D19B-5CB4-400A-BE7D-6E6AE102AFDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

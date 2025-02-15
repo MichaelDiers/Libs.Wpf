@@ -1,0 +1,26 @@
+﻿<Application
+    x:Class="Libs.Wpf.TestApplication.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/Libs.Wpf;component/Styles/DefaultValues.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/Libs.Wpf;component/Styles/DefaultKeyedStyles.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/Libs.Wpf;component/Styles/DefaultStyles.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/Libs.Wpf;component/Styles/BaseCommandButtonStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/Libs.Wpf;component/Styles/CommandButtonStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/Libs.Wpf;component/Templates/ValidationErrorTemplate.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/Libs.Wpf;component/Templates/CommandButtonTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
