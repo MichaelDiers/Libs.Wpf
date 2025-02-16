@@ -8,7 +8,10 @@ using System.Windows.Input;
 /// <param name="canExecute">A function that determines whether the command can execute in its current state.</param>
 /// <param name="execute">Defines the method to be called when the command is invoked.</param>
 /// <seealso cref="ICommand" />
-internal class SyncCommand<T>(Func<T?, bool>? canExecute, Action<T?> execute) : ICommand
+internal class SyncCommand<T>(Func<T?, bool>? canExecute, Action<T?> execute) : SyncBaseCommand(
+        parameter => canExecute is null || canExecute((T?) parameter),
+        parameter => execute((T?) parameter)),
+    ICommand
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="SyncCommand{T}" /> class.
@@ -19,37 +22,5 @@ internal class SyncCommand<T>(Func<T?, bool>? canExecute, Action<T?> execute) : 
             null,
             execute)
     {
-    }
-
-    /// <summary>Determines whether the command can execute in its current state.</summary>
-    /// <param name="parameter">
-    ///     Data used by the command. If the command does not require data to be passed, this object can be
-    ///     set to <see langword="null" />.
-    /// </param>
-    /// <returns>
-    ///     <see langword="true" /> if this command can be executed; otherwise, <see langword="false" />.
-    /// </returns>
-    public bool CanExecute(object? parameter)
-    {
-        return canExecute is null || canExecute((T?) parameter);
-    }
-
-    /// <summary>
-    ///     Occurs when changes take place that affect whether the command should execute.
-    /// </summary>
-    public event EventHandler? CanExecuteChanged
-    {
-        add => CommandManager.RequerySuggested += value;
-        remove => CommandManager.RequerySuggested -= value;
-    }
-
-    /// <summary>Defines the method to be called when the command is invoked.</summary>
-    /// <param name="parameter">
-    ///     Data used by the command. If the command does not require data to be passed, this object can be
-    ///     set to <see langword="null" />.
-    /// </param>
-    public void Execute(object? parameter)
-    {
-        execute((T?) parameter);
     }
 }

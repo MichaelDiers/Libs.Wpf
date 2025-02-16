@@ -32,7 +32,7 @@ public interface ICommandFactory
         Func<TCommandParameter?, bool>? canExecute,
         Action? preExecute,
         Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>>? execute,
-        Action<Task<TExecuteResult?>> postExecute
+        Action<Task<TExecuteResult?>>? postExecute
     );
 
     /// <summary>
@@ -51,6 +51,15 @@ public interface ICommandFactory
     ///     Initializes a new instance of an <see cref="ICommand" /> implementing class. The command does block the ui thread
     ///     during execution and cannot be cancelled.
     /// </summary>
+    /// <param name="canExecute">A function that determines whether the command can execute in its current state.</param>
+    /// <param name="execute">Defines the method to be called when the command is invoked.</param>
+    /// <returns>A new <see cref="ICommand" />.</returns>
+    ICommand CreateSyncCommand(Func<object?, bool>? canExecute, Action<object?> execute);
+
+    /// <summary>
+    ///     Initializes a new instance of an <see cref="ICommand" /> implementing class. The command does block the ui thread
+    ///     during execution and cannot be cancelled.
+    /// </summary>
     /// <param name="execute">Defines the method to be called when the command is invoked.</param>
     /// <returns>A new <see cref="ICommand" />.</returns>
     /// <remarks>
@@ -58,4 +67,16 @@ public interface ICommandFactory
     ///     case <c>true</c>.
     /// </remarks>
     ICommand CreateSyncCommand<TCommandParameter>(Action<TCommandParameter?> execute);
+
+    /// <summary>
+    ///     Initializes a new instance of an <see cref="ICommand" /> implementing class. The command does block the ui thread
+    ///     during execution and cannot be cancelled.
+    /// </summary>
+    /// <param name="execute">Defines the method to be called when the command is invoked.</param>
+    /// <returns>A new <see cref="ICommand" />.</returns>
+    /// <remarks>
+    ///     The command is executed with restrictions and therefore <see cref="ICommand.CanExecute" /> provides in any
+    ///     case <c>true</c>.
+    /// </remarks>
+    ICommand CreateSyncCommand(Action<object?> execute);
 }

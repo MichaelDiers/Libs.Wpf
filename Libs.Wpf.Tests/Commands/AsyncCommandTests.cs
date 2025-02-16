@@ -113,6 +113,25 @@ public class AsyncCommandTests
     }
 
     [Fact]
+    public async Task Execute_PreExecuteOnly()
+    {
+        var called = false;
+        var command = this.commandFactory.CreateAsyncCommand<int, bool>(
+            _ => true,
+            () => { called = true; },
+            null,
+            null);
+
+        command.Execute(10);
+
+        await AsyncCommandTests.Wait(
+            command,
+            () => Assert.True(called));
+
+        Assert.True(called);
+    }
+
+    [Fact]
     public async Task ExecuteAsync()
     {
         const int commandParameter = 10;
