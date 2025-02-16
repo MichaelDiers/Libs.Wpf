@@ -121,5 +121,36 @@
     <Style
         TargetType="Window"
         x:Key="DefaultWindowStyle"
-        BasedOn="{StaticResource DefaultControlStyle}" />
+        BasedOn="{StaticResource DefaultControlStyle}">
+        <Setter
+            Property="MinHeight"
+            Value="600" />
+        <Setter
+            Property="MinWidth"
+            Value="600" />
+        <Setter
+            Property="Padding"
+            Value="16" />
+        <Setter
+            Property="WindowState"
+            Value="Maximized" />
+        <Setter
+            Property="Template">
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="Window">
+                    <ScrollViewer
+                        VerticalScrollBarVisibility="Auto">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="0"
+                            Margin="{TemplateBinding Margin}"
+                            Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
