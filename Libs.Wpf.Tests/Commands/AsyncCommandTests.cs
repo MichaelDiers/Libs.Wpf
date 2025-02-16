@@ -72,18 +72,28 @@ public class AsyncCommandTests
     }
 
     [Fact]
-    public void CanExecute()
+    public async Task CanExecute()
     {
         const int trueValue = 1;
         var canExecute = new Func<int, bool>(value => value == trueValue);
         var command = this.commandFactory.CreateAsyncCommand(
             canExecute,
             () => { },
-            (_, _) => Task.FromResult(7),
+            async (_, cancellationToken) =>
+            {
+                await Task.Delay(
+                    1000,
+                    cancellationToken);
+                return Task.FromResult(7);
+            },
             _ => { });
 
         Assert.False(command.CanExecute(trueValue + 1));
         Assert.True(command.CanExecute(trueValue));
+
+        command.Execute(null);
+        await Task.Delay(200);
+        Assert.False(command.CanExecute(trueValue));
     }
 
     [Fact]
