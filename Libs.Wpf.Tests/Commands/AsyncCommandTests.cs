@@ -121,7 +121,7 @@ public class AsyncCommandTests
     }
 
     [Fact]
-    public async Task CanExecute_ReturnTrue_WhenCommandIsNotExecutingAndCanExecuteIsNull()
+    public void CanExecute_ReturnTrue_WhenCommandIsNotExecutingAndCanExecuteIsNull()
     {
         var command = this.commandFactory.CreateAsyncCommand<object, object>(
             null,

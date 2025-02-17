@@ -12,7 +12,7 @@ public class TextDependencyPropertyTests
     public void GetText()
     {
         var dependencyObject = new DependencyObject();
-        var expected = "text";
+        const string expected = "text";
 
         TextDependencyProperty.SetText(
             dependencyObject,
