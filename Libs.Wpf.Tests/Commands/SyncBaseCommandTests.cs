@@ -27,6 +27,13 @@ public class SyncBaseCommandTests
 
         Assert.True(command.CanExecute(null));
         Assert.True(command.CanExecute(new object()));
+
+        command = this.commandFactory.CreateSyncCommand(
+            null,
+            _ => { });
+
+        Assert.True(command.CanExecute(null));
+        Assert.True(command.CanExecute(new object()));
     }
 
     [Fact]

@@ -92,8 +92,50 @@ public class AsyncCommandTests
         Assert.True(command.CanExecute(trueValue));
 
         command.Execute(null);
-        await Task.Delay(200);
+        await Task.Delay(300);
         Assert.False(command.CanExecute(trueValue));
+    }
+
+    [Fact]
+    public async Task CanExecute_ReturnFalse_WhenCommandIsExecuting()
+    {
+        var command = this.commandFactory.CreateAsyncCommand<object, object>(
+            null,
+            null,
+            async (_, cancellationToken) =>
+            {
+                await Task.Delay(
+                    5000,
+                    cancellationToken);
+                return Task.FromResult(7);
+            },
+            null);
+
+        command.Execute(null);
+
+        await Task.Delay(500);
+
+        Assert.True(command.IsActive);
+
+        Assert.False(command.CanExecute(null));
+    }
+
+    [Fact]
+    public async Task CanExecute_ReturnTrue_WhenCommandIsNotExecutingAndCanExecuteIsNull()
+    {
+        var command = this.commandFactory.CreateAsyncCommand<object, object>(
+            null,
+            null,
+            async (_, cancellationToken) =>
+            {
+                await Task.Delay(
+                    5000,
+                    cancellationToken);
+                return Task.FromResult(7);
+            },
+            null);
+
+        Assert.True(command.CanExecute(null));
     }
 
     [Fact]

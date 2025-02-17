@@ -92,9 +92,7 @@ internal class CommandFactory : ICommandFactory
     /// </remarks>
     public ICommand CreateSyncCommand<TCommandParameter>(Action<TCommandParameter?> execute)
     {
-        return new SyncCommand<TCommandParameter>(
-            _ => true,
-            execute);
+        return new SyncCommand<TCommandParameter>(execute);
     }
 
     /// <summary>

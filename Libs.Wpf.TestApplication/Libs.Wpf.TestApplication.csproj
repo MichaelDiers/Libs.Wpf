@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Libs.Wpf" Version="1.0.6" />
+    <PackageReference Include="Libs.Wpf" Version="1.0.9" />
   </ItemGroup>
 
 </Project>
