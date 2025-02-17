@@ -1,5 +1,6 @@
 ﻿namespace Libs.Wpf.Controls;
 
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +8,7 @@ using System.Windows.Controls;
 /// <summary>
 ///     Drag and drop support of a <see cref="TextBox" />.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public abstract class DragAndDropTextBox : TextBox, IDisposable
 {
     /// <summary>

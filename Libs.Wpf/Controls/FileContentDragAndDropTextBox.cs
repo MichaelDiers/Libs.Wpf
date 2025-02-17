@@ -1,5 +1,6 @@
 ﻿namespace Libs.Wpf.Controls;
 
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Windows.Controls;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 ///     Extends the <see cref="TextBox" />: Drag and drop a file and the <see cref="TextBox" /> uses the file content as
 ///     <see cref="TextBox.Text" />.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class FileContentDragAndDropTextBox : DragAndDropTextBox
 {
     /// <summary>
