@@ -9,7 +9,7 @@ using System.Resources;
 /// <summary>
 ///     Handles localization and the <see cref="ResourceManager" />s of the applications.
 /// </summary>
-internal class TranslationSource : INotifyPropertyChanged
+public class TranslationSource : INotifyPropertyChanged
 {
     /// <summary>
     ///     The <see cref="Dictionary{TKey,TValue}" /> of added <see cref="ResourceManager" />-
