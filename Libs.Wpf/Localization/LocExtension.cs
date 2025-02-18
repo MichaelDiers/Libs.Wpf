@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 
 /// <summary>
 ///     Localization extension for multi-language applications.
@@ -46,7 +47,15 @@ public class LocExtension(string resourceKey) : MarkupExtension
                 baseName = LocExtension.GetResourceManager(frameworkElement.TemplatedParent)?.BaseName ?? string.Empty;
             }
 
-            current = VisualTreeHelper.GetParent(current) ?? (current as FrameworkElement)?.Parent;
+            if (current is Visual or Visual3D)
+            {
+                current = VisualTreeHelper.GetParent(current) ??
+                          (current as FrameworkElement)?.Parent ?? (current as FrameworkContentElement)?.Parent;
+            }
+            else
+            {
+                current = (current as FrameworkElement)?.Parent ?? (current as FrameworkContentElement)?.Parent;
+            }
         }
 
         var binding = new Binding
