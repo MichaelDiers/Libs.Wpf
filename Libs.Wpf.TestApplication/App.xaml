@@ -21,6 +21,7 @@
                 <ResourceDictionary
                     Source="pack://application:,,,/Libs.Wpf;component/Templates/CommandButtonTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="Button" BasedOn="{StaticResource CommandButtonStyle}"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

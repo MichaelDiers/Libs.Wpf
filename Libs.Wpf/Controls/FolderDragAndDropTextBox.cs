@@ -5,10 +5,10 @@ using System.Windows;
 using System.Windows.Controls;
 
 /// <summary>
-///     Extends the <see cref="TextBox" />: Drag and drop a file and the <see cref="TextBox" /> uses the file content as
+///     Extends the <see cref="TextBox" />: Drag and drop a folder and the <see cref="TextBox" /> uses the folder path as
 ///     <see cref="TextBox.Text" />.
 /// </summary>
-public class FileContentDragAndDropTextBox() : DragAndDropTextBox(DataFormats.FileDrop)
+public class FolderDragAndDropTextBox() : DragAndDropTextBox(DataFormats.FileDrop)
 {
     /// <summary>
     ///     Handle the dropped data.
@@ -21,17 +21,10 @@ public class FileContentDragAndDropTextBox() : DragAndDropTextBox(DataFormats.Fi
             return;
         }
 
-        var file = files.FirstOrDefault(File.Exists);
-        if (file is not null)
+        var directory = files.FirstOrDefault(Directory.Exists);
+        if (directory is not null)
         {
-            try
-            {
-                this.Text = File.ReadAllText(file);
-            }
-            catch
-            {
-                // ignore errors
-            }
+            this.Text = directory;
         }
     }
 }

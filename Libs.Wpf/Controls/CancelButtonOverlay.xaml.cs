@@ -1,6 +1,5 @@
 ﻿namespace Libs.Wpf.Controls;
 
-using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Media;
 using Libs.Wpf.Commands;
@@ -8,7 +7,6 @@ using Libs.Wpf.Commands;
 /// <summary>
 ///     Interaction logic for CancelButtonOverlay.xaml
 /// </summary>
-[ExcludeFromCodeCoverage]
 public partial class CancelButtonOverlay
 {
     /// <summary>

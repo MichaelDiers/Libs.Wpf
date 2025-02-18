@@ -3,17 +3,26 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Libs.Wpf.Controls;assembly=Libs.Wpf"
+    xmlns:localization="clr-namespace:Libs.Wpf.Localization;assembly=Libs.Wpf"
+    xmlns:testApplication="clr-namespace:Libs.Wpf.TestApplication"
     Title="MainWindow"
-    Style="{StaticResource DefaultWindowStyle}">
+    Style="{StaticResource DefaultWindowStyle}"
+    localization:Translation.ResourceManager="{x:Static testApplication:Resource.ResourceManager}">
     <StackPanel
         Orientation="Vertical">
         <controls:FilePathDragAndDropTextBox
             MinHeight="400" />
         <controls:FileContentDragAndDropTextBox
             MinHeight="400" />
-        <TextBox
+        <controls:FolderDragAndDropTextBox
             MinHeight="400" />
-        <TextBox
+        <controls:FolderSelector
+            ButtonToolTip="Open Dialog"
+            TextBoxToolTip="Textbox ToolTip"
+            TextBoxWatermark="TextBox Watermark"
+            Text=""
             MinHeight="400" />
+        <TextBlock
+            Text="{localization:Loc TestKey}" />
     </StackPanel>
 </Window>

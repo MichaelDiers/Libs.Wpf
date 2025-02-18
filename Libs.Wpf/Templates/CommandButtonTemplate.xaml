@@ -10,15 +10,15 @@
             BorderBrush="{TemplateBinding BorderBrush}"
             BorderThickness="{TemplateBinding BorderThickness}"
             CornerRadius="{Binding Path=(dependencyProperties:CornerRadiusDependencyProperty.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-            VerticalAlignment="{TemplateBinding VerticalAlignment}">
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
             <StackPanel
                 Orientation="Horizontal">
                 <Image
-                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                    HorizontalAlignment="Stretch"
                     Source="{Binding Path=(dependencyProperties:ImageDependencyProperty.Image), RelativeSource={RelativeSource TemplatedParent}}"
                     ToolTip="{TemplateBinding ToolTip}"
-                    VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+                    VerticalAlignment="Stretch" />
                 <ContentPresenter
                     Content="{TemplateBinding Content}" />
             </StackPanel>

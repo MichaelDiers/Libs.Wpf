@@ -1,21 +1,25 @@
 ﻿namespace Libs.Wpf.Controls;
 
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
 /// <summary>
 ///     Drag and drop support of a <see cref="TextBox" />.
 /// </summary>
-[ExcludeFromCodeCoverage]
 public abstract class DragAndDropTextBox : TextBox, IDisposable
 {
     /// <summary>
+    ///     A format defined in <see cref="DataFormats" />.
+    /// </summary>
+    private readonly string format;
+
+    /// <summary>
     ///     Initializes a new instance of the <see cref="DragAndDropTextBox" /> class.
     /// </summary>
-    protected DragAndDropTextBox()
+    /// <param name="format">A format defined in <see cref="DataFormats" />.</param>
+    protected DragAndDropTextBox(string format)
     {
+        this.format = format;
         this.AllowDrop = true;
         this.PreviewDragOver += DragAndDropTextBox.OnPreviewDragOver;
         this.Drop += this.OnDrop;
@@ -31,10 +35,10 @@ public abstract class DragAndDropTextBox : TextBox, IDisposable
     }
 
     /// <summary>
-    ///     Handle the dropped file.
+    ///     Handle the dropped data.
     /// </summary>
-    /// <param name="fileInfo">The file info of the dropped file.</param>
-    protected abstract void HandleDroppedFile(FileInfo fileInfo);
+    /// <param name="dropped">The dropped data.</param>
+    protected abstract void HandleDropped(object dropped);
 
     /// <summary>
     ///     Handles the <see cref="TextBox.Drop" /> event.
@@ -43,16 +47,17 @@ public abstract class DragAndDropTextBox : TextBox, IDisposable
     /// <param name="e">The information about the dropped files.</param>
     private void OnDrop(object sender, DragEventArgs e)
     {
-        if (!e.Data.GetDataPresent(DataFormats.FileDrop) || e.Data.GetData(DataFormats.FileDrop) is not string[] files)
+        if (!e.Data.GetDataPresent(this.format))
         {
             return;
         }
 
-        var file = files.FirstOrDefault(File.Exists);
-        if (file is not null)
+        if (e.Data.GetData(DataFormats.FileDrop) is not object dropped)
         {
-            this.HandleDroppedFile(new FileInfo(file));
+            return;
         }
+
+        this.HandleDropped(dropped);
     }
 
     /// <summary>
