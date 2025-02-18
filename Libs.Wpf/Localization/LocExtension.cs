@@ -27,14 +27,51 @@ public class LocExtension(string resourceKey) : MarkupExtension
     /// <returns>The object to set on this property.</returns>
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        // targetObject is the control that is using the LocExtension
-        var targetObject = (serviceProvider as IProvideValueTarget)?.TargetObject;
-
-        if (targetObject?.GetType().Name == "SharedDp") // is extension used in a control template?
+        // ReSharper disable once SuspiciousTypeConversion.Global
+        if (serviceProvider is not IProvideValueTarget provideValueTarget)
         {
-            return targetObject; // required for template re-binding
+            return this.NewBinding();
         }
 
+        if (provideValueTarget.TargetObject.GetType().Name == "SharedDp") // is extension used in a control template?
+        {
+            return provideValueTarget.TargetObject; // required for template re-binding
+        }
+
+        var baseName = this.FindBaseName(provideValueTarget.TargetObject);
+        if (string.IsNullOrWhiteSpace(baseName) &&
+            provideValueTarget is
+            {
+                TargetObject: FrameworkElement frameworkElement, TargetProperty: DependencyProperty dependencyProperty
+            })
+        {
+            frameworkElement.Loaded += (_, _) =>
+            {
+                baseName = this.FindBaseName(frameworkElement);
+
+                if (string.IsNullOrWhiteSpace(baseName))
+                {
+                    return;
+                }
+
+                BindingOperations.SetBinding(
+                    frameworkElement,
+                    dependencyProperty,
+                    this.NewBinding(baseName));
+            };
+        }
+
+        return this.NewBinding(baseName).ProvideValue(serviceProvider);
+    }
+
+    /// <summary>
+    ///     Find a matching <see cref="Translation.ResourceManagerProperty" /> <see cref="DependencyObject" />. The search
+    ///     starts at <paramref name="targetObject" /> and walks up the visual tree and the parents of elements.
+    /// </summary>
+    /// <param name="targetObject">The starting element of the search.</param>
+    /// <returns>The found base name or an empty string.</returns>
+    private string FindBaseName(object? targetObject)
+    {
         var baseName = string.Empty;
         var current = targetObject as DependencyObject;
 
@@ -58,15 +95,7 @@ public class LocExtension(string resourceKey) : MarkupExtension
             }
         }
 
-        var binding = new Binding
-        {
-            Mode = BindingMode.OneWay,
-            Path = new PropertyPath($"[{baseName}.{this.ResourceKey}]"),
-            Source = TranslationSource.Instance,
-            FallbackValue = this.ResourceKey
-        };
-
-        return binding.ProvideValue(serviceProvider);
+        return baseName;
     }
 
     /// <summary>
@@ -103,5 +132,16 @@ public class LocExtension(string resourceKey) : MarkupExtension
         TranslationSource.Instance.AddResourceManager(resourceManager);
 
         return resourceManager;
+    }
+
+    private Binding NewBinding(string baseName = "")
+    {
+        return new Binding
+        {
+            Mode = BindingMode.OneWay,
+            Path = new PropertyPath($"[{baseName}.{this.ResourceKey}]"),
+            Source = TranslationSource.Instance,
+            FallbackValue = this.ResourceKey
+        };
     }
 }

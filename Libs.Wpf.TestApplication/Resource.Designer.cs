@@ -61,6 +61,15 @@ namespace Libs.Wpf.TestApplication {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Translation1.
+        /// </summary>
+        public static string ResourceKey1 {
+            get {
+                return ResourceManager.GetString("ResourceKey1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TestTranslation.
         /// </summary>
         public static string TestKey {
