@@ -4,9 +4,8 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="BaseCommandButtonStyle.xaml" />
-        <ResourceDictionary
-            Source="../Templates/CommandButtonTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
     <Style
         TargetType="Button"
         x:Key="CommandButtonStyle"
@@ -14,9 +13,6 @@
         <Setter
             Property="Height"
             Value="96" />
-        <Setter
-            Property="Template"
-            Value="{StaticResource CommandButtonTemplate}" />
         <Setter
             Property="Width"
             Value="300" />
