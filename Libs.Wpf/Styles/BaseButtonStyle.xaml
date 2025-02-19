@@ -31,6 +31,9 @@
                 Property="HorizontalAlignment"
                 Value="Center" />
             <Setter
+                Property="Padding"
+                Value="16" />
+            <Setter
                 Property="VerticalAlignment"
                 Value="Center" />
         </Style.Setters>
@@ -56,6 +59,9 @@
                 <Setter
                     Property="Foreground"
                     Value="{StaticResource DisabledBrush}" />
+                <Setter
+                    Property="Padding"
+                    Value="17" />
             </Trigger>
             <!-- Focused -->
             <Trigger
@@ -67,6 +73,9 @@
                 <Setter
                     Property="BorderThickness"
                     Value="3" />
+                <Setter
+                    Property="Padding"
+                    Value="15" />
             </Trigger>
             <!-- MouseOver -->
             <Trigger
@@ -78,6 +87,9 @@
                 <Setter
                     Property="BorderThickness"
                     Value="3" />
+                <Setter
+                    Property="Padding"
+                    Value="15" />
             </Trigger>
         </Style.Triggers>
     </Style>
