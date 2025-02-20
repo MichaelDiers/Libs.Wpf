@@ -39,7 +39,7 @@
     </UserControl.Style>
     <Button
         Command="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType=controls:CancelButtonOverlay}, Path=(CancelCommand)}"
-        dependencyProperties:ImageDependencyProperty.Image="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:CancelButtonOverlay}, Path=Image}">
+        dependencyProperties:ImageSourceDependencyProperty.Image="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:CancelButtonOverlay}, Path=Image}">
         <Button.Style>
             <Style
                 TargetType="Button"

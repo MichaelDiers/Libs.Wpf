@@ -5,9 +5,9 @@ using System.Windows.Media.Imaging;
 using Libs.Wpf.DependencyProperties;
 
 /// <summary>
-///     Tests of <see cref="ImageDependencyProperty" />
+///     Tests of <see cref="ImageSourceDependencyProperty" />
 /// </summary>
-public class ImageDependencyPropertyTests
+public class ImageSourceDependencyPropertyTests
 {
     [Fact]
     public void GetImage()
@@ -15,11 +15,11 @@ public class ImageDependencyPropertyTests
         var dependencyObject = new DependencyObject();
         var expected = new BitmapImage();
 
-        ImageDependencyProperty.SetImage(
+        ImageSourceDependencyProperty.SetImage(
             dependencyObject,
             expected);
 
-        var actual = ImageDependencyProperty.GetImage(dependencyObject);
+        var actual = ImageSourceDependencyProperty.GetImage(dependencyObject);
 
         Assert.Equal(
             expected,
@@ -31,7 +31,7 @@ public class ImageDependencyPropertyTests
     {
         var dependencyObject = new DependencyObject();
 
-        var actual = ImageDependencyProperty.GetImage(dependencyObject);
+        var actual = ImageSourceDependencyProperty.GetImage(dependencyObject);
 
         Assert.Null(actual);
     }
@@ -41,7 +41,7 @@ public class ImageDependencyPropertyTests
     {
         var dependencyObject = new DependencyObject();
 
-        ImageDependencyProperty.SetImage(
+        ImageSourceDependencyProperty.SetImage(
             dependencyObject,
             new BitmapImage());
     }

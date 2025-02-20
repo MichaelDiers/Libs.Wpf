@@ -6,15 +6,15 @@ using System.Windows.Media;
 /// <summary>
 ///     An attached <see cref="DependencyProperty" /> that adds an image property.
 /// </summary>
-public static class ImageDependencyProperty
+public static class ImageSourceDependencyProperty
 {
     /// <summary>
     ///     The image <see cref="DependencyProperty" />.
     /// </summary>
     public static readonly DependencyProperty ImageProperty = DependencyProperty.RegisterAttached(
-        nameof(ImageDependencyProperty.ImageProperty)[..^8],
+        nameof(ImageSourceDependencyProperty.ImageProperty)[..^8],
         typeof(ImageSource),
-        typeof(ImageDependencyProperty),
+        typeof(ImageSourceDependencyProperty),
         new PropertyMetadata(default(ImageSource)));
 
     /// <summary>
@@ -24,7 +24,7 @@ public static class ImageDependencyProperty
     /// <returns>The value of the <see cref="DependencyProperty" />.</returns>
     public static ImageSource GetImage(DependencyObject element)
     {
-        return (ImageSource) element.GetValue(ImageDependencyProperty.ImageProperty);
+        return (ImageSource) element.GetValue(ImageSourceDependencyProperty.ImageProperty);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public static class ImageDependencyProperty
     public static void SetImage(DependencyObject element, ImageSource value)
     {
         element.SetValue(
-            ImageDependencyProperty.ImageProperty,
+            ImageSourceDependencyProperty.ImageProperty,
             value);
     }
 }

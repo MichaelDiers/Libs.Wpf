@@ -38,7 +38,7 @@ public class LocExtension(string resourceKey) : MarkupExtension
             return provideValueTarget.TargetObject; // required for template re-binding
         }
 
-        var baseName = this.FindBaseName(provideValueTarget.TargetObject);
+        var baseName = LocExtension.FindBaseName(provideValueTarget.TargetObject);
         if (string.IsNullOrWhiteSpace(baseName) &&
             provideValueTarget is
             {
@@ -47,7 +47,7 @@ public class LocExtension(string resourceKey) : MarkupExtension
         {
             frameworkElement.Loaded += (_, _) =>
             {
-                baseName = this.FindBaseName(frameworkElement);
+                baseName = LocExtension.FindBaseName(frameworkElement);
 
                 if (string.IsNullOrWhiteSpace(baseName))
                 {
@@ -70,7 +70,7 @@ public class LocExtension(string resourceKey) : MarkupExtension
     /// </summary>
     /// <param name="targetObject">The starting element of the search.</param>
     /// <returns>The found base name or an empty string.</returns>
-    private string FindBaseName(object? targetObject)
+    private static string FindBaseName(object? targetObject)
     {
         var baseName = string.Empty;
         var current = targetObject as DependencyObject;
