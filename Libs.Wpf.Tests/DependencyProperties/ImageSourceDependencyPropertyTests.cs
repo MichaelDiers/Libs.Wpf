@@ -15,11 +15,11 @@ public class ImageSourceDependencyPropertyTests
         var dependencyObject = new DependencyObject();
         var expected = new BitmapImage();
 
-        ImageSourceDependencyProperty.SetImage(
+        ImageSourceDependencyProperty.SetImageSource(
             dependencyObject,
             expected);
 
-        var actual = ImageSourceDependencyProperty.GetImage(dependencyObject);
+        var actual = ImageSourceDependencyProperty.GetImageSource(dependencyObject);
 
         Assert.Equal(
             expected,
@@ -31,7 +31,7 @@ public class ImageSourceDependencyPropertyTests
     {
         var dependencyObject = new DependencyObject();
 
-        var actual = ImageSourceDependencyProperty.GetImage(dependencyObject);
+        var actual = ImageSourceDependencyProperty.GetImageSource(dependencyObject);
 
         Assert.Null(actual);
     }
@@ -41,7 +41,7 @@ public class ImageSourceDependencyPropertyTests
     {
         var dependencyObject = new DependencyObject();
 
-        ImageSourceDependencyProperty.SetImage(
+        ImageSourceDependencyProperty.SetImageSource(
             dependencyObject,
             new BitmapImage());
     }

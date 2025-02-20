@@ -31,14 +31,14 @@
             Background="Red"
             ContentTemplate="{StaticResource ButtonDataTemplate}"
             dependencyProperties:TextDependencyProperty.Text="Foooooo"
-            dependencyProperties:ImageSourceDependencyProperty.Image="pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_folder.png" />
+            dependencyProperties:ImageSourceDependencyProperty.ImageSource="pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_folder.png" />
         <Button
             Height="300"
             Width="400"
             Background="Red"
             Style="{StaticResource NewCommandButtonStyle}"
             dependencyProperties:TextDependencyProperty.Text="Foooooo"
-            dependencyProperties:ImageSourceDependencyProperty.Image="pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_folder.png" />
+            dependencyProperties:ImageSourceDependencyProperty.ImageSource="pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_folder.png" />
     </StackPanel>
 
     <!--

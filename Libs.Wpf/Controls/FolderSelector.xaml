@@ -29,7 +29,7 @@
             Grid.Row="0"
             Grid.Column="1"
             Click="OnClick"
-            dependencyProperties:ImageSourceDependencyProperty.Image="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=Image}"
+            dependencyProperties:ImageSourceDependencyProperty.ImageSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=Image}"
             ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=ButtonToolTip}" />
     </Grid>
 </UserControl>

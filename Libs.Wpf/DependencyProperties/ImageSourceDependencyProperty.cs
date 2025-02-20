@@ -11,8 +11,8 @@ public static class ImageSourceDependencyProperty
     /// <summary>
     ///     The image <see cref="DependencyProperty" />.
     /// </summary>
-    public static readonly DependencyProperty ImageProperty = DependencyProperty.RegisterAttached(
-        nameof(ImageSourceDependencyProperty.ImageProperty)[..^8],
+    public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.RegisterAttached(
+        nameof(ImageSourceDependencyProperty.ImageSourceProperty)[..^8],
         typeof(ImageSource),
         typeof(ImageSourceDependencyProperty),
         new PropertyMetadata(default(ImageSource)));
@@ -22,9 +22,9 @@ public static class ImageSourceDependencyProperty
     /// </summary>
     /// <param name="element">The element to that the <see cref="DependencyProperty" /> is attached to.</param>
     /// <returns>The value of the <see cref="DependencyProperty" />.</returns>
-    public static ImageSource GetImage(DependencyObject element)
+    public static ImageSource GetImageSource(DependencyObject element)
     {
-        return (ImageSource) element.GetValue(ImageSourceDependencyProperty.ImageProperty);
+        return (ImageSource) element.GetValue(ImageSourceDependencyProperty.ImageSourceProperty);
     }
 
     /// <summary>
@@ -32,10 +32,10 @@ public static class ImageSourceDependencyProperty
     /// </summary>
     /// <param name="element">The element to that the <see cref="DependencyProperty" /> is attached to.</param>
     /// <param name="value">The new value of the <see cref="DependencyProperty" />.</param>
-    public static void SetImage(DependencyObject element, ImageSource value)
+    public static void SetImageSource(DependencyObject element, ImageSource value)
     {
         element.SetValue(
-            ImageSourceDependencyProperty.ImageProperty,
+            ImageSourceDependencyProperty.ImageSourceProperty,
             value);
     }
 }

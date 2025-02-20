@@ -24,7 +24,7 @@
                     Grid.Column="0"
                     MaxHeight="{Binding ElementName=ButtonTextBlock, Path=ActualHeight}"
                     Margin="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=Padding}"
-                    Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=(dependencyProperties:ImageSourceDependencyProperty.Image)}" />
+                    Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=(dependencyProperties:ImageSourceDependencyProperty.ImageSource)}" />
                 <TextBlock
                     x:Name="ButtonTextBlock"
                     Grid.Column="1"
