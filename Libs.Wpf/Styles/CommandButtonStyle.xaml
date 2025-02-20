@@ -3,30 +3,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
-            Source="BaseCommandButtonStyle.xaml" />
+            Source="../Templates/CommandButtonContentTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
     <Style
         TargetType="Button"
-        x:Key="CommandButtonStyle"
-        BasedOn="{StaticResource BaseCommandButtonStyle}">
+        x:Key="CommandButtonStyle">
         <Setter
-            Property="Height"
-            Value="96" />
+            Property="ContentTemplate"
+            Value="{StaticResource CommandButtonContentTemplate}" />
         <Setter
-            Property="Width"
-            Value="300" />
-        <Style.Triggers>
-            <Trigger
-                Property="Content"
-                Value="{x:Null}">
-                <Setter
-                    Property="Height"
-                    Value="64" />
-                <Setter
-                    Property="Width"
-                    Value="64" />
-            </Trigger>
-        </Style.Triggers>
+            Property="FontSize"
+            Value="32" />
+        <Setter
+            Property="Padding"
+            Value="4" />
     </Style>
 </ResourceDictionary>
