@@ -8,6 +8,10 @@
     xmlns:dependencyProperties="clr-namespace:Libs.Wpf.DependencyProperties"
     xmlns:watermark="clr-namespace:Libs.Wpf.DependencyProperties.Watermark"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary
+            Source="../Styles/Custom/CommandButtonStyle.xaml" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition
@@ -22,14 +26,16 @@
         <local:FolderDragAndDropTextBox
             Grid.Row="0"
             Grid.Column="0"
-            Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=Text}"
+            x:Name="FolderDragAndDropTextBoxName"
+            Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=Text,Mode=TwoWay}"
             ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=TextBoxToolTip}"
             watermark:WatermarkDependencyProperty.Watermark="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=TextBoxWatermark}" />
         <Button
             Grid.Row="0"
             Grid.Column="1"
             Click="OnClick"
-            dependencyProperties:ImageSourceDependencyProperty.ImageSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=Image}"
+            Style="{StaticResource CommandButtonStyle}"
+            dependencyProperties:ImageSourceDependencyProperty.ImageSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=ImageSource}"
             ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Path=ButtonToolTip}" />
     </Grid>
 </UserControl>

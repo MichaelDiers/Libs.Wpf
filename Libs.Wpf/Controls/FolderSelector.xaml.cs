@@ -10,7 +10,7 @@ using Microsoft.Win32;
 /// <summary>
 ///     Interaction logic for FolderSelector.xaml
 /// </summary>
-public partial class FolderSelector
+public partial class FolderSelector : IDisposable
 {
     /// <summary>
     ///     Extends the <see cref="FolderSelector" /> by a <see cref="DependencyProperty" /> wrapped by
@@ -24,10 +24,10 @@ public partial class FolderSelector
 
     /// <summary>
     ///     Extends the <see cref="FolderSelector" /> by a <see cref="DependencyProperty" /> wrapped by
-    ///     <see cref="Image" />: Add an image to the open folder button.
+    ///     <see cref="ImageSource" />: Add an image to the open folder button.
     /// </summary>
-    public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(
-        nameof(FolderSelector.Image),
+    public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(
+        nameof(FolderSelector.ImageSource),
         typeof(ImageSource),
         typeof(FolderSelector),
         new PropertyMetadata(
@@ -72,6 +72,7 @@ public partial class FolderSelector
     public FolderSelector()
     {
         this.InitializeComponent();
+        this.FolderDragAndDropTextBoxName.TextChanged += this.FolderDragAndDropTextBoxNameOnTextChanged;
     }
 
     /// <summary>
@@ -87,14 +88,14 @@ public partial class FolderSelector
     }
 
     /// <summary>
-    ///     Gets or sets the value of <see cref="ImageProperty" /> <see cref="DependencyProperty" />.
+    ///     Gets or sets the value of <see cref="ImageSourceProperty" /> <see cref="DependencyProperty" />.
     /// </summary>
-    public ImageSource Image
+    public ImageSource ImageSource
     {
-        get => (ImageSource) this.GetValue(FolderSelector.ImageProperty);
+        get => (ImageSource) this.GetValue(FolderSelector.ImageSourceProperty);
         set =>
             this.SetValue(
-                FolderSelector.ImageProperty,
+                FolderSelector.ImageSourceProperty,
                 value);
     }
 
@@ -133,6 +134,24 @@ public partial class FolderSelector
             this.SetValue(
                 FolderSelector.TextBoxWatermarkProperty,
                 value);
+    }
+
+    /// <summary>
+    ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    public void Dispose()
+    {
+        this.FolderDragAndDropTextBoxName.TextChanged -= this.FolderDragAndDropTextBoxNameOnTextChanged;
+    }
+
+    /// <summary>
+    ///     Handles the <see cref="TextBox.TextChanged" /> event for the <see cref="FolderDragAndDropTextBoxName" /> element.
+    /// </summary>
+    /// <param name="sender">The element that raised the event.</param>
+    /// <param name="e">The <see cref="TextChangedEventArgs" />.</param>
+    private void FolderDragAndDropTextBoxNameOnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        this.Text = this.FolderDragAndDropTextBoxName.Text;
     }
 
     /// <summary>
