@@ -1,0 +1,23 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:controls="clr-namespace:Libs.Wpf.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary
+            Source="CustomStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style
+        TargetType="Button"
+        BasedOn="{StaticResource CommandButtonStyle}" />
+    <Style
+        TargetType="controls:DragAndDropTextBox"
+        BasedOn="{StaticResource DragAndDropTextBoxStyle}" />
+    <Style
+        TargetType="controls:FileContentDragAndDropTextBox"
+        BasedOn="{StaticResource FileContentDragAndDropTextBoxStyle}" />
+    <Style
+        TargetType="controls:FilePathDragAndDropTextBox"
+        BasedOn="{StaticResource FilePathDragAndDropTextBoxStyle}" />
+    <Style
+        TargetType="controls:FolderDragAndDropTextBox"
+        BasedOn="{StaticResource FolderDragAndDropTextBoxStyle}" />
+</ResourceDictionary>
