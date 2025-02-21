@@ -1,0 +1,32 @@
+﻿<!-- A collection of keyed styles for common controls -->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary
+            Source="ControlStyle.xaml" />
+        <ResourceDictionary
+            Source="ButtonStyle.xaml" />
+        <ResourceDictionary
+            Source="CheckBoxStyle.xaml" />
+        <ResourceDictionary
+            Source="ComboBoxStyle.xaml" />
+        <ResourceDictionary
+            Source="ExpanderStyle.xaml" />
+        <ResourceDictionary
+            Source="ExtendedControlStyle.xaml" />
+        <ResourceDictionary
+            Source="GroupBoxStyle.xaml" />
+        <ResourceDictionary
+            Source="LabelStyle.xaml" />
+        <ResourceDictionary
+            Source="PasswordBoxStyle.xaml" />
+        <ResourceDictionary
+            Source="ScrollViewerStyle.xaml" />
+        <ResourceDictionary
+            Source="TextBlockStyle.xaml" />
+        <ResourceDictionary
+            Source="TextBoxStyle.xaml" />
+        <ResourceDictionary
+            Source="WindowStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary
+            Source="ExtendedControlStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style
+        TargetType="TextBox"
+        x:Key="TextBoxStyle"
+        BasedOn="{StaticResource ExtendedControlStyle}" />
+</ResourceDictionary>
