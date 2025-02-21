@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Libs.Wpf.TestApplication
+namespace Libs.Wpf.TestApplication.Controls
 {
     /// <summary>
-    /// Interaction logic for SubView.xaml
+    /// Interaction logic for FolderSelectorView.xaml
     /// </summary>
-    public partial class SubView : UserControl
+    public partial class FolderSelectorView : UserControl
     {
-        public SubView()
+        public FolderSelectorView()
         {
             InitializeComponent();
         }
