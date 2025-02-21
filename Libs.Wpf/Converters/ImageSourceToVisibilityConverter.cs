@@ -23,7 +23,7 @@ public class ImageSourceToVisibilityConverter : IValueConverter
         CultureInfo culture
     )
     {
-        return value is null || value is not ImageSource ? Visibility.Collapsed : Visibility.Visible;
+        return value is not ImageSource ? Visibility.Collapsed : Visibility.Visible;
     }
 
     /// <summary>Converts a value.</summary>

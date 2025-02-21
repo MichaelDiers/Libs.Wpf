@@ -22,7 +22,7 @@ public class NullOrEmptyToVisibilityConverter : IValueConverter
         CultureInfo culture
     )
     {
-        return value is null || (value is string s && string.IsNullOrWhiteSpace(s))
+        return value is null || value is not string || (value is string s && string.IsNullOrWhiteSpace(s))
             ? Visibility.Collapsed
             : Visibility.Visible;
     }
