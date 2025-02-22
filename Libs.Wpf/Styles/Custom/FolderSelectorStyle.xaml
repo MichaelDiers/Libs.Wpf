@@ -4,10 +4,10 @@
     xmlns:controls="clr-namespace:Libs.Wpf.Controls">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
-            Source="../Common/ControlStyle.xaml" />
+            Source="../Common/ExtendedControlStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <Style
         TargetType="controls:FolderSelector"
-        BasedOn="{StaticResource ControlStyle}"
+        BasedOn="{StaticResource ExtendedControlStyle}"
         x:Key="FolderSelectorStyle" />
 </ResourceDictionary>
