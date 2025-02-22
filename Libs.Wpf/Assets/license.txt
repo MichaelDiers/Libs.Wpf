@@ -1,5 +1,6 @@
 ﻿Material Design by Google
 	https://github.com/google/material-design-icons/blob/master/LICENSE
 
+	- material_symbol_attach_file.png
 	- material_symbol_error.png
 	- material_symbol_folder.png

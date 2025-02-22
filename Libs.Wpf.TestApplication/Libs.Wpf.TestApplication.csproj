@@ -35,6 +35,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\FileContentSelectorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Assets\license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

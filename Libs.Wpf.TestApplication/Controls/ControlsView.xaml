@@ -16,6 +16,10 @@
             <controls:CommandButtonView />
         </TabItem>
         <TabItem
+            Header="FileContentSelector">
+            <controls:FileContentSelectorView />
+        </TabItem>
+        <TabItem
             Header="FolderSelector">
             <controls:FolderSelectorView />
         </TabItem>

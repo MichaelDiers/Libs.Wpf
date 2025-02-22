@@ -15,6 +15,9 @@
         TargetType="controls:FileContentDragAndDropTextBox"
         BasedOn="{StaticResource FileContentDragAndDropTextBoxStyle}" />
     <Style
+        TargetType="controls:FileContentSelector"
+        BasedOn="{StaticResource FileContentSelectorStyle}" />
+    <Style
         TargetType="controls:FilePathDragAndDropTextBox"
         BasedOn="{StaticResource FilePathDragAndDropTextBoxStyle}" />
     <Style

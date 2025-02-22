@@ -19,6 +19,11 @@ internal class ControlsViewModel : ViewModelBase
     private ICommand command;
 
     /// <summary>
+    ///     The file content.
+    /// </summary>
+    private string fileContent;
+
+    /// <summary>
     ///     The folder.
     /// </summary>
     private string folder = string.Empty;
@@ -46,6 +51,18 @@ internal class ControlsViewModel : ViewModelBase
         set =>
             this.SetField(
                 ref this.command,
+                value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the file content.
+    /// </summary>
+    public string FileContent
+    {
+        get => this.fileContent;
+        set =>
+            this.SetField(
+                ref this.fileContent,
                 value);
     }
 
