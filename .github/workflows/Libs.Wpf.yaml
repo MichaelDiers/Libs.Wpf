@@ -30,4 +30,4 @@ jobs:
       project-version: ${{needs.create-nuget.outputs.new-version}}
       solution-directory: .
       runs-on: windows-latest
-      filefilters: -*.xaml;-*.xaml.cs;-*.g.cs
+      filefilters: -*.xaml;-*.xaml.cs;-*.g.cs;-*TextBox.cs;-*Adorner.cs;-*LocExtension.cs
