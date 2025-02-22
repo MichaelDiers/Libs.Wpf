@@ -82,7 +82,7 @@ public class AsyncCommandTests
             async (_, cancellationToken) =>
             {
                 await Task.Delay(
-                    1000,
+                    5000,
                     cancellationToken);
                 return Task.FromResult(7);
             },
@@ -92,7 +92,7 @@ public class AsyncCommandTests
         Assert.True(command.CanExecute(trueValue));
 
         command.Execute(null);
-        await Task.Delay(300);
+        await Task.Delay(1000);
         Assert.False(command.CanExecute(trueValue));
     }
 
