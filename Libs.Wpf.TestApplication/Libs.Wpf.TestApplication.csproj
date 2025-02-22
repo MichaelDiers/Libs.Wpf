@@ -9,6 +9,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\material_symbol_edit_square.png" />
+    <None Remove="Assets\material_symbol_edit_square_96dp.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\material_symbol_edit_square.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\material_symbol_edit_square_96dp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Libs.Wpf" Version="1.0.9" />
   </ItemGroup>
 
@@ -18,6 +32,12 @@
 
   <ItemGroup>
     <Page Include="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\license.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

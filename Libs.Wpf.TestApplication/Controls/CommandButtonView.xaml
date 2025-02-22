@@ -26,64 +26,76 @@
                 Height="Auto" />
             <RowDefinition
                 Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 Width="Auto" />
         </Grid.ColumnDefinitions>
-        <GroupBox
+        <TextBlock
             Grid.Row="0"
-            Grid.Column="0"
-            Header="No Styles/No values set">
-            <Button
-                ContentTemplate="{StaticResource CommandButtonContentTemplate}" />
-        </GroupBox>
+            Margin="16"
+            Text="Left side: 96x96 image and right side: 384x384 image" />
+        <!-- No Styles/No values set -->
         <GroupBox
             Grid.Row="1"
             Grid.Column="0"
-            Header="No Styles/All values set">
-            <Button
-                Command="{Binding Command}"
-                ContentTemplate="{StaticResource CommandButtonContentTemplate}"
-                dependencyProperties:ImageSourceDependencyProperty.ImageSource="pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_error.png"
-                dependencyProperties:TextDependencyProperty.Text="_Text" />
+            Header="No Styles/No values set"
+            Margin="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="Auto" />
+                    <ColumnDefinition
+                        Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    ContentTemplate="{StaticResource CommandButtonContentTemplate}" />
+                <Button
+                    Grid.Column="0"
+                    ContentTemplate="{StaticResource CommandButtonContentTemplate}" />
+            </Grid>
         </GroupBox>
+        <!-- No Styles/All values set -->
         <GroupBox
             Grid.Row="2"
             Grid.Column="0"
-            Header="All Styles/All values set">
-            <GroupBox.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary
-                            Source="pack://application:,,,/Libs.Wpf;component/Styles/DefaultStyles.xaml" />
-
-                    </ResourceDictionary.MergedDictionaries>
-                    <Style
-                        TargetType="Button"
-                        BasedOn="{StaticResource CommandButtonStyle}">
-                        <Setter
-                            Property="HorizontalAlignment"
-                            Value="Center" />
-                    </Style>
-                </ResourceDictionary>
-            </GroupBox.Resources>
-            <Button
-                Command="{Binding Command}"
-                dependencyProperties:ImageSourceDependencyProperty.ImageSource="pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_error.png"
-                dependencyProperties:TextDependencyProperty.Text="_Text"
-                ToolTip="Button Tool Tip" />
+            Header="No Styles/All values set"
+            Margin="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="Auto" />
+                    <ColumnDefinition
+                        Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Command="{Binding Command}"
+                    ContentTemplate="{StaticResource CommandButtonContentTemplate}"
+                    dependencyProperties:ImageSourceDependencyProperty.ImageSource="pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_edit_square.png"
+                    dependencyProperties:TextDependencyProperty.Text="_Text" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding Command}"
+                    ContentTemplate="{StaticResource CommandButtonContentTemplate}"
+                    dependencyProperties:ImageSourceDependencyProperty.ImageSource="pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_edit_square_96dp.png"
+                    dependencyProperties:TextDependencyProperty.Text="_Text" />
+            </Grid>
         </GroupBox>
+        <!-- All Styles/All values set -->
         <GroupBox
             Grid.Row="3"
             Grid.Column="0"
-            Header="All Styles/Image only">
+            Header="All Styles/All values set"
+            Margin="16">
             <GroupBox.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
                         <ResourceDictionary
                             Source="pack://application:,,,/Libs.Wpf;component/Styles/DefaultStyles.xaml" />
-
                     </ResourceDictionary.MergedDictionaries>
                     <Style
                         TargetType="Button"
@@ -94,15 +106,39 @@
                     </Style>
                 </ResourceDictionary>
             </GroupBox.Resources>
-            <Button
-                Command="{Binding Command}"
-                ToolTip="Button Tool Tip"
-                dependencyProperties:ImageSourceDependencyProperty.ImageSource="pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_error.png" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="Auto" />
+                    <ColumnDefinition
+                        Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Command="{Binding Command}"
+                    dependencyProperties:ImageSourceDependencyProperty.ImageSource="pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_edit_square.png"
+                    dependencyProperties:TextDependencyProperty.Text="_Text"
+                    ToolTip="Button Tool Tip" />
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Command="{Binding Command}"
+                    dependencyProperties:ImageSourceDependencyProperty.ImageSource="pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_edit_square_96dp.png"
+                    dependencyProperties:TextDependencyProperty.Text="_Text"
+                    ToolTip="Button Tool Tip" />
+            </Grid>
         </GroupBox>
+        <!-- All Styles/Image only -->
         <GroupBox
             Grid.Row="4"
             Grid.Column="0"
-            Header="All Styles/Text only">
+            Header="All Styles/Image only"
+            Margin="16">
             <GroupBox.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
@@ -118,10 +154,64 @@
                     </Style>
                 </ResourceDictionary>
             </GroupBox.Resources>
-            <Button
-                Command="{Binding Command}"
-                ToolTip="Button Tool Tip"
-                dependencyProperties:TextDependencyProperty.Text="_Text" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="Auto" />
+                    <ColumnDefinition
+                        Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Command="{Binding Command}"
+                    ToolTip="Button Tool Tip"
+                    dependencyProperties:ImageSourceDependencyProperty.ImageSource="pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_edit_square.png" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding Command}"
+                    ToolTip="Button Tool Tip"
+                    dependencyProperties:ImageSourceDependencyProperty.ImageSource="pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_edit_square_96dp.png" />
+            </Grid>
+        </GroupBox>
+        <!-- All Styles/Text only -->
+        <GroupBox
+            Grid.Row="5"
+            Grid.Column="0"
+            Header="All Styles/Text only"
+            Margin="16">
+            <GroupBox.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary
+                            Source="pack://application:,,,/Libs.Wpf;component/Styles/DefaultStyles.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                    <Style
+                        TargetType="Button"
+                        BasedOn="{StaticResource CommandButtonStyle}">
+                        <Setter
+                            Property="HorizontalAlignment"
+                            Value="Center" />
+                    </Style>
+                </ResourceDictionary>
+            </GroupBox.Resources>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="Auto" />
+                    <ColumnDefinition
+                        Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Command="{Binding Command}"
+                    ToolTip="Button Tool Tip"
+                    dependencyProperties:TextDependencyProperty.Text="_Text" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding Command}"
+                    ToolTip="Button Tool Tip"
+                    dependencyProperties:TextDependencyProperty.Text="_Text" />
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>

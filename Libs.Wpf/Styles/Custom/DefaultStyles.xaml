@@ -20,4 +20,7 @@
     <Style
         TargetType="controls:FolderDragAndDropTextBox"
         BasedOn="{StaticResource FolderDragAndDropTextBoxStyle}" />
+    <Style
+        TargetType="controls:FolderSelector"
+        BasedOn="{StaticResource FolderSelectorStyle}" />
 </ResourceDictionary>
