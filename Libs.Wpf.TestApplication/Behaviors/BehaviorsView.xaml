@@ -11,6 +11,10 @@
     </UserControl.DataContext>
     <TabControl>
         <TabItem
+            Header="FileContentDragAndDropTextBoxBehavior">
+            <behaviors:FileContentDragAndDropTextBoxBehaviorView />
+        </TabItem>
+        <TabItem
             Header="FilePathDragAndDropTextBoxBehavior">
             <behaviors:FilePathDragAndDropTextBoxBehaviorView />
         </TabItem>
