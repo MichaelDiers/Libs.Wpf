@@ -9,4 +9,21 @@
         TargetType="TextBox"
         x:Key="TextBoxStyle"
         BasedOn="{StaticResource ExtendedControlStyle}" />
+    <Style
+        TargetType="TextBox"
+        x:Key="MultiLineTextBoxStyle"
+        BasedOn="{StaticResource ExtendedControlStyle}">
+        <Setter
+            Property="AcceptsReturn"
+            Value="True" />
+        <Setter
+            Property="AcceptsTab"
+            Value="True" />
+        <Setter
+            Property="TextWrapping"
+            Value="Wrap" />
+        <Setter
+            Property="VerticalScrollBarVisibility"
+            Value="Auto" />
+    </Style>
 </ResourceDictionary>
