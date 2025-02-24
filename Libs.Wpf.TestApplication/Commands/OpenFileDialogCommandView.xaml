@@ -1,0 +1,40 @@
+﻿<UserControl
+    x:Class="Libs.Wpf.TestApplication.Commands.OpenFileDialogCommandView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:commands="clr-namespace:Libs.Wpf.TestApplication.Commands">
+    <UserControl.DataContext>
+        <commands:OpenFileDialogCommandViewModel />
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition
+                Width="Auto" />
+            <ColumnDefinition
+                Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="OpenFileDialog" />
+        <Button
+            Grid.Row="0"
+            Grid.Column="1"
+            Command="{Binding OpenFileDialogCommand}"
+            Content="OpenFileDialogCommand" />
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Execution Check" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="{Binding FilePath}" />
+    </Grid>
+</UserControl>

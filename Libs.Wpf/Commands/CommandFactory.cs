@@ -50,6 +50,17 @@ internal class CommandFactory : ICommandFactory
     }
 
     /// <summary>
+    ///     An <see cref="ICommand" /> that opens a file dialog. If a file is selected the <paramref name="execute" /> is
+    ///     called using the selected file.
+    /// </summary>
+    /// <param name="execute">An <see cref="Action{T}" /> called with the selected file.</param>
+    /// <returns>A new <see cref="ICommand" />.</returns>
+    public ICommand CreateOpenFileDialogCommand(Action<string> execute)
+    {
+        return new OpenFileDialogCommand(execute);
+    }
+
+    /// <summary>
     ///     Initializes a new instance of an <see cref="ICommand" /> implementing class. The command does block the ui thread
     ///     during execution and cannot be cancelled.
     /// </summary>
