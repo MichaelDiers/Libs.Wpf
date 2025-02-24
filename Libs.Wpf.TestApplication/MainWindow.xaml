@@ -3,15 +3,21 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Libs.Wpf.TestApplication.Controls"
+    xmlns:behaviors="clr-namespace:Libs.Wpf.TestApplication.Behaviors"
     Title="MainWindow">
     <ScrollViewer
         HorizontalScrollBarVisibility="Auto"
         VerticalScrollBarVisibility="Auto">
         <TabControl>
             <TabItem
+                Header="Behavior">
+                <behaviors:BehaviorsView />
+            </TabItem>
+            <TabItem
                 Header="Controls">
                 <controls:ControlsView />
             </TabItem>
+
         </TabControl>
     </ScrollViewer>
 </Window>
