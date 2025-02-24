@@ -24,7 +24,7 @@ public abstract class DragAndDropUIElementBehavior<T>(string format) : Behavior<
     protected override void OnAttached()
     {
         this.AssociatedObject.AllowDrop = true;
-        this.AssociatedObject.PreviewDragOver += this.OnPreviewDragOver;
+        this.AssociatedObject.PreviewDragOver += DragAndDropUIElementBehavior<T>.OnPreviewDragOver;
         this.AssociatedObject.Drop += this.OnDrop;
     }
 
@@ -35,7 +35,7 @@ public abstract class DragAndDropUIElementBehavior<T>(string format) : Behavior<
     protected override void OnDetaching()
     {
         this.AssociatedObject.AllowDrop = false;
-        this.AssociatedObject.PreviewDragOver -= this.OnPreviewDragOver;
+        this.AssociatedObject.PreviewDragOver -= DragAndDropUIElementBehavior<T>.OnPreviewDragOver;
         this.AssociatedObject.Drop -= this.OnDrop;
     }
 
@@ -65,7 +65,7 @@ public abstract class DragAndDropUIElementBehavior<T>(string format) : Behavior<
     /// </summary>
     /// <param name="sender">The element that raised the event.</param>
     /// <param name="e">The associated event args.</param>
-    private void OnPreviewDragOver(object sender, DragEventArgs e)
+    private static void OnPreviewDragOver(object sender, DragEventArgs e)
     {
         e.Handled = true;
     }

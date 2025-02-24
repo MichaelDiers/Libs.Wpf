@@ -21,7 +21,7 @@ internal class ControlsViewModel : ViewModelBase
     /// <summary>
     ///     The file content.
     /// </summary>
-    private string fileContent;
+    private string fileContent = string.Empty;
 
     /// <summary>
     ///     The folder.

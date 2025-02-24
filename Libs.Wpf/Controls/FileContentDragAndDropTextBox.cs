@@ -22,16 +22,18 @@ public class FileContentDragAndDropTextBox() : DragAndDropTextBox(DataFormats.Fi
         }
 
         var file = files.FirstOrDefault(File.Exists);
-        if (file is not null)
+        if (file is null)
         {
-            try
-            {
-                this.Text = File.ReadAllText(file);
-            }
-            catch
-            {
-                // ignore errors
-            }
+            return;
+        }
+
+        try
+        {
+            this.Text = File.ReadAllText(file);
+        }
+        catch
+        {
+            // ignore errors
         }
     }
 }

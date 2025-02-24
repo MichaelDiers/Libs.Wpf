@@ -9,9 +9,8 @@ using System.Windows.Input;
 /// <param name="execute">Defines the method to be called when the command is invoked.</param>
 /// <seealso cref="ICommand" />
 internal class SyncCommand<T>(Func<T?, bool>? canExecute, Action<T?> execute) : SyncBaseCommand(
-        parameter => canExecute is null || canExecute((T?) parameter),
-        parameter => execute((T?) parameter)),
-    ICommand
+    parameter => canExecute is null || canExecute((T?) parameter),
+    parameter => execute((T?) parameter))
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="SyncCommand{T}" /> class.
