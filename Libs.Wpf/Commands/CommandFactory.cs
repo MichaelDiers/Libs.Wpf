@@ -51,13 +51,14 @@ internal class CommandFactory : ICommandFactory
 
     /// <summary>
     ///     An <see cref="ICommand" /> that opens a file dialog. If a file is selected the <paramref name="execute" /> is
-    ///     called using the selected file.
+    ///     called using the selected file and the command parameter.
     /// </summary>
-    /// <param name="execute">An <see cref="Action{T}" /> called with the selected file.</param>
+    /// <typeparam name="T">The type of the command parameter.</typeparam>
+    /// <param name="execute">An <see cref="Action{T,TT}" /> called with the selected file and the command parameter.</param>
     /// <returns>A new <see cref="ICommand" />.</returns>
-    public ICommand CreateOpenFileDialogCommand(Action<string> execute)
+    public ICommand CreateOpenFileDialogCommand<T>(Action<T?, string> execute)
     {
-        return new OpenFileDialogCommand(execute);
+        return new OpenFileDialogCommand<T>(execute);
     }
 
     /// <summary>

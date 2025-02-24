@@ -5,12 +5,13 @@ using Microsoft.Win32;
 
 /// <summary>
 ///     An <see cref="ICommand" /> that opens a <see cref="OpenFileDialog" />. If a file is selected
-///     <paramref name="execute" /> is called using the selected file.
+///     <paramref name="execute" /> is called using the selected file and the command parameter.
 /// </summary>
+/// <typeparam name="T">The type of the command parameter.</typeparam>
 /// <param name="execute">If a file is selected this <see cref="Action{T}" /> is called.</param>
-internal class OpenFileDialogCommand(Action<string> execute) : SyncBaseCommand(
+internal class OpenFileDialogCommand<T>(Action<T?, string> execute) : SyncCommand<T>(
     _ => true,
-    _ =>
+    commandParameter =>
     {
         var fileDialog = new OpenFileDialog
         {
@@ -25,5 +26,7 @@ internal class OpenFileDialogCommand(Action<string> execute) : SyncBaseCommand(
             return;
         }
 
-        execute(fileDialog.FileName);
+        execute(
+            commandParameter,
+            fileDialog.FileName);
     });
