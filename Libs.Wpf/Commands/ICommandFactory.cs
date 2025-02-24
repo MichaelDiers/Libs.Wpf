@@ -1,5 +1,6 @@
 ﻿namespace Libs.Wpf.Commands;
 
+using System.IO;
 using System.Windows.Input;
 
 /// <summary>
@@ -34,6 +35,16 @@ public interface ICommandFactory
         Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>>? execute,
         Action<Task<TExecuteResult?>>? postExecute
     );
+
+    /// <summary>
+    ///     An <see cref="ICommand" /> that opens a file dialog. If a file is selected the <paramref name="execute" /> is
+    ///     called using the selected file and the command parameter.
+    /// </summary>
+    /// <typeparam name="T">The type of the command parameter.</typeparam>
+    /// <param name="basePath">Specifies the base path of the open file dialog.</param>
+    /// <param name="execute">An <see cref="Action{T,TT}" /> called with the selected file and the command parameter.</param>
+    /// <returns>A new <see cref="ICommand" />.</returns>
+    ICommand CreateOpenFileDialogCommand<T>(DirectoryInfo basePath, Action<T?, string> execute);
 
     /// <summary>
     ///     An <see cref="ICommand" /> that opens a file dialog. If a file is selected the <paramref name="execute" /> is

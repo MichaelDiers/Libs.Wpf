@@ -1,5 +1,6 @@
 ﻿namespace Libs.Wpf.Commands;
 
+using System.IO;
 using System.Windows.Input;
 using Microsoft.Win32;
 
@@ -8,13 +9,15 @@ using Microsoft.Win32;
 ///     <paramref name="execute" /> is called using the selected file and the command parameter.
 /// </summary>
 /// <typeparam name="T">The type of the command parameter.</typeparam>
+/// <param name="basePath">The default directory of the open file dialog.</param>
 /// <param name="execute">If a file is selected this <see cref="Action{T}" /> is called.</param>
-internal class OpenFileDialogCommand<T>(Action<T?, string> execute) : SyncCommand<T>(
+internal class OpenFileDialogCommand<T>(DirectoryInfo basePath, Action<T?, string> execute) : SyncCommand<T>(
     _ => true,
     commandParameter =>
     {
         var fileDialog = new OpenFileDialog
         {
+            DefaultDirectory = basePath.FullName,
             CheckFileExists = true,
             CheckPathExists = true,
             Multiselect = false,

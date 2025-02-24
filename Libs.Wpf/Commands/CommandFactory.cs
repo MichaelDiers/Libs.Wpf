@@ -1,5 +1,6 @@
 ﻿namespace Libs.Wpf.Commands;
 
+using System.IO;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -54,11 +55,28 @@ internal class CommandFactory : ICommandFactory
     ///     called using the selected file and the command parameter.
     /// </summary>
     /// <typeparam name="T">The type of the command parameter.</typeparam>
+    /// <param name="basePath">Specifies the base path of the open file dialog.</param>
+    /// <param name="execute">An <see cref="Action{T,TT}" /> called with the selected file and the command parameter.</param>
+    /// <returns>A new <see cref="ICommand" />.</returns>
+    public ICommand CreateOpenFileDialogCommand<T>(DirectoryInfo basePath, Action<T?, string> execute)
+    {
+        return new OpenFileDialogCommand<T>(
+            basePath,
+            execute);
+    }
+
+    /// <summary>
+    ///     An <see cref="ICommand" /> that opens a file dialog. If a file is selected the <paramref name="execute" /> is
+    ///     called using the selected file and the command parameter.
+    /// </summary>
+    /// <typeparam name="T">The type of the command parameter.</typeparam>
     /// <param name="execute">An <see cref="Action{T,TT}" /> called with the selected file and the command parameter.</param>
     /// <returns>A new <see cref="ICommand" />.</returns>
     public ICommand CreateOpenFileDialogCommand<T>(Action<T?, string> execute)
     {
-        return new OpenFileDialogCommand<T>(execute);
+        return this.CreateOpenFileDialogCommand(
+            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)),
+            execute);
     }
 
     /// <summary>
