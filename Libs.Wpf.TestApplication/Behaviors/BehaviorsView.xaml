@@ -18,5 +18,9 @@
             Header="FilePathDragAndDropTextBoxBehavior">
             <behaviors:FilePathDragAndDropTextBoxBehaviorView />
         </TabItem>
+        <TabItem
+            Header="FolderPathDragAndDropTextBoxBehavior">
+            <behaviors:FolderPathDragAndDropTextBoxBehaviorView />
+        </TabItem>
     </TabControl>
 </UserControl>

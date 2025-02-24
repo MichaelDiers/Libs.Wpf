@@ -38,6 +38,9 @@
     <Compile Update="Behaviors\FileContentDragAndDropTextBoxBehaviorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Behaviors\FolderPathDragAndDropTextBoxBehaviorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Controls\FileContentSelectorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

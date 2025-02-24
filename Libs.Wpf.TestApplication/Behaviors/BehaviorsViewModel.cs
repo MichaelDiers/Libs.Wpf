@@ -15,6 +15,11 @@ internal class BehaviorsViewModel : ViewModelBase
     private string filePath = string.Empty;
 
     /// <summary>
+    ///     The folder path.
+    /// </summary>
+    private string folderPath = string.Empty;
+
+    /// <summary>
     ///     Gets or sets the file content.
     /// </summary>
     public string FileContent
@@ -35,6 +40,18 @@ internal class BehaviorsViewModel : ViewModelBase
         set =>
             this.SetField(
                 ref this.filePath,
+                value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the folder path.
+    /// </summary>
+    public string FolderPath
+    {
+        get => this.folderPath;
+        set =>
+            this.SetField(
+                ref this.folderPath,
                 value);
     }
 }
