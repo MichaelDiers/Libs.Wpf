@@ -5,6 +5,7 @@
     xmlns:controls="clr-namespace:Libs.Wpf.TestApplication.Controls"
     xmlns:behaviors="clr-namespace:Libs.Wpf.TestApplication.Behaviors"
     xmlns:commands="clr-namespace:Libs.Wpf.TestApplication.Commands"
+    xmlns:dependencyProperties="clr-namespace:Libs.Wpf.TestApplication.DependencyProperties"
     Title="MainWindow">
     <ScrollViewer
         HorizontalScrollBarVisibility="Auto"
@@ -22,7 +23,10 @@
                 Header="Controls">
                 <controls:ControlsView />
             </TabItem>
-
+            <TabItem
+                Header="DependencyProperties">
+                <dependencyProperties:DependencyPropertiesView />
+            </TabItem>
         </TabControl>
     </ScrollViewer>
 </Window>
