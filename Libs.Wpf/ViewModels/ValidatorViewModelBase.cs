@@ -20,7 +20,7 @@ public class ValidatorViewModelBase : ViewModelBase, INotifyDataErrorInfo
     /// <returns>
     ///     <see langword="true" /> if the entity currently has validation errors; otherwise, <see langword="false" />.
     /// </returns>
-    public bool HasErrors => this.errors.Count > 0;
+    public virtual bool HasErrors => this.errors.Count > 0;
 
     /// <summary>
     ///     Occurs when the validation errors have changed for a property or for the entire entity.
