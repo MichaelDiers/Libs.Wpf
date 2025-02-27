@@ -53,6 +53,17 @@ public class ValidatorViewModelBase : ViewModelBase, INotifyDataErrorInfo
     }
 
     /// <summary>
+    ///     Raises the <see cref="ErrorsChanged" /> event.
+    /// </summary>
+    /// <param name="propertyName">The name of the property that error changed.</param>
+    protected void OnErrorsChanged(string propertyName)
+    {
+        this.ErrorsChanged?.Invoke(
+            this,
+            new DataErrorsChangedEventArgs(propertyName));
+    }
+
+    /// <summary>
     ///     Resets the errors of the given <paramref name="propertyName" />.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
@@ -98,8 +109,6 @@ public class ValidatorViewModelBase : ViewModelBase, INotifyDataErrorInfo
         }
 
         this.errors[propertyName] = errorList;
-        this.ErrorsChanged?.Invoke(
-            this,
-            new DataErrorsChangedEventArgs(propertyName));
+        this.OnErrorsChanged(propertyName);
     }
 }
