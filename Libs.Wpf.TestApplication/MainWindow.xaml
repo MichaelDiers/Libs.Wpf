@@ -6,6 +6,7 @@
     xmlns:behaviors="clr-namespace:Libs.Wpf.TestApplication.Behaviors"
     xmlns:commands="clr-namespace:Libs.Wpf.TestApplication.Commands"
     xmlns:dependencyProperties="clr-namespace:Libs.Wpf.TestApplication.DependencyProperties"
+    xmlns:localization="clr-namespace:Libs.Wpf.TestApplication.Localization"
     Title="MainWindow">
     <ScrollViewer
         HorizontalScrollBarVisibility="Auto"
@@ -26,6 +27,10 @@
             <TabItem
                 Header="DependencyProperties">
                 <dependencyProperties:DependencyPropertiesView />
+            </TabItem>
+            <TabItem
+                Header="Localization">
+                <localization:LocalizationView/>
             </TabItem>
         </TabControl>
     </ScrollViewer>
