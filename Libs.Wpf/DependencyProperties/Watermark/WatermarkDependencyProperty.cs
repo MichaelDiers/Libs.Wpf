@@ -149,6 +149,12 @@ public static class WatermarkDependencyProperty
             return;
         }
 
+        WatermarkDependencyProperty.OnUnloaded(
+            control,
+            new RoutedEventArgs());
+        WatermarkDependencyProperty.RemoveWatermark(control);
+        WatermarkDependencyProperty.HandleWatermark(control);
+
         control.Loaded += WatermarkDependencyProperty.OnHandleEvent;
         control.Unloaded += WatermarkDependencyProperty.OnUnloaded;
 
