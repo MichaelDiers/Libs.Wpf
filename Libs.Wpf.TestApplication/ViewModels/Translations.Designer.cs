@@ -61,6 +61,24 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ButtonLabel (de).
+        /// </summary>
+        internal static string ButtonLabel {
+            get {
+                return ResourceManager.GetString("ButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ButtonToolTip (de).
+        /// </summary>
+        internal static string ButtonToolTip {
+            get {
+                return ResourceManager.GetString("ButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CheckBoxErrorIsRequired (de).
         /// </summary>
         internal static string CheckBoxErrorIsRequired {

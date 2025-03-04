@@ -13,7 +13,7 @@
             Source="pack://application:,,,/Libs.Wpf;component/Styles/Common/TranslatableStyles.xaml" />
     </UserControl.Resources>
     <Grid
-        dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto|Auto|Auto|Auto|Auto|Auto|Auto"
+        dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto|Auto|Auto|Auto|Auto|Auto|Auto|Auto"
         dependencyProperties:GridColumnsDependencyProperty.GridColumns="Auto|1*|Auto|1*">
         <!-- button -->
         <Button
@@ -104,6 +104,23 @@
             Grid.Row="7"
             Grid.Column="3"
             DataContext="{Binding TextBoxData2}" />
+        <!-- buttons -->
+        <Button
+            Grid.Row="8"
+            Grid.Column="0"
+            DataContext="{Binding TranslatableButton1}"/>
+        <Button
+            Grid.Row="8"
+            Grid.Column="1"
+            DataContext="{Binding TranslatableButton2}"/>
+        <Button
+            Grid.Row="8"
+            Grid.Column="2"
+            DataContext="{Binding TranslatableButton3}"/>
+        <Button
+            Grid.Row="8"
+            Grid.Column="3"
+            DataContext="{Binding TranslatableButton4}"/>
     </Grid>
 </UserControl>
 <!-- ReSharper restore Xaml.IndexOutOfGridDefinition -->

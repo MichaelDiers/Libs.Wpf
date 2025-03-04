@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
 using Libs.Wpf.Localization;
@@ -72,6 +73,26 @@ public class TranslatableViewModel : ViewModelBase
     /// </summary>
     private TranslatableButton<ICommand> toggleLanguageButtonData;
 
+    /// <summary>
+    ///     The button control data.
+    /// </summary>
+    private TranslatableButton<ICommand> translatableButton1;
+
+    /// <summary>
+    ///     The button control data.
+    /// </summary>
+    private TranslatableButton<ICommand> translatableButton2;
+
+    /// <summary>
+    ///     The button control data.
+    /// </summary>
+    private TranslatableButton<ICommand> translatableButton3;
+
+    /// <summary>
+    ///     The button control data.
+    /// </summary>
+    private TranslatableButton<ICommand> translatableButton4;
+
     public TranslatableViewModel()
     {
         // buttons
@@ -86,6 +107,7 @@ public class TranslatableViewModel : ViewModelBase
                             ? CultureInfo.InvariantCulture
                             : new CultureInfo("en-US");
                 }),
+            null,
             Translations.ResourceManager,
             nameof(Translations.ToggleLanguageButtonLabel),
             nameof(Translations.ToggleLanguageButtonToolTip));
@@ -126,6 +148,7 @@ public class TranslatableViewModel : ViewModelBase
 
                     MessageBox.Show("Executed");
                 }),
+            null,
             Translations.ResourceManager,
             nameof(Translations.SubmitButtonLabel),
             nameof(Translations.SubmitButtonToolTip));
@@ -216,6 +239,37 @@ public class TranslatableViewModel : ViewModelBase
             nameof(Translations.TextBoxLabel),
             nameof(Translations.TextBoxToolTip),
             nameof(Translations.TextBoxWatermark));
+        // buttons
+        this.translatableButton1 = new TranslatableButton<ICommand>(
+            commandFactory.CreateSyncCommand(_ => { }),
+            null,
+            Translations.ResourceManager,
+            null,
+            nameof(Translations.ButtonToolTip));
+        this.translatableButton2 = new TranslatableButton<ICommand>(
+            commandFactory.CreateSyncCommand(_ => { }),
+            new BitmapImage(
+                new Uri(
+                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_attach_file.png",
+                    UriKind.Absolute)),
+            Translations.ResourceManager,
+            null,
+            nameof(Translations.ButtonToolTip));
+        this.translatableButton3 = new TranslatableButton<ICommand>(
+            commandFactory.CreateSyncCommand(_ => { }),
+            null,
+            Translations.ResourceManager,
+            nameof(Translations.ButtonLabel),
+            nameof(Translations.ButtonToolTip));
+        this.translatableButton4 = new TranslatableButton<ICommand>(
+            commandFactory.CreateSyncCommand(_ => { }),
+            new BitmapImage(
+                new Uri(
+                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_attach_file.png",
+                    UriKind.Absolute)),
+            Translations.ResourceManager,
+            nameof(Translations.ButtonLabel),
+            nameof(Translations.ButtonToolTip));
     }
 
     /// <summary>
@@ -359,6 +413,54 @@ public class TranslatableViewModel : ViewModelBase
         set =>
             this.SetField(
                 ref this.toggleLanguageButtonData,
+                value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the button control data.
+    /// </summary>
+    public TranslatableButton<ICommand> TranslatableButton1
+    {
+        get => this.translatableButton1;
+        set =>
+            this.SetField(
+                ref this.translatableButton1,
+                value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the button control data.
+    /// </summary>
+    public TranslatableButton<ICommand> TranslatableButton2
+    {
+        get => this.translatableButton2;
+        set =>
+            this.SetField(
+                ref this.translatableButton2,
+                value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the button control data.
+    /// </summary>
+    public TranslatableButton<ICommand> TranslatableButton3
+    {
+        get => this.translatableButton3;
+        set =>
+            this.SetField(
+                ref this.translatableButton3,
+                value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the button control data.
+    /// </summary>
+    public TranslatableButton<ICommand> TranslatableButton4
+    {
+        get => this.translatableButton4;
+        set =>
+            this.SetField(
+                ref this.translatableButton4,
                 value);
     }
 }

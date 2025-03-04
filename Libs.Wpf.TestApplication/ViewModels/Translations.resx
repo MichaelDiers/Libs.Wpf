@@ -195,4 +195,10 @@
   <data name="PasswordBoxIsRequired" xml:space="preserve">
     <value>PasswordBoxIsRequired (de)</value>
   </data>
+  <data name="ButtonLabel" xml:space="preserve">
+    <value>ButtonLabel (de)</value>
+  </data>
+  <data name="ButtonToolTip" xml:space="preserve">
+    <value>ButtonToolTip (de)</value>
+  </data>
 </root>

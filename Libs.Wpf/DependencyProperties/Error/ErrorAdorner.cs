@@ -48,7 +48,7 @@ public class ErrorAdorner(UIElement adornedElement, string error, ImageSource im
 
         var origin = new Point(
             0,
-            control.ActualHeight + 10);
+            control.ActualHeight + 5);
 
         var rect = new Size(
             formattedText.Height,
