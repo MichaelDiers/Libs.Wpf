@@ -9,4 +9,12 @@
         TargetType="Expander"
         x:Key="ExpanderStyle"
         BasedOn="{StaticResource ControlStyle}" />
+    <Style
+        TargetType="Expander"
+        x:Key="TranslatableExpanderStyle"
+        BasedOn="{StaticResource ExpanderStyle}">
+        <Setter
+            Property="Header"
+            Value="{Binding LabelTranslation}" />
+    </Style>
 </ResourceDictionary>

@@ -27,4 +27,12 @@
             Property="VerticalAlignment"
             Value="Center" />
     </Style>
+    <Style
+        TargetType="TextBlock"
+        x:Key="TranslatableTextBlockStyle"
+        BasedOn="{StaticResource TextBlockStyle}">
+        <Setter
+            Property="Text"
+            Value="{Binding LabelTranslation}" />
+    </Style>
 </ResourceDictionary>

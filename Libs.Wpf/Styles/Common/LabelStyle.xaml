@@ -9,4 +9,12 @@
         TargetType="Label"
         x:Key="LabelStyle"
         BasedOn="{StaticResource ControlStyle}" />
+    <Style
+        TargetType="Label"
+        x:Key="TranslatableLabelStyle"
+        BasedOn="{StaticResource LabelStyle}">
+        <Setter
+            Property="Content"
+            Value="{Binding LabelTranslation}" />
+    </Style>
 </ResourceDictionary>

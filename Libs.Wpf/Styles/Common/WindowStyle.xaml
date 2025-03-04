@@ -13,4 +13,12 @@
             Property="WindowState"
             Value="Maximized" />
     </Style>
+    <Style
+        TargetType="Window"
+        x:Key="TranslatableWindowStyle"
+        BasedOn="{StaticResource WindowStyle}">
+        <Setter
+            Property="Title"
+            Value="{Binding LabelTranslation}" />
+    </Style>
 </ResourceDictionary>

@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:watermark="clr-namespace:Libs.Wpf.DependencyProperties.Watermark"
+    xmlns:error="clr-namespace:Libs.Wpf.DependencyProperties.Error">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="ExtendedControlStyle.xaml" />
@@ -25,5 +27,36 @@
         <Setter
             Property="VerticalScrollBarVisibility"
             Value="Auto" />
+    </Style>
+    <Style
+        TargetType="TextBox"
+        x:Key="TranslatableTextBoxStyle"
+        BasedOn="{StaticResource TextBoxStyle}">
+        <Setter
+            Property="Text"
+            Value="{Binding Value}" />
+        <Setter
+            Property="ToolTip"
+            Value="{Binding ToolTipTranslation}" />
+        <Setter
+            Property="watermark:WatermarkDependencyProperty.Watermark"
+            Value="{Binding WatermarkTranslation}" />
+        <Setter
+            Property="error:ErrorDependencyProperty.Error"
+            Value="{Binding ErrorTranslation}" />
+    </Style>
+    <Style
+        TargetType="TextBox"
+        x:Key="TranslatableMultiLineTextBoxStyle"
+        BasedOn="{StaticResource MultiLineTextBoxStyle}">
+        <Setter
+            Property="Text"
+            Value="{Binding Value}" />
+        <Setter
+            Property="ToolTip"
+            Value="{Binding ToolTipTranslation}" />
+        <Setter
+            Property="watermark:WatermarkDependencyProperty.Watermark"
+            Value="{Binding WatermarkTranslation}" />
     </Style>
 </ResourceDictionary>

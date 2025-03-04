@@ -9,4 +9,18 @@
         TargetType="Button"
         x:Key="ButtonStyle"
         BasedOn="{StaticResource ControlStyle}" />
+    <Style
+        TargetType="Button"
+        x:Key="TranslatableButtonStyle"
+        BasedOn="{StaticResource ButtonStyle}">
+        <Setter
+            Property="Command"
+            Value="{Binding Command}" />
+        <Setter
+            Property="Content"
+            Value="{Binding LabelTranslation}" />
+        <Setter
+            Property="ToolTip"
+            Value="{Binding ToolTipTranslation}" />
+    </Style>
 </ResourceDictionary>

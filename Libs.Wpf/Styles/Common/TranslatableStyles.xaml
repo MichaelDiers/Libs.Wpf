@@ -1,0 +1,41 @@
+﻿<!-- A collection of default styles for common controls -->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary
+            Source="CommonStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style
+        TargetType="Button"
+        BasedOn="{StaticResource TranslatableButtonStyle}" />
+    <Style
+        TargetType="CheckBox"
+        BasedOn="{StaticResource TranslatableCheckBoxStyle}" />
+    <Style
+        TargetType="ComboBox"
+        BasedOn="{StaticResource TranslatableComboBoxStyle}" />
+    <Style
+        TargetType="Expander"
+        BasedOn="{StaticResource TranslatableExpanderStyle}" />
+    <Style
+        TargetType="GroupBox"
+        BasedOn="{StaticResource TranslatableGroupBoxStyle}" />
+    <Style
+        TargetType="Label"
+        BasedOn="{StaticResource TranslatableLabelStyle}" />
+    <Style
+        TargetType="PasswordBox"
+        BasedOn="{StaticResource TranslatablePasswordBoxStyle}" />
+    <Style
+        TargetType="ScrollViewer"
+        BasedOn="{StaticResource ScrollViewerStyle}" />
+    <Style
+        TargetType="TextBlock"
+        BasedOn="{StaticResource TranslatableTextBlockStyle}" />
+    <Style
+        TargetType="TextBox"
+        BasedOn="{StaticResource TranslatableTextBoxStyle}" />
+    <Style
+        TargetType="Window"
+        BasedOn="{StaticResource TranslatableWindowStyle}" />
+</ResourceDictionary>

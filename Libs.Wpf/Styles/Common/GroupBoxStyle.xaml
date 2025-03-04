@@ -9,4 +9,12 @@
         TargetType="GroupBox"
         x:Key="GroupBoxStyle"
         BasedOn="{StaticResource ControlStyle}" />
+    <Style
+        TargetType="GroupBox"
+        x:Key="TranslatableGroupBoxStyle"
+        BasedOn="{StaticResource GroupBoxStyle}">
+        <Setter
+            Property="Header"
+            Value="{Binding LabelTranslation}" />
+    </Style>
 </ResourceDictionary>
