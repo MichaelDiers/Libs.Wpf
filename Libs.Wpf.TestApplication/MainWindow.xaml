@@ -7,6 +7,7 @@
     xmlns:commands="clr-namespace:Libs.Wpf.TestApplication.Commands"
     xmlns:dependencyProperties="clr-namespace:Libs.Wpf.TestApplication.DependencyProperties"
     xmlns:localization="clr-namespace:Libs.Wpf.TestApplication.Localization"
+    xmlns:viewModels="clr-namespace:Libs.Wpf.TestApplication.ViewModels"
     Title="MainWindow">
     <ScrollViewer
         HorizontalScrollBarVisibility="Auto"
@@ -31,6 +32,10 @@
             <TabItem
                 Header="Localization">
                 <localization:LocalizationView/>
+            </TabItem>
+            <TabItem
+                Header="Translatable">
+                <viewModels:TranslatableView/>
             </TabItem>
         </TabControl>
     </ScrollViewer>

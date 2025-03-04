@@ -1,0 +1,109 @@
+﻿<!-- ReSharper disable Xaml.IndexOutOfGridDefinition -->
+<UserControl
+    x:Class="Libs.Wpf.TestApplication.ViewModels.TranslatableView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dependencyProperties="clr-namespace:Libs.Wpf.DependencyProperties;assembly=Libs.Wpf"
+    xmlns:viewModels="clr-namespace:Libs.Wpf.TestApplication.ViewModels">
+    <UserControl.DataContext>
+        <viewModels:TranslatableViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary
+            Source="pack://application:,,,/Libs.Wpf;component/Styles/Common/TranslatableStyles.xaml" />
+    </UserControl.Resources>
+    <Grid
+        dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto|Auto|Auto|Auto|Auto|Auto|Auto"
+        dependencyProperties:GridColumnsDependencyProperty.GridColumns="Auto|1*|Auto|1*">
+        <!-- button -->
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            DataContext="{Binding ToggleLanguageButtonData}" />
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            CommandParameter="{Binding ElementName=PasswordBox}"
+            DataContext="{Binding SubmitButtonData}" />
+        <!-- checkbox -->
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            DataContext="{Binding CheckBoxData1}" />
+        <CheckBox
+            Grid.Row="1"
+            Grid.Column="1"
+            DataContext="{Binding CheckBoxData1}" />
+        <Label
+            Grid.Row="1"
+            Grid.Column="2"
+            DataContext="{Binding CheckBoxData2}" />
+        <CheckBox
+            Grid.Row="1"
+            Grid.Column="3"
+            DataContext="{Binding CheckBoxData2}" />
+        <!-- combobox -->
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            DataContext="{Binding ComboBoxData1}" />
+        <ComboBox
+            Grid.Row="2"
+            Grid.Column="1"
+            DataContext="{Binding ComboBoxData1}" />
+        <Label
+            Grid.Row="2"
+            Grid.Column="2"
+            DataContext="{Binding ComboBoxData2}" />
+        <ComboBox
+            Grid.Row="2"
+            Grid.Column="3"
+            DataContext="{Binding ComboBoxData2}" />
+        <!-- expander -->
+        <Expander
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            DataContext="{Binding ExpanderData}" />
+        <!-- groupbox -->
+        <GroupBox
+            Grid.Row="4"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            DataContext="{Binding GroupBoxData}" />
+        <!-- password box -->
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            DataContext="{Binding PasswordBoxData}" />
+        <PasswordBox
+            Grid.Row="5"
+            Grid.Column="1"
+            DataContext="{Binding PasswordBoxData}"
+            x:Name="PasswordBox" />
+        <!-- text block -->
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            DataContext="{Binding TextBlockData}" />
+        <!-- textbox -->
+        <Label
+            Grid.Row="7"
+            Grid.Column="0"
+            DataContext="{Binding TextBoxData1}" />
+        <TextBox
+            Grid.Row="7"
+            Grid.Column="1"
+            DataContext="{Binding TextBoxData1}" />
+        <Label
+            Grid.Row="7"
+            Grid.Column="2"
+            DataContext="{Binding TextBoxData2}" />
+        <TextBox
+            Grid.Row="7"
+            Grid.Column="3"
+            DataContext="{Binding TextBoxData2}" />
+    </Grid>
+</UserControl>
+<!-- ReSharper restore Xaml.IndexOutOfGridDefinition -->
