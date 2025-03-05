@@ -4,16 +4,11 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="ControlStyle.xaml" />
-        <ResourceDictionary
-            Source="../../Templates/ValidationErrorTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <Style
         TargetType="Control"
         x:Key="ExtendedControlStyle"
         BasedOn="{StaticResource ControlStyle}">
-        <Setter
-            Property="Validation.ErrorTemplate"
-            Value="{StaticResource ValidationErrorTemplate}" />
         <Setter
             Property="VerticalContentAlignment"
             Value="Center" />
