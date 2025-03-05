@@ -3,6 +3,7 @@
 using System.IO;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Microsoft.Win32;
 
 /// <summary>
 ///     A factory for <see cref="ICommand" /> and <see cref="ICancellableCommand" /> implementations.
@@ -76,6 +77,19 @@ internal class CommandFactory : ICommandFactory
     {
         return this.CreateOpenFileDialogCommand(
             new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)),
+            execute);
+    }
+
+    /// <summary>
+    ///     An <see cref="ICommand" /> that opens a <see cref="OpenFolderDialog" />. If a folder is selected
+    ///     <paramref name="execute" /> is called using the selected folder.
+    /// </summary>
+    /// <param name="basePath">The default directory of the open folder dialog.</param>
+    /// <param name="execute">If a folder is selected this <see cref="Action{T}" /> is called.</param>
+    public ICommand CreateOpenFolderDialogCommand<T>(DirectoryInfo basePath, Action<string> execute)
+    {
+        return new OpenFolderDialogCommand(
+            basePath,
             execute);
     }
 

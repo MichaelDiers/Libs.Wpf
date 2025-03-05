@@ -2,6 +2,7 @@
 
 using System.IO;
 using System.Windows.Input;
+using Microsoft.Win32;
 
 /// <summary>
 ///     A factory for <see cref="ICommand" /> and <see cref="ICancellableCommand" /> implementations.
@@ -54,6 +55,14 @@ public interface ICommandFactory
     /// <param name="execute">An <see cref="Action{T,TT}" /> called with the selected file and the command parameter.</param>
     /// <returns>A new <see cref="ICommand" />.</returns>
     ICommand CreateOpenFileDialogCommand<T>(Action<T?, string> execute);
+
+    /// <summary>
+    ///     An <see cref="ICommand" /> that opens a <see cref="OpenFolderDialog" />. If a folder is selected
+    ///     <paramref name="execute" /> is called using the selected folder.
+    /// </summary>
+    /// <param name="basePath">The default directory of the open folder dialog.</param>
+    /// <param name="execute">If a folder is selected this <see cref="Action{T}" /> is called.</param>
+    ICommand CreateOpenFolderDialogCommand<T>(DirectoryInfo basePath, Action<string> execute);
 
     /// <summary>
     ///     Initializes a new instance of an <see cref="ICommand" /> implementing class. The command does block the ui thread
