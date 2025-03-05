@@ -58,5 +58,8 @@
         <Setter
             Property="watermark:WatermarkDependencyProperty.Watermark"
             Value="{Binding WatermarkTranslation}" />
+        <Setter
+            Property="error:ErrorDependencyProperty.Error"
+            Value="{Binding ErrorTranslation}" />
     </Style>
 </ResourceDictionary>
