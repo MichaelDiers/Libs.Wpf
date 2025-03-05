@@ -28,7 +28,7 @@ public class AsyncCommandTests
         var executeCalledPost = false;
         var postExecuteCalled = false;
 
-        var command = this.commandFactory.CreateAsyncCommand<int, int>(
+        var command = this.commandFactory.CreateAsyncCommand<int?, int>(
             value => value == commandParameter,
             () => preExecuteCalled = true,
             async (value, cancellationToken) =>
@@ -38,7 +38,7 @@ public class AsyncCommandTests
                     3000,
                     cancellationToken);
                 executeCalledPost = true;
-                return value + 1;
+                return (value ?? 0) + 1;
             },
             task =>
             {
@@ -75,7 +75,7 @@ public class AsyncCommandTests
     public async Task CanExecute()
     {
         const int trueValue = 1;
-        var canExecute = new Func<int, bool>(value => value == trueValue);
+        var canExecute = new Func<int?, bool>(value => value == trueValue);
         var command = this.commandFactory.CreateAsyncCommand(
             canExecute,
             () => { },
@@ -91,7 +91,7 @@ public class AsyncCommandTests
         Assert.False(command.CanExecute(trueValue + 1));
         Assert.True(command.CanExecute(trueValue));
 
-        command.Execute(null);
+        command.Execute(trueValue);
         await Task.Delay(1000);
         Assert.False(command.CanExecute(trueValue));
     }
