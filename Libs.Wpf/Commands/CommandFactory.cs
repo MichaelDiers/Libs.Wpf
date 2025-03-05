@@ -38,7 +38,7 @@ internal class CommandFactory : ICommandFactory
     /// <returns>A new <see cref="ICancellableCommand" />.</returns>
     public ICancellableCommand CreateAsyncCommand<TCommandParameter, TExecuteResult>(
         Func<TCommandParameter?, bool>? canExecute,
-        Action? preExecute,
+        Action<TCommandParameter?>? preExecute,
         Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>>? execute,
         Action<Task<TExecuteResult?>>? postExecute
     )

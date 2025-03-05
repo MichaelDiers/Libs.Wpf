@@ -30,7 +30,7 @@ public class AsyncCommandTests
 
         var command = this.commandFactory.CreateAsyncCommand<int?, int>(
             value => value == commandParameter,
-            () => preExecuteCalled = true,
+            _ => preExecuteCalled = true,
             async (value, cancellationToken) =>
             {
                 executeCalledPre = true;
@@ -78,7 +78,7 @@ public class AsyncCommandTests
         var canExecute = new Func<int?, bool>(value => value == trueValue);
         var command = this.commandFactory.CreateAsyncCommand(
             canExecute,
-            () => { },
+            _ => { },
             async (_, cancellationToken) =>
             {
                 await Task.Delay(
@@ -144,7 +144,7 @@ public class AsyncCommandTests
         var called = false;
         var command = this.commandFactory.CreateAsyncCommand<int, bool>(
             _ => true,
-            () => { },
+            _ => { },
             (value, _) =>
             {
                 called = true;
@@ -170,7 +170,7 @@ public class AsyncCommandTests
         var called = false;
         var command = this.commandFactory.CreateAsyncCommand<int, bool>(
             _ => true,
-            () => { called = true; },
+            _ => { called = true; },
             null,
             null);
 
@@ -194,7 +194,7 @@ public class AsyncCommandTests
 
         var command = this.commandFactory.CreateAsyncCommand<int, int>(
             value => value == commandParameter,
-            () => preExecuteCalled = true,
+            _ => preExecuteCalled = true,
             (value, _) =>
             {
                 executeCalled = true;
@@ -231,7 +231,7 @@ public class AsyncCommandTests
 
         var command = this.commandFactory.CreateAsyncCommand<int, int>(
             _ => true,
-            () => { },
+            _ => { },
             null,
             _ => { called = true; });
 
@@ -247,7 +247,7 @@ public class AsyncCommandTests
 
         var command = this.commandFactory.CreateAsyncCommand<int, int>(
             _ => true,
-            () => called = true,
+            _ => called = true,
             (_, _) => Task.FromResult(7),
             _ => { });
 

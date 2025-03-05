@@ -50,7 +50,7 @@ internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, 
     ///     The optional action is executed before <see cref="execute" />. The action executes in the
     ///     ui thread.
     /// </summary>
-    private readonly Action? preExecute;
+    private readonly Action<TCommandParameter?>? preExecute;
 
     /// <summary>
     ///     The command that stops the execution of <see cref="execute" /> by cancelling the
@@ -92,7 +92,7 @@ internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, 
     /// <param name="dispatcher">Provides UI services for a thread.</param>
     public AsyncCommand(
         Func<TCommandParameter?, bool>? canExecute,
-        Action? preExecute,
+        Action<TCommandParameter?>? preExecute,
         Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>>? execute,
         Action<Task<TExecuteResult?>>? postExecute,
         Dispatcher dispatcher
@@ -134,7 +134,7 @@ internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, 
     /// <param name="dispatcher">Provides UI services for a thread.</param>
     private AsyncCommand(
         Func<TCommandParameter?, bool>? canExecute,
-        Action? preExecute,
+        Action<TCommandParameter?>? preExecute,
         Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>>? execute,
         Action<Task<TExecuteResult?>>? postExecute,
         Dispatcher dispatcher,
@@ -210,7 +210,7 @@ internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, 
     {
         this.Setup();
 
-        this.PreExecute();
+        this.PreExecute((TCommandParameter?) parameter);
 
         if (this.RunExecute(parameter))
         {
@@ -272,7 +272,7 @@ internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, 
     /// <summary>
     ///     Executes the action <see cref="preExecute" />.
     /// </summary>
-    private void PreExecute()
+    private void PreExecute(TCommandParameter? commandParameter)
     {
         try
         {
@@ -283,11 +283,13 @@ internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, 
 
             if (this.dispatcher.CheckAccess())
             {
-                this.preExecute();
+                this.preExecute(commandParameter);
             }
             else
             {
-                this.dispatcher.Invoke(this.preExecute);
+                this.dispatcher.Invoke(
+                    this.preExecute,
+                    commandParameter);
             }
         }
         catch
