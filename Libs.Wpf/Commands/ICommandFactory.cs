@@ -62,7 +62,7 @@ public interface ICommandFactory
     /// </summary>
     /// <param name="basePath">The default directory of the open folder dialog.</param>
     /// <param name="execute">If a folder is selected this <see cref="Action{T}" /> is called.</param>
-    ICommand CreateOpenFolderDialogCommand<T>(DirectoryInfo basePath, Action<string> execute);
+    ICommand CreateOpenFolderDialogCommand(DirectoryInfo basePath, Action<string> execute);
 
     /// <summary>
     ///     Initializes a new instance of an <see cref="ICommand" /> implementing class. The command does block the ui thread

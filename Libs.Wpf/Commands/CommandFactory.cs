@@ -86,7 +86,7 @@ internal class CommandFactory : ICommandFactory
     /// </summary>
     /// <param name="basePath">The default directory of the open folder dialog.</param>
     /// <param name="execute">If a folder is selected this <see cref="Action{T}" /> is called.</param>
-    public ICommand CreateOpenFolderDialogCommand<T>(DirectoryInfo basePath, Action<string> execute)
+    public ICommand CreateOpenFolderDialogCommand(DirectoryInfo basePath, Action<string> execute)
     {
         return new OpenFolderDialogCommand(
             basePath,
