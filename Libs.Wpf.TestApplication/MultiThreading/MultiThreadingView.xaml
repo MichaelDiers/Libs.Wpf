@@ -1,0 +1,106 @@
+﻿<!-- ReSharper disable Xaml.IndexOutOfGridDefinition -->
+<UserControl
+    x:Class="Libs.Wpf.TestApplication.MultiThreading.MultiThreadingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Libs.Wpf.TestApplication.MultiThreading"
+    xmlns:dependencyProperties="clr-namespace:Libs.Wpf.DependencyProperties;assembly=Libs.Wpf"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <local:MultiThreadingViewModel />
+    </UserControl.DataContext>
+    <Grid
+        dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto|Auto|Auto|Auto"
+        dependencyProperties:GridColumnsDependencyProperty.GridColumns="Auto|*">
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="CommandParameter" />
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="1"
+            x:Name="CommandParameter"
+            Text="CommandParameter" />
+        <Grid
+            Grid.Row="1"
+            Grid.Column="1"
+            dependencyProperties:GridColumnsDependencyProperty.GridColumns="Auto|Auto">
+            <Button
+                Grid.Column="0"
+                Command="{Binding CustomCommand}"
+                CommandParameter="{Binding ElementName=CommandParameter, Path=Text }"
+                Content="CustomCommand" />
+            <Button
+                Grid.Column="1"
+                Command="{Binding AsyncCommand}"
+                CommandParameter="{Binding ElementName=CommandParameter, Path=Text }"
+                Content="AsyncCommand" />
+        </Grid>
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Content="IsRunning" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Text="{Binding IsRunning}" />
+        <ContentControl
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            DataContext="{Binding CommandResult}"
+            HorizontalAlignment="Center">
+            <ContentControl.Resources>
+                <ResourceDictionary
+                    Source="pack://application:,,,/Libs.Wpf;component/Styles/Common/TranslatableStyles.xaml" />
+            </ContentControl.Resources>
+            <ContentControl.Style>
+                <Style
+                    TargetType="ContentControl">
+                    <Setter
+                        Property="Content">
+                        <Setter.Value>
+                            <Grid
+                                dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto"
+                                dependencyProperties:GridColumnsDependencyProperty.GridColumns="Auto|*">
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    DataContext="{Binding Text}" />
+                                <TextBox
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    DataContext="{Binding Text}" />
+                                <ItemsControl
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    ItemsSource="{Binding Items}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate
+                                            DataType="{x:Type local:CommandResultItem}">
+                                            <TextBlock
+                                                Text="{Binding Text}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding }"
+                            Value="{x:Null}">
+                            <Setter
+                                Property="Content"
+                                Value="{x:Null}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+    </Grid>
+</UserControl>
+<!-- ReSharper restore Xaml.IndexOutOfGridDefinition -->

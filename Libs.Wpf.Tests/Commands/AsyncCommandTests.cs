@@ -225,6 +225,128 @@ public class AsyncCommandTests
     }
 
     [Fact]
+    public async Task ExecutionOrder()
+    {
+        var preExecuteEnter = false;
+        var preExecuteExit = false;
+
+        var executeEnter = false;
+        var executeExit = false;
+
+        var postExecuteEnter = false;
+        var postExecuteExit = false;
+
+        var lockObject = new Lock();
+
+        var command = this.commandFactory.CreateAsyncCommand<int, int>(
+            _ => true,
+            _ =>
+            {
+                lock (lockObject)
+                {
+                    Assert.False(preExecuteEnter);
+                    Assert.False(preExecuteExit);
+                    Assert.False(executeEnter);
+                    Assert.False(executeExit);
+                    Assert.False(postExecuteEnter);
+                    Assert.False(postExecuteExit);
+
+                    preExecuteEnter = true;
+                }
+
+                Thread.Sleep(1000);
+
+                lock (lockObject)
+                {
+                    Assert.True(preExecuteEnter);
+                    Assert.False(preExecuteExit);
+                    Assert.False(executeEnter);
+                    Assert.False(executeExit);
+                    Assert.False(postExecuteEnter);
+                    Assert.False(postExecuteExit);
+
+                    preExecuteExit = true;
+                }
+            },
+            async (_, cancellationToken) =>
+            {
+                lock (lockObject)
+                {
+                    Assert.True(preExecuteEnter);
+                    Assert.True(preExecuteExit);
+                    Assert.False(executeEnter);
+                    Assert.False(executeExit);
+                    Assert.False(postExecuteEnter);
+                    Assert.False(postExecuteExit);
+
+                    executeEnter = true;
+                }
+
+                await Task.Delay(
+                    2000,
+                    cancellationToken);
+
+                lock (lockObject)
+                {
+                    Assert.True(preExecuteEnter);
+                    Assert.True(preExecuteExit);
+                    Assert.True(executeEnter);
+                    Assert.False(executeExit);
+                    Assert.False(postExecuteEnter);
+                    Assert.False(postExecuteExit);
+
+                    executeExit = true;
+                }
+
+                return 7;
+            },
+            _ =>
+            {
+                lock (lockObject)
+                {
+                    Assert.True(preExecuteEnter);
+                    Assert.True(preExecuteExit);
+                    Assert.True(executeEnter);
+                    Assert.True(executeExit);
+                    Assert.False(postExecuteEnter);
+                    Assert.False(postExecuteExit);
+
+                    postExecuteEnter = true;
+                }
+
+                lock (lockObject)
+                {
+                    Assert.True(preExecuteEnter);
+                    Assert.True(preExecuteExit);
+                    Assert.True(executeEnter);
+                    Assert.True(executeExit);
+                    Assert.True(postExecuteEnter);
+                    Assert.False(postExecuteExit);
+
+                    postExecuteExit = true;
+                }
+            });
+
+        command.Execute(10);
+
+        await AsyncCommandTests.Wait(
+            command,
+            () => Assert.True(preExecuteEnter),
+            () => Assert.True(preExecuteExit),
+            () => Assert.True(executeEnter),
+            () => Assert.True(executeExit),
+            () => Assert.True(postExecuteEnter),
+            () => Assert.True(postExecuteExit));
+
+        Assert.True(preExecuteEnter);
+        Assert.True(preExecuteExit);
+        Assert.True(executeEnter);
+        Assert.True(executeExit);
+        Assert.True(postExecuteEnter);
+        Assert.True(postExecuteExit);
+    }
+
+    [Fact]
     public void PostExecute()
     {
         var called = false;

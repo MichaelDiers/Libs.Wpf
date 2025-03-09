@@ -49,6 +49,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Translation.resx</DependentUpon>
     </Compile>
+    <Compile Update="MultiThreading\Translation.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Translation.resx</DependentUpon>
+    </Compile>
     <Compile Update="ViewModels\Translations.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -59,6 +64,10 @@
   <ItemGroup>
     <EmbeddedResource Update="Localization\Translation.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Translation.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MultiThreading\Translation.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Translation.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="ViewModels\Translations.resx">
