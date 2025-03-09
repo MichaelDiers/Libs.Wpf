@@ -26,7 +26,9 @@ internal class OpenFileDialogCommandViewModel : ViewModelBase
         this.openFileDialogCommand = CustomServiceProviderBuilder
             .Build(ServiceCollectionExtensions.TryAddCommandFactory)
             .GetRequiredService<ICommandFactory>()
-            .CreateOpenFileDialogCommand<object>((_, path) => this.FilePath = path);
+            .CreateOpenFileDialogCommand<object?>(
+                (_, path) => this.FilePath = path,
+                "Text documents (.txt)|*.txt");
     }
 
     /// <summary>

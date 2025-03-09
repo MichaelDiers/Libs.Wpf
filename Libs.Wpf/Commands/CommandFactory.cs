@@ -58,12 +58,18 @@ internal class CommandFactory : ICommandFactory
     /// <typeparam name="T">The type of the command parameter.</typeparam>
     /// <param name="basePath">Specifies the base path of the open file dialog.</param>
     /// <param name="execute">An <see cref="Action{T,TT}" /> called with the selected file and the command parameter.</param>
+    /// <param name="filter">An optional <see cref="OpenFileDialog.Filter" /> of the <see cref="OpenFileDialog" />.</param>
     /// <returns>A new <see cref="ICommand" />.</returns>
-    public ICommand CreateOpenFileDialogCommand<T>(DirectoryInfo basePath, Action<T?, string> execute)
+    public ICommand CreateOpenFileDialogCommand<T>(
+        DirectoryInfo basePath,
+        Action<T?, string> execute,
+        string? filter = null
+    )
     {
         return new OpenFileDialogCommand<T>(
             basePath,
-            execute);
+            execute,
+            filter);
     }
 
     /// <summary>
@@ -72,12 +78,14 @@ internal class CommandFactory : ICommandFactory
     /// </summary>
     /// <typeparam name="T">The type of the command parameter.</typeparam>
     /// <param name="execute">An <see cref="Action{T,TT}" /> called with the selected file and the command parameter.</param>
+    /// <param name="filter">An optional <see cref="OpenFileDialog.Filter" /> of the <see cref="OpenFileDialog" />.</param>
     /// <returns>A new <see cref="ICommand" />.</returns>
-    public ICommand CreateOpenFileDialogCommand<T>(Action<T?, string> execute)
+    public ICommand CreateOpenFileDialogCommand<T>(Action<T?, string> execute, string? filter = null)
     {
         return this.CreateOpenFileDialogCommand(
             new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)),
-            execute);
+            execute,
+            filter);
     }
 
     /// <summary>

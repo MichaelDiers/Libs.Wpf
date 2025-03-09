@@ -11,25 +11,28 @@ using Microsoft.Win32;
 /// <typeparam name="T">The type of the command parameter.</typeparam>
 /// <param name="basePath">The default directory of the open file dialog.</param>
 /// <param name="execute">If a file is selected this <see cref="Action{T}" /> is called.</param>
-internal class OpenFileDialogCommand<T>(DirectoryInfo basePath, Action<T?, string> execute) : SyncCommand<T>(
-    _ => true,
-    commandParameter =>
-    {
-        var fileDialog = new OpenFileDialog
+/// <param name="filter">An optional <see cref="OpenFileDialog.Filter" /> of the <see cref="OpenFileDialog" />.</param>
+internal class OpenFileDialogCommand<T>(DirectoryInfo basePath, Action<T?, string> execute, string? filter = null)
+    : SyncCommand<T>(
+        _ => true,
+        commandParameter =>
         {
-            DefaultDirectory = basePath.FullName,
-            CheckFileExists = true,
-            CheckPathExists = true,
-            Multiselect = false,
-            ValidateNames = true
-        };
+            var fileDialog = new OpenFileDialog
+            {
+                DefaultDirectory = basePath.FullName,
+                CheckFileExists = true,
+                CheckPathExists = true,
+                Filter = filter ?? string.Empty,
+                Multiselect = false,
+                ValidateNames = true
+            };
 
-        if (fileDialog.ShowDialog() != true)
-        {
-            return;
-        }
+            if (fileDialog.ShowDialog() != true)
+            {
+                return;
+            }
 
-        execute(
-            commandParameter,
-            fileDialog.FileName);
-    });
+            execute(
+                commandParameter,
+                fileDialog.FileName);
+        });
