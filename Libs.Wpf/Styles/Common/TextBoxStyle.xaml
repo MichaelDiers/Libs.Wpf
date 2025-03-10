@@ -34,7 +34,7 @@
         BasedOn="{StaticResource TextBoxStyle}">
         <Setter
             Property="Text"
-            Value="{Binding Value}" />
+            Value="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
         <Setter
             Property="ToolTip"
             Value="{Binding ToolTipTranslation}" />
@@ -51,7 +51,7 @@
         BasedOn="{StaticResource MultiLineTextBoxStyle}">
         <Setter
             Property="Text"
-            Value="{Binding Value}" />
+            Value="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
         <Setter
             Property="ToolTip"
             Value="{Binding ToolTipTranslation}" />
