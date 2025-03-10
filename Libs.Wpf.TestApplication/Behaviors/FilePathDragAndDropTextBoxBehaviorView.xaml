@@ -10,61 +10,40 @@
         dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto">
         <GroupBox
             Grid.Row="0"
-            Header="Drag and drop without filter"
+            Header="Drag and drop file path"
             Padding="20">
             <Grid
-                dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto"
+                dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto|Auto"
                 dependencyProperties:GridColumnsDependencyProperty.GridColumns="Auto|*">
                 <Label
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="Drag and Drop" />
+                    Content="Filter" />
                 <TextBox
                     Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding FilePathFilterText, UpdateSourceTrigger=PropertyChanged}" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Content="Drag and Drop" />
+                <TextBox
+                    Grid.Row="1"
                     Grid.Column="1"
                     Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}">
                     <b:Interaction.Behaviors>
-                        <behaviours:FilePathDragAndDropTextBoxBehavior />
+                        <behaviours:FilePathDragAndDropTextBoxBehavior
+                            FileEndsWithFilter="{Binding FilePathFilterText}" />
                     </b:Interaction.Behaviors>
                 </TextBox>
                 <Label
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="0"
                     Content="Binding Check" />
                 <TextBlock
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="1"
                     Text="{Binding FilePath}" />
-            </Grid>
-        </GroupBox>
-        <GroupBox
-            Grid.Row="1"
-            Header="Drag and drop using filter=.txt"
-            Padding="20">
-            <Grid
-                dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto"
-                dependencyProperties:GridColumnsDependencyProperty.GridColumns="Auto|*">
-                <Label
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Content="Drag and Drop" />
-                <TextBox
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Text="{Binding FilePathFilter, UpdateSourceTrigger=PropertyChanged}">
-                    <b:Interaction.Behaviors>
-                        <behaviours:FilePathDragAndDropTextBoxBehavior
-                            FileEndsWithFilter=".txt" />
-                    </b:Interaction.Behaviors>
-                </TextBox>
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Content="Binding Check" />
-                <TextBlock
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Text="{Binding FilePathFilter}" />
             </Grid>
         </GroupBox>
     </Grid>

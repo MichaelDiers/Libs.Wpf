@@ -25,6 +25,11 @@ internal class BehaviorsViewModel : ViewModelBase
     private string filePathFilter = string.Empty;
 
     /// <summary>
+    ///     The file path filter text.
+    /// </summary>
+    private string filePathFilterText = ".pdf";
+
+    /// <summary>
     ///     The folder path.
     /// </summary>
     private string folderPath = string.Empty;
@@ -74,6 +79,18 @@ internal class BehaviorsViewModel : ViewModelBase
         set =>
             this.SetField(
                 ref this.filePathFilter,
+                value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the file path filter text.
+    /// </summary>
+    public string FilePathFilterText
+    {
+        get => this.filePathFilterText;
+        set =>
+            this.SetField(
+                ref this.filePathFilterText,
                 value);
     }
 
