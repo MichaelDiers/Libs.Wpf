@@ -1,41 +1,72 @@
-﻿<UserControl
+﻿<!-- ReSharper disable Xaml.IndexOutOfGridDefinition -->
+<UserControl
     x:Class="Libs.Wpf.TestApplication.Behaviors.FileContentDragAndDropTextBoxBehaviorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:behaviours="clr-namespace:Libs.Wpf.Behaviours;assembly=Libs.Wpf">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition
-                Width="Auto" />
-            <ColumnDefinition
-                Width="*" />
-        </Grid.ColumnDefinitions>
-        <Label
+    xmlns:behaviours="clr-namespace:Libs.Wpf.Behaviours;assembly=Libs.Wpf"
+    xmlns:dependencyProperties="clr-namespace:Libs.Wpf.DependencyProperties;assembly=Libs.Wpf">
+    <Grid
+        dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto">
+        <GroupBox
             Grid.Row="0"
-            Grid.Column="0"
-            Content="File Content Drag and Drop" />
-        <TextBox
-            Grid.Row="0"
-            Grid.Column="1"
-            Text="{Binding FileContent, UpdateSourceTrigger=PropertyChanged}">
-            <b:Interaction.Behaviors>
-                <behaviours:FileContentDragAndDropTextBoxBehavior />
-            </b:Interaction.Behaviors>
-        </TextBox>
-        <Label
+            Header="Drag and drop without filter"
+            Padding="20">
+            <Grid
+                dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto"
+                dependencyProperties:GridColumnsDependencyProperty.GridColumns="Auto|*">
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Drag and Drop" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding FileContent, UpdateSourceTrigger=PropertyChanged}">
+                    <b:Interaction.Behaviors>
+                        <behaviours:FileContentDragAndDropTextBoxBehavior />
+                    </b:Interaction.Behaviors>
+                </TextBox>
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Content="Binding Check" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding FileContent}" />
+            </Grid>
+        </GroupBox>
+        <GroupBox
             Grid.Row="1"
-            Grid.Column="0"
-            Content="Binding Check" />
-        <TextBlock
-            Grid.Row="1"
-            Grid.Column="1"
-            Text="{Binding FileContent}" />
+            Header="Drag and drop using filter=.txt"
+            Padding="20">
+            <Grid
+                dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto"
+                dependencyProperties:GridColumnsDependencyProperty.GridColumns="Auto|*">
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Drag and Drop" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding FileContentFilter, UpdateSourceTrigger=PropertyChanged}">
+                    <b:Interaction.Behaviors>
+                        <behaviours:FileContentDragAndDropTextBoxBehavior
+                            FileEndsWithFilter=".txt" />
+                    </b:Interaction.Behaviors>
+                </TextBox>
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Content="Binding Check" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding FileContentFilter}" />
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>
+<!-- ReSharper restore Xaml.IndexOutOfGridDefinition -->

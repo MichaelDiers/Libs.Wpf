@@ -10,9 +10,19 @@ internal class BehaviorsViewModel : ViewModelBase
     private string fileContent = string.Empty;
 
     /// <summary>
+    ///     The file content using a filter.
+    /// </summary>
+    private string fileContentFilter = string.Empty;
+
+    /// <summary>
     ///     The file path.
     /// </summary>
     private string filePath = string.Empty;
+
+    /// <summary>
+    ///     The filtered file path.
+    /// </summary>
+    private string filePathFilter = string.Empty;
 
     /// <summary>
     ///     The folder path.
@@ -32,6 +42,18 @@ internal class BehaviorsViewModel : ViewModelBase
     }
 
     /// <summary>
+    ///     Gets or sets the file content using a filter.
+    /// </summary>
+    public string FileContentFilter
+    {
+        get => this.fileContentFilter;
+        set =>
+            this.SetField(
+                ref this.fileContentFilter,
+                value);
+    }
+
+    /// <summary>
     ///     Gets or sets the file path.
     /// </summary>
     public string FilePath
@@ -40,6 +62,18 @@ internal class BehaviorsViewModel : ViewModelBase
         set =>
             this.SetField(
                 ref this.filePath,
+                value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the filtered file path.
+    /// </summary>
+    public string FilePathFilter
+    {
+        get => this.filePathFilter;
+        set =>
+            this.SetField(
+                ref this.filePathFilter,
                 value);
     }
 

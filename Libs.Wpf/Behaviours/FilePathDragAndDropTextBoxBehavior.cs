@@ -10,6 +10,28 @@ using System.Windows.Controls;
 public class FilePathDragAndDropTextBoxBehavior() : DragAndDropUIElementBehavior<TextBox>(DataFormats.FileDrop)
 {
     /// <summary>
+    ///     Extends the <see cref="FilePathDragAndDropTextBoxBehavior" /> by a <see cref="DependencyProperty" /> wrapped by
+    ///     <see cref="FileEndsWithFilter" />.
+    /// </summary>
+    public static readonly DependencyProperty FileEndsWithFilterProperty = DependencyProperty.Register(
+        nameof(FilePathDragAndDropTextBoxBehavior.FileEndsWithFilter),
+        typeof(string),
+        typeof(FilePathDragAndDropTextBoxBehavior),
+        new PropertyMetadata(string.Empty));
+
+    /// <summary>
+    ///     Gets or sets the value of <see cref="FileEndsWithFilterProperty" /> <see cref="DependencyProperty" />.
+    /// </summary>
+    public string FileEndsWithFilter
+    {
+        get => (string) this.GetValue(FilePathDragAndDropTextBoxBehavior.FileEndsWithFilterProperty);
+        set =>
+            this.SetValue(
+                FilePathDragAndDropTextBoxBehavior.FileEndsWithFilterProperty,
+                value);
+    }
+
+    /// <summary>
     ///     Handle the drag and dropped element.
     /// </summary>
     /// <param name="dropped">The dropped element to handle.</param>
@@ -21,7 +43,10 @@ public class FilePathDragAndDropTextBoxBehavior() : DragAndDropUIElementBehavior
         }
 
         var file = files.FirstOrDefault(File.Exists);
-        if (file is not null)
+        if (file is not null &&
+            file.EndsWith(
+                this.FileEndsWithFilter,
+                StringComparison.OrdinalIgnoreCase))
         {
             this.AssociatedObject.Text = file;
         }
