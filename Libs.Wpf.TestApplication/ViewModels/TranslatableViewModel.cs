@@ -46,7 +46,7 @@ public class TranslatableViewModel : ViewModelBase
     /// <summary>
     ///     The password box data.
     /// </summary>
-    private Translatable passwordBoxData;
+    private TranslatableAndValidablePasswordBox passwordBoxData;
 
     /// <summary>
     ///     The button control data.
@@ -113,18 +113,7 @@ public class TranslatableViewModel : ViewModelBase
             nameof(Translations.ToggleLanguageButtonToolTip));
         this.submitButtonData = new TranslatableButton<ICommand>(
             commandFactory.CreateSyncCommand<PasswordBox>(
-                passwordBox =>
-                {
-                    if (this.passwordBoxData is not null)
-                    {
-                        this.passwordBoxData.ErrorResourceKey = string.IsNullOrWhiteSpace(passwordBox?.Password)
-                            ? nameof(Translations.PasswordBoxIsRequired)
-                            : null;
-                        return string.IsNullOrWhiteSpace(this.passwordBoxData.ErrorResourceKey);
-                    }
-
-                    return false;
-                },
+                _ => true,
                 passwordBox =>
                 {
                     this.CheckBoxData1.Validate();
@@ -133,6 +122,7 @@ public class TranslatableViewModel : ViewModelBase
                     this.ComboBoxData2.Validate();
                     this.TextBoxData1.Validate();
                     this.TextBoxData2.Validate();
+                    this.PasswordBoxData.Validate(passwordBox?.Password);
 
                     if (this.CheckBoxData1.HasError ||
                         this.CheckBoxData2.HasError ||
@@ -140,7 +130,8 @@ public class TranslatableViewModel : ViewModelBase
                         this.ComboBoxData2.HasError ||
                         this.PasswordBoxData.HasError ||
                         this.TextBoxData1.HasError ||
-                        this.TextBoxData2.HasError)
+                        this.TextBoxData2.HasError ||
+                        this.PasswordBoxData.HasError)
                     {
                         MessageBox.Show("Rejected");
                         return;
@@ -215,7 +206,9 @@ public class TranslatableViewModel : ViewModelBase
         this.groupBoxData = new Translatable(
             Translations.ResourceManager,
             nameof(Translations.GroupBoxLabel));
-        this.passwordBoxData = new Translatable(
+        this.passwordBoxData = new TranslatableAndValidablePasswordBox(
+            null,
+            password => string.IsNullOrWhiteSpace(password) ? nameof(Translations.PasswordBoxIsRequired) : null,
             Translations.ResourceManager,
             nameof(Translations.PasswordBoxLabel),
             nameof(Translations.PasswordBoxToolTip),
@@ -347,7 +340,7 @@ public class TranslatableViewModel : ViewModelBase
     /// <summary>
     ///     Gets or sets the password box data.
     /// </summary>
-    public Translatable PasswordBoxData
+    public TranslatableAndValidablePasswordBox PasswordBoxData
     {
         get => this.passwordBoxData;
         set =>

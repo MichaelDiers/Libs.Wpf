@@ -69,18 +69,9 @@ public class TranslatableAndValidable<TValue> : Translatable
     /// <summary>
     ///     Validates the instance.
     /// </summary>
-    public void Validate()
+    public bool Validate()
     {
         this.ErrorResourceKey = this.validator?.Invoke(this);
-        if (string.IsNullOrWhiteSpace(this.ErrorResourceKey))
-        {
-            this.HasError = false;
-            this.ErrorTranslation = null;
-        }
-        else
-        {
-            this.HasError = true;
-            this.ErrorTranslation = this.GetTranslation(this.ErrorResourceKey);
-        }
+        return this.HasError;
     }
 }

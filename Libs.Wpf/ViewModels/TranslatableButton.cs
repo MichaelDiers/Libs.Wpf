@@ -25,36 +25,12 @@ public class TranslatableButton<TCommand>(
     toolTipResourceKey) where TCommand : ICommand
 {
     /// <summary>
-    ///     The command.
+    ///     Gets the command.
     /// </summary>
-    private TCommand command = command;
+    public TCommand Command => command;
 
     /// <summary>
-    ///     The image source.
+    ///     Gets the image source.
     /// </summary>
-    private ImageSource? imageSource = imageSource;
-
-    /// <summary>
-    ///     Gets or sets the command.
-    /// </summary>
-    public TCommand Command
-    {
-        get => this.command;
-        set =>
-            this.SetField(
-                ref this.command,
-                value);
-    }
-
-    /// <summary>
-    ///     Gets or sets the image source.
-    /// </summary>
-    public ImageSource? ImageSource
-    {
-        get => this.imageSource;
-        set =>
-            this.SetField(
-                ref this.imageSource,
-                value);
-    }
+    public ImageSource? ImageSource => imageSource;
 }

@@ -91,7 +91,7 @@ public class Translatable : ViewModelBase, IDisposable
     public string? ErrorResourceKey
     {
         get => this.errorResourceKey;
-        set
+        protected set
         {
             this.errorResourceKey = value;
             this.ErrorTranslation = string.IsNullOrWhiteSpace(value) ? null : this.GetTranslation(value);
@@ -105,7 +105,7 @@ public class Translatable : ViewModelBase, IDisposable
     public string? ErrorTranslation
     {
         get => this.errorTranslation;
-        set =>
+        private set =>
             this.SetField(
                 ref this.errorTranslation,
                 value);
@@ -117,7 +117,7 @@ public class Translatable : ViewModelBase, IDisposable
     public bool HasError
     {
         get => this.hasError;
-        set =>
+        private set =>
             this.SetField(
                 ref this.hasError,
                 value);
@@ -153,7 +153,7 @@ public class Translatable : ViewModelBase, IDisposable
     public string? WatermarkTranslation
     {
         get => this.watermarkTranslation;
-        set =>
+        private set =>
             this.SetField(
                 ref this.watermarkTranslation,
                 value);
