@@ -6,6 +6,8 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="ControlStyle.xaml" />
+        <ResourceDictionary
+            Source="LabelStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <converters:ImageSourceToVisibilityConverter
         x:Key="ImageSourceToVisibilityConverter" />
@@ -45,15 +47,10 @@
                             <Label
                                 Grid.Column="1"
                                 x:Name="Label"
+                                DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext}"
+                                Style="{StaticResource TranslatableLabelStyle}"
                                 VerticalAlignment="Center"
-                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(viewModels:TranslatableButtonBase.LabelTranslation), Converter={StaticResource NullOrEmptyToVisibilityConverter}}">
-                                <Label.ContentTemplate>
-                                    <DataTemplate>
-                                        <TextBlock
-                                            Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(viewModels:TranslatableButtonBase.LabelTranslation)}" />
-                                    </DataTemplate>
-                                </Label.ContentTemplate>W
-                            </Label>
+                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(viewModels:TranslatableButtonBase.LabelTranslation), Converter={StaticResource NullOrEmptyToVisibilityConverter}}" />
                         </Grid>
                     </Border>
                 </DataTemplate>
