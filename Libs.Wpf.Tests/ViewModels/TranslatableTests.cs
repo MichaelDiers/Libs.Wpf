@@ -15,6 +15,8 @@ public class TranslatableTests
             nameof(Translation.ToolTip),
             nameof(Translation.Watermark));
 
+        TranslationSource.Instance.CurrentCulture = new CultureInfo("de-DE");
+
         Assert.Equal(
             null,
             translatable.ErrorResourceKey);
