@@ -45,9 +45,15 @@
                             <Label
                                 Grid.Column="1"
                                 x:Name="Label"
-                                Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(viewModels:TranslatableButtonBase.LabelTranslation)}"
                                 VerticalAlignment="Center"
-                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(viewModels:TranslatableButtonBase.LabelTranslation), Converter={StaticResource NullOrEmptyToVisibilityConverter}}" />
+                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(viewModels:TranslatableButtonBase.LabelTranslation), Converter={StaticResource NullOrEmptyToVisibilityConverter}}">
+                                <Label.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(viewModels:TranslatableButtonBase.LabelTranslation)}" />
+                                    </DataTemplate>
+                                </Label.ContentTemplate>W
+                            </Label>
                         </Grid>
                     </Border>
                 </DataTemplate>
