@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="clr-namespace:Libs.Wpf.Converters">
+    xmlns:converters="clr-namespace:Libs.Wpf.Converters"
+    xmlns:viewModels="clr-namespace:Libs.Wpf.ViewModels">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="ControlStyle.xaml" />
@@ -22,9 +23,6 @@
             Property="Command"
             Value="{Binding Command}" />
         <Setter
-            Property="Content"
-            Value="{Binding LabelTranslation}" />
-        <Setter
             Property="ToolTip"
             Value="{Binding ToolTipTranslation}" />
         <Setter
@@ -42,14 +40,14 @@
                             <Image
                                 Grid.Column="0"
                                 MaxHeight="{Binding ElementName=Label, Path=ActualHeight}"
-                                Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.ImageSource}"
-                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.ImageSource, Converter={StaticResource ImageSourceToVisibilityConverter}}" />
+                                Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(viewModels:TranslatableButtonBase.ImageSource)}"
+                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(viewModels:TranslatableButtonBase.ImageSource), Converter={StaticResource ImageSourceToVisibilityConverter}}" />
                             <Label
                                 Grid.Column="1"
                                 x:Name="Label"
-                                Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.LabelTranslation}"
+                                Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(viewModels:TranslatableButtonBase.LabelTranslation)}"
                                 VerticalAlignment="Center"
-                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.LabelTranslation, Converter={StaticResource NullOrEmptyToVisibilityConverter}}" />
+                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(viewModels:TranslatableButtonBase.LabelTranslation), Converter={StaticResource NullOrEmptyToVisibilityConverter}}" />
                         </Grid>
                     </Border>
                 </DataTemplate>

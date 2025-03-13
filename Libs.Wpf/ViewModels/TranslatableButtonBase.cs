@@ -1,32 +1,27 @@
 ﻿namespace Libs.Wpf.ViewModels;
 
 using System.Resources;
-using System.Windows.Input;
 using System.Windows.Media;
 
 /// <summary>
-///     The data of a translatable button.
+///     The data of the translatable button base.
 /// </summary>
-/// <typeparam name="TCommand">The type of the command.</typeparam>
-/// <param name="command">The command of the button.</param>
 /// <param name="imageSource">The image that is displayed on the button.</param>
 /// <param name="resourceManager">Translations are retrieved from this resource manager.</param>
 /// <param name="labelResourceKey">The resource key of the label.</param>
 /// <param name="toolTipResourceKey">The resource key of the tool tip.</param>
-public class TranslatableButton<TCommand>(
-    TCommand command,
+public class TranslatableButtonBase(
     ImageSource? imageSource,
     ResourceManager resourceManager,
     string? labelResourceKey = null,
     string? toolTipResourceKey = null
-) : TranslatableButtonBase(
-    imageSource,
+) : Translatable(
     resourceManager,
     labelResourceKey,
-    toolTipResourceKey) where TCommand : ICommand
+    toolTipResourceKey)
 {
     /// <summary>
-    ///     Gets the command.
+    ///     Gets the image source.
     /// </summary>
-    public TCommand Command => command;
+    public ImageSource? ImageSource => imageSource;
 }
