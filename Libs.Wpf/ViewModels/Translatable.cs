@@ -91,7 +91,7 @@ public class Translatable : ViewModelBase, IDisposable
     public string? ErrorResourceKey
     {
         get => this.errorResourceKey;
-        protected set
+        set
         {
             this.errorResourceKey = value;
             this.ErrorTranslation = string.IsNullOrWhiteSpace(value) ? null : this.GetTranslation(value);
