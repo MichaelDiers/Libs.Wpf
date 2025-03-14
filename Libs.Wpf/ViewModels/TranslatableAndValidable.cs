@@ -72,6 +72,6 @@ public class TranslatableAndValidable<TValue> : Translatable
     public bool Validate()
     {
         this.ErrorResourceKey = this.validator?.Invoke(this);
-        return this.HasError;
+        return !this.HasError;
     }
 }

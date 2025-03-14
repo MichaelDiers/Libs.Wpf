@@ -66,6 +66,6 @@ public class TranslatableAndValidablePasswordBox : Translatable
     public bool Validate(string? password)
     {
         this.ErrorResourceKey = this.validator?.Invoke(password);
-        return this.HasError;
+        return !this.HasError;
     }
 }
