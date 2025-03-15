@@ -236,13 +236,7 @@ internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, 
         }
         else
         {
-            this.dispatcher.Invoke(
-                () =>
-                {
-                    this.cancellationTokenSource = null;
-                    this.CancelCommand = null;
-                    this.IsActive = false;
-                });
+            this.dispatcher.Invoke(this.CleanUp);
         }
     }
 
@@ -339,7 +333,7 @@ internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, 
         if (!this.isCancelCommand)
         {
             this.CancelCommand = new AsyncCommand<object, object>(
-                _ => this.IsActive,
+                _ => this.IsActive && this.CancelCommand?.IsActive != true,
                 null,
                 async (_, _) =>
                 {

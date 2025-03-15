@@ -13,5 +13,9 @@
             Header="OpenFileDialogCommand">
             <local:OpenFileDialogCommandView />
         </TabItem>
+        <TabItem
+            Header="Cancel Command">
+            <local:CancelCommandView />
+        </TabItem>
     </TabControl>
 </UserControl>

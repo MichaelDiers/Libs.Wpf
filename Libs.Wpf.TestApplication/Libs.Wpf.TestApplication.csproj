@@ -14,6 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Assets\material_symbol_cancel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\material_symbol_edit_square.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -41,6 +47,11 @@
     <Compile Update="Behaviors\FolderPathDragAndDropTextBoxBehaviorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Commands\Translations.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Translations.resx</DependentUpon>
+    </Compile>
     <Compile Update="Controls\FileContentSelectorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -62,6 +73,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Commands\Translations.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Translations.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Localization\Translation.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Translation.Designer.cs</LastGenOutput>
