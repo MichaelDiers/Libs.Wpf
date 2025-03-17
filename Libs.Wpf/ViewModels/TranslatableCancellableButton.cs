@@ -11,6 +11,8 @@ using Libs.Wpf.Localization;
 /// </summary>
 public class TranslatableCancellableButton : TranslatableButton<ICancellableCommand>
 {
+    private readonly string? cancelInfoTextResourceKey;
+
     /// <summary>
     ///     The resource key of the cancel label.
     /// </summary>
@@ -25,6 +27,11 @@ public class TranslatableCancellableButton : TranslatableButton<ICancellableComm
     ///     The cancel image source.
     /// </summary>
     private ImageSource? cancelImageSource;
+
+    /// <summary>
+    ///     The cancel info text translation.
+    /// </summary>
+    private string? cancelInfoTextTranslation;
 
     /// <summary>
     ///     The cancel label translation.
@@ -47,6 +54,7 @@ public class TranslatableCancellableButton : TranslatableButton<ICancellableComm
     /// <param name="cancelLabelResourceKey">The resource key of the cancel label.</param>
     /// <param name="cancelToolTipResourceKey">The resource key of the cancel tool tip.</param>
     /// <param name="cancelImageSource">The image that is displayed on the cancel button.</param>
+    /// <param name="cancelInfoTextResourceKey">The info text of the cancel button.</param>
     public TranslatableCancellableButton(
         ICancellableCommand command,
         ImageSource? imageSource,
@@ -55,7 +63,8 @@ public class TranslatableCancellableButton : TranslatableButton<ICancellableComm
         string? toolTipResourceKey = null,
         string? cancelLabelResourceKey = null,
         string? cancelToolTipResourceKey = null,
-        ImageSource? cancelImageSource = null
+        ImageSource? cancelImageSource = null,
+        string? cancelInfoTextResourceKey = null
     )
         : base(
             command,
@@ -67,6 +76,7 @@ public class TranslatableCancellableButton : TranslatableButton<ICancellableComm
         this.cancelLabelResourceKey = cancelLabelResourceKey;
         this.cancelToolTipResourceKey = cancelToolTipResourceKey;
         this.cancelImageSource = cancelImageSource;
+        this.cancelInfoTextResourceKey = cancelInfoTextResourceKey;
 
         TranslationSource.Instance.PropertyChanged += this.OnCurrentCultureChanged;
 
@@ -84,6 +94,18 @@ public class TranslatableCancellableButton : TranslatableButton<ICancellableComm
         set =>
             this.SetField(
                 ref this.cancelImageSource,
+                value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the cancel info text translation.
+    /// </summary>
+    public string? CancelInfoTextTranslation
+    {
+        get => this.cancelInfoTextTranslation;
+        set =>
+            this.SetField(
+                ref this.cancelInfoTextTranslation,
                 value);
     }
 
@@ -136,6 +158,11 @@ public class TranslatableCancellableButton : TranslatableButton<ICancellableComm
         if (!string.IsNullOrWhiteSpace(this.cancelToolTipResourceKey))
         {
             this.CancelToolTipTranslation = this.GetTranslation(this.cancelToolTipResourceKey);
+        }
+
+        if (!string.IsNullOrWhiteSpace(this.cancelInfoTextResourceKey))
+        {
+            this.CancelInfoTextTranslation = this.GetTranslation(this.cancelInfoTextResourceKey);
         }
     }
 }
