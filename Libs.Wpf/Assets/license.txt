@@ -4,3 +4,6 @@
 	- material_symbol_attach_file.png
 	- material_symbol_error.png
 	- material_symbol_folder.png
+	- material_symbol_information.png
+	- material_symbol_question.png
+	- material_symbol_warning.png

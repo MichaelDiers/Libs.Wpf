@@ -29,9 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\material_symbol_attach_file.png">
+    <Content Include="Assets\material_symbol_attach_file.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Content Include="Assets\material_symbol_error.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -44,9 +44,9 @@
     <Content Include="Assets\material_symbol_warning.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Assets\material_symbol_folder.png">
+    <Content Include="Assets\material_symbol_folder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
