@@ -20,7 +20,7 @@
                     Height="25"
                     Margin="0"
                     Width="25"
-                    Source="../Assets/material_symbol_error.png" />
+                    Source="pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_error.png" />
                 <TextBlock
                     FontStyle="Italic"
                     Foreground="Red"
