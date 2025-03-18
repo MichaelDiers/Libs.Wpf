@@ -13,6 +13,9 @@
     <None Remove="Assets\material_symbol_attach_file.png" />
     <None Remove="Assets\material_symbol_error.png" />
     <None Remove="Assets\material_symbol_folder.png" />
+    <None Remove="Assets\material_symbol_information.png" />
+    <None Remove="Assets\material_symbol_question.png" />
+    <None Remove="Assets\material_symbol_warning.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,9 +32,18 @@
     <Resource Include="Assets\material_symbol_attach_file.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\material_symbol_error.png">
+    <Content Include="Assets\material_symbol_error.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
+    <Content Include="Assets\material_symbol_information.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\material_symbol_question.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\material_symbol_warning.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Assets\material_symbol_folder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

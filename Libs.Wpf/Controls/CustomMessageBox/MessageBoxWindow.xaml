@@ -1,0 +1,75 @@
+﻿<Window
+    x:Class="Libs.Wpf.Controls.CustomMessageBox.MessageBoxWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customMessageBox="clr-namespace:Libs.Wpf.Controls.CustomMessageBox"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    ResizeMode="NoResize"
+    ShowInTaskbar="False">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/Libs.Wpf;component/Styles/Common/ButtonStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/Libs.Wpf;component/Styles/Common/TextBlockStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid
+        Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Style="{StaticResource TextBlockStyle}"
+            Text="{Binding Caption}" />
+        <Grid
+            Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image
+                Grid.Column="0"
+                Source="{Binding ImageSource}" />
+            <TextBlock
+                Grid.Column="1"
+                Style="{StaticResource TextBlockStyle}"
+                Text="{Binding Message}" />
+        </Grid>
+        <ItemsControl
+            Grid.Row="2"
+            ItemsSource="{Binding Buttons}"
+            HorizontalAlignment="Center">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel
+                        Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate
+                    DataType="{x:Type customMessageBox:ButtonViewModel}">
+                    <Button
+                        Command="{Binding Command}"
+                        Style="{StaticResource ButtonStyle}">
+                        <TextBlock
+                            Style="{StaticResource TextBlockStyle}"
+                            Text="{Binding Content}" />
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</Window>
