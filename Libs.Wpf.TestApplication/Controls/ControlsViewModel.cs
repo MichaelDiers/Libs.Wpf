@@ -1,80 +1,71 @@
 ﻿namespace Libs.Wpf.TestApplication.Controls;
 
-using System.Windows;
 using System.Windows.Input;
 using Libs.Wpf.Commands;
+using Libs.Wpf.Controls.CustomMessageBox;
 using Libs.Wpf.DependencyInjection;
 using Libs.Wpf.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 internal class ControlsViewModel : ViewModelBase
 {
-    private readonly ICommandFactory commandFactory = CustomServiceProviderBuilder
-        .Build(ServiceCollectionExtensions.TryAddCommandFactory)
-        .GetRequiredService<ICommandFactory>();
+    /// <summary>
+    ///     The message box result.
+    /// </summary>
+    private string messageBoxResult;
 
     /// <summary>
-    ///     The command.
+    ///     The show message box command.
     /// </summary>
-    private ICommand command;
-
-    /// <summary>
-    ///     The file content.
-    /// </summary>
-    private string fileContent = string.Empty;
-
-    /// <summary>
-    ///     The folder.
-    /// </summary>
-    private string folder = string.Empty;
+    private ICommand showMessageBoxCommand;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="ControlsViewModel" /> class.
     /// </summary>
     public ControlsViewModel()
     {
-        this.command = this.commandFactory.CreateSyncCommand(
-            _ => true,
-            _ => MessageBox.Show(
-                "Button Clicked",
-                "Command Executed",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information));
+        var provider = CustomServiceProviderBuilder.Build(
+            CustomMessageBoxServiceCollectionExtensions.TryAddCustomMessageBoxServiceCollectionExtensions,
+            ServiceCollectionExtensions.TryAddCommandFactory);
+
+        this.showMessageBoxCommand = provider.GetRequiredService<ICommandFactory>()
+            .CreateSyncCommand(
+                _ =>
+                {
+                    var messageBoxService = provider.GetRequiredService<IMessageBoxService>();
+                    var result = messageBoxService.Show(
+                        "The Message!",
+                        "The Caption!",
+                        MessageBoxButtons.Yes | MessageBoxButtons.No,
+                        MessageBoxButtons.Yes,
+                        MessageBoxImage.Question);
+                    this.MessageBoxResult = result.ToString();
+                });
+
+        this.messageBoxResult = string.Empty;
     }
 
     /// <summary>
-    ///     Gets or sets the command.
+    ///     Gets or sets the message box result.
     /// </summary>
-    public ICommand Command
+    public string MessageBoxResult
     {
-        get => this.command;
+        get => this.messageBoxResult;
         set =>
             this.SetField(
-                ref this.command,
+                ref this.messageBoxResult,
                 value);
     }
 
     /// <summary>
-    ///     Gets or sets the file content.
+    ///     Gets or sets the show message box command.
     /// </summary>
-    public string FileContent
+    public ICommand ShowMessageBoxCommand
     {
-        get => this.fileContent;
+        get => this.showMessageBoxCommand;
         set =>
             this.SetField(
-                ref this.fileContent,
-                value);
-    }
-
-    /// <summary>
-    ///     Gets or sets the folder.
-    /// </summary>
-    public string Folder
-    {
-        get => this.folder;
-        set =>
-            this.SetField(
-                ref this.folder,
+                ref this.showMessageBoxCommand,
                 value);
     }
 }

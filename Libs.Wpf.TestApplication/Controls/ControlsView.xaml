@@ -12,16 +12,8 @@
 
     <TabControl>
         <TabItem
-            Header="CommandButton Style">
-            <controls:CommandButtonView />
-        </TabItem>
-        <TabItem
-            Header="FileContentSelector">
-            <controls:FileContentSelectorView />
-        </TabItem>
-        <TabItem
-            Header="FolderSelector">
-            <controls:FolderSelectorView />
+            Header="Custom Message Box">
+            <controls:CustomMessageBoxView />
         </TabItem>
     </TabControl>
 </UserControl>
