@@ -3,7 +3,5 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="Common/CommonStyles.xaml" />
-        <ResourceDictionary
-            Source="Custom/CustomStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
