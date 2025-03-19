@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ToggleLanguageButtonLabel" xml:space="preserve">
-    <value>Toggle Language (de)</value>
+  <data name="ButtonLabel" xml:space="preserve">
+    <value>ButtonLabel (de)</value>
   </data>
-  <data name="ToggleLanguageButtonToolTip" xml:space="preserve">
+  <data name="ButtonToolTip" xml:space="preserve">
     <value>ButtonToolTip (de)</value>
   </data>
   <data name="CheckBoxErrorIsRequired" xml:space="preserve">
@@ -129,17 +129,11 @@
   <data name="CheckBoxLabel" xml:space="preserve">
     <value>CheckBoxLabel (de)</value>
   </data>
+  <data name="CheckBoxToolTip" xml:space="preserve">
+    <value>CheckBoxToolTip (de)</value>
+  </data>
   <data name="ComboBoxErrorIsRequired" xml:space="preserve">
     <value>ComboBoxErrorIsRequired (de)</value>
-  </data>
-  <data name="ComboBoxItemLabel_0" xml:space="preserve">
-    <value>ComboBoxItemLabel_0 (de)</value>
-  </data>
-  <data name="ComboBoxItemLabel_1" xml:space="preserve">
-    <value>ComboBoxItemLabel_1 (de)</value>
-  </data>
-  <data name="ComboBoxItemLabel_2" xml:space="preserve">
-    <value>ComboBoxItemLabel_2 (de)</value>
   </data>
   <data name="ComboBoxLabel" xml:space="preserve">
     <value>ComboBoxLabel (de)</value>
@@ -156,8 +150,8 @@
   <data name="GroupBoxLabel" xml:space="preserve">
     <value>GroupBoxLabel (de)</value>
   </data>
-  <data name="Label" xml:space="preserve">
-    <value>Label (de)</value>
+  <data name="PasswordBoxIsRequired" xml:space="preserve">
+    <value>PasswordBoxIsRequired (de)</value>
   </data>
   <data name="PasswordBoxLabel" xml:space="preserve">
     <value>PasswordBoxLabel (de)</value>
@@ -169,7 +163,7 @@
     <value>PasswordBoxWatermark (de)</value>
   </data>
   <data name="SubmitButtonLabel" xml:space="preserve">
-    <value>Submit (de)</value>
+    <value>SubmitButtonLabel (de)</value>
   </data>
   <data name="SubmitButtonToolTip" xml:space="preserve">
     <value>SubmitButtonToolTip (de)</value>
@@ -189,16 +183,10 @@
   <data name="TextBoxWatermark" xml:space="preserve">
     <value>TextBoxWatermark (de)</value>
   </data>
-  <data name="CheckBoxToolTip" xml:space="preserve">
-    <value>CheckBoxToolTip (de)</value>
+  <data name="ToggleLanguageButtonLabel" xml:space="preserve">
+    <value>ToggleLanguageButtonLabel (de)</value>
   </data>
-  <data name="PasswordBoxIsRequired" xml:space="preserve">
-    <value>PasswordBoxIsRequired (de)</value>
-  </data>
-  <data name="ButtonLabel" xml:space="preserve">
-    <value>ButtonLabel (de)</value>
-  </data>
-  <data name="ButtonToolTip" xml:space="preserve">
-    <value>ButtonToolTip (de)</value>
+  <data name="ToggleLanguageButtonToolTip" xml:space="preserve">
+    <value>ToggleLanguageButtonToolTip (de)</value>
   </data>
 </root>

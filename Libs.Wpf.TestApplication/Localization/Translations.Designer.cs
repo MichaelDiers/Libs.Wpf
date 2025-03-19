@@ -9,6 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace Libs.Wpf.TestApplication.Localization {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -35,11 +38,11 @@ namespace Libs.Wpf.TestApplication.Localization {
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
-                if (object.ReferenceEquals(Translations.resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Libs.Wpf.TestApplication.ViewModels.Translations", typeof(Translations).Assembly);
-                    Translations.resourceMan = temp;
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Libs.Wpf.TestApplication.Localization.Translations", typeof(Translations).Assembly);
+                    resourceMan = temp;
                 }
-                return Translations.resourceMan;
+                return resourceMan;
             }
         }
         
@@ -50,10 +53,10 @@ namespace Libs.Wpf.TestApplication.Localization {
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Globalization.CultureInfo Culture {
             get {
-                return Translations.resourceCulture;
+                return resourceCulture;
             }
             set {
-                Translations.resourceCulture = value;
+                resourceCulture = value;
             }
         }
         
@@ -62,7 +65,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string ButtonLabel {
             get {
-                return Translations.ResourceManager.GetString("ButtonLabel", Translations.resourceCulture);
+                return ResourceManager.GetString("ButtonLabel", resourceCulture);
             }
         }
         
@@ -71,7 +74,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string ButtonToolTip {
             get {
-                return Translations.ResourceManager.GetString("ButtonToolTip", Translations.resourceCulture);
+                return ResourceManager.GetString("ButtonToolTip", resourceCulture);
             }
         }
         
@@ -80,7 +83,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string CheckBoxErrorIsRequired {
             get {
-                return Translations.ResourceManager.GetString("CheckBoxErrorIsRequired", Translations.resourceCulture);
+                return ResourceManager.GetString("CheckBoxErrorIsRequired", resourceCulture);
             }
         }
         
@@ -89,7 +92,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string CheckBoxLabel {
             get {
-                return Translations.ResourceManager.GetString("CheckBoxLabel", Translations.resourceCulture);
+                return ResourceManager.GetString("CheckBoxLabel", resourceCulture);
             }
         }
         
@@ -98,7 +101,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string CheckBoxToolTip {
             get {
-                return Translations.ResourceManager.GetString("CheckBoxToolTip", Translations.resourceCulture);
+                return ResourceManager.GetString("CheckBoxToolTip", resourceCulture);
             }
         }
         
@@ -107,34 +110,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string ComboBoxErrorIsRequired {
             get {
-                return Translations.ResourceManager.GetString("ComboBoxErrorIsRequired", Translations.resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ComboBoxItemLabel_0 (de).
-        /// </summary>
-        internal static string ComboBoxItemLabel_0 {
-            get {
-                return Translations.ResourceManager.GetString("ComboBoxItemLabel_0", Translations.resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ComboBoxItemLabel_1 (de).
-        /// </summary>
-        internal static string ComboBoxItemLabel_1 {
-            get {
-                return Translations.ResourceManager.GetString("ComboBoxItemLabel_1", Translations.resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ComboBoxItemLabel_2 (de).
-        /// </summary>
-        internal static string ComboBoxItemLabel_2 {
-            get {
-                return Translations.ResourceManager.GetString("ComboBoxItemLabel_2", Translations.resourceCulture);
+                return ResourceManager.GetString("ComboBoxErrorIsRequired", resourceCulture);
             }
         }
         
@@ -143,7 +119,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string ComboBoxLabel {
             get {
-                return Translations.ResourceManager.GetString("ComboBoxLabel", Translations.resourceCulture);
+                return ResourceManager.GetString("ComboBoxLabel", resourceCulture);
             }
         }
         
@@ -152,7 +128,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string ComboBoxToolTip {
             get {
-                return Translations.ResourceManager.GetString("ComboBoxToolTip", Translations.resourceCulture);
+                return ResourceManager.GetString("ComboBoxToolTip", resourceCulture);
             }
         }
         
@@ -161,7 +137,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string ComboBoxWatermark {
             get {
-                return Translations.ResourceManager.GetString("ComboBoxWatermark", Translations.resourceCulture);
+                return ResourceManager.GetString("ComboBoxWatermark", resourceCulture);
             }
         }
         
@@ -170,7 +146,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string ExpanderLabel {
             get {
-                return Translations.ResourceManager.GetString("ExpanderLabel", Translations.resourceCulture);
+                return ResourceManager.GetString("ExpanderLabel", resourceCulture);
             }
         }
         
@@ -179,16 +155,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string GroupBoxLabel {
             get {
-                return Translations.ResourceManager.GetString("GroupBoxLabel", Translations.resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Label (de).
-        /// </summary>
-        internal static string Label {
-            get {
-                return Translations.ResourceManager.GetString("Label", Translations.resourceCulture);
+                return ResourceManager.GetString("GroupBoxLabel", resourceCulture);
             }
         }
         
@@ -197,7 +164,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string PasswordBoxIsRequired {
             get {
-                return Translations.ResourceManager.GetString("PasswordBoxIsRequired", Translations.resourceCulture);
+                return ResourceManager.GetString("PasswordBoxIsRequired", resourceCulture);
             }
         }
         
@@ -206,7 +173,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string PasswordBoxLabel {
             get {
-                return Translations.ResourceManager.GetString("PasswordBoxLabel", Translations.resourceCulture);
+                return ResourceManager.GetString("PasswordBoxLabel", resourceCulture);
             }
         }
         
@@ -215,7 +182,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string PasswordBoxToolTip {
             get {
-                return Translations.ResourceManager.GetString("PasswordBoxToolTip", Translations.resourceCulture);
+                return ResourceManager.GetString("PasswordBoxToolTip", resourceCulture);
             }
         }
         
@@ -224,16 +191,16 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string PasswordBoxWatermark {
             get {
-                return Translations.ResourceManager.GetString("PasswordBoxWatermark", Translations.resourceCulture);
+                return ResourceManager.GetString("PasswordBoxWatermark", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit (de).
+        ///   Looks up a localized string similar to SubmitButtonLabel (de).
         /// </summary>
         internal static string SubmitButtonLabel {
             get {
-                return Translations.ResourceManager.GetString("SubmitButtonLabel", Translations.resourceCulture);
+                return ResourceManager.GetString("SubmitButtonLabel", resourceCulture);
             }
         }
         
@@ -242,7 +209,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string SubmitButtonToolTip {
             get {
-                return Translations.ResourceManager.GetString("SubmitButtonToolTip", Translations.resourceCulture);
+                return ResourceManager.GetString("SubmitButtonToolTip", resourceCulture);
             }
         }
         
@@ -251,7 +218,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string TextBlockLabel {
             get {
-                return Translations.ResourceManager.GetString("TextBlockLabel", Translations.resourceCulture);
+                return ResourceManager.GetString("TextBlockLabel", resourceCulture);
             }
         }
         
@@ -260,7 +227,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string TextBoxLabel {
             get {
-                return Translations.ResourceManager.GetString("TextBoxLabel", Translations.resourceCulture);
+                return ResourceManager.GetString("TextBoxLabel", resourceCulture);
             }
         }
         
@@ -269,7 +236,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string TextBoxToolTip {
             get {
-                return Translations.ResourceManager.GetString("TextBoxToolTip", Translations.resourceCulture);
+                return ResourceManager.GetString("TextBoxToolTip", resourceCulture);
             }
         }
         
@@ -278,7 +245,7 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string TextBoxValueIsRequired {
             get {
-                return Translations.ResourceManager.GetString("TextBoxValueIsRequired", Translations.resourceCulture);
+                return ResourceManager.GetString("TextBoxValueIsRequired", resourceCulture);
             }
         }
         
@@ -287,28 +254,26 @@ namespace Libs.Wpf.TestApplication.Localization {
         /// </summary>
         internal static string TextBoxWatermark {
             get {
-                return Translations.ResourceManager.GetString("TextBoxWatermark", Translations.resourceCulture);
+                return ResourceManager.GetString("TextBoxWatermark", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Toggle Language (de).
+        ///   Looks up a localized string similar to ToggleLanguageButtonLabel (de).
         /// </summary>
         internal static string ToggleLanguageButtonLabel {
             get {
-                return Translations.ResourceManager.GetString("ToggleLanguageButtonLabel", Translations.resourceCulture);
+                return ResourceManager.GetString("ToggleLanguageButtonLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ButtonToolTip (de).
+        ///   Looks up a localized string similar to ToggleLanguageButtonToolTip (de).
         /// </summary>
         internal static string ToggleLanguageButtonToolTip {
             get {
-                return Translations.ResourceManager.GetString("ToggleLanguageButtonToolTip", Translations.resourceCulture);
+                return ResourceManager.GetString("ToggleLanguageButtonToolTip", resourceCulture);
             }
         }
     }
-}
-
 }
