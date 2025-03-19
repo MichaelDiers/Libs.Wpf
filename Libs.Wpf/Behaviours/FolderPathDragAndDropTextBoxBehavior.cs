@@ -7,23 +7,24 @@ using System.Windows.Controls;
 /// <summary>
 ///     Add the drag and drop behavior for the path of a folder to a <see cref="TextBox" />.
 /// </summary>
-public class FolderPathDragAndDropTextBoxBehavior() : DragAndDropUIElementBehavior<TextBox>(DataFormats.FileDrop)
+public class FolderPathDragAndDropTextBoxBehavior : PathDragAndDropUIElementBehavior<TextBox>
 {
     /// <summary>
-    ///     Handle the drag and dropped element.
+    ///     Handle the dropped path.
     /// </summary>
-    /// <param name="dropped">The dropped element to handle.</param>
-    protected override void HandleDropped(object dropped)
+    /// <param name="path">The path that is dropped.</param>
+    protected override void HandlePath(string path)
     {
-        if (dropped is not string[] folders)
-        {
-            return;
-        }
+        this.AssociatedObject.Text = path;
+    }
 
-        var folder = folders.FirstOrDefault(Directory.Exists);
-        if (folder is not null)
-        {
-            this.AssociatedObject.Text = folder;
-        }
+    /// <summary>
+    ///     Validate the dropped path.
+    /// </summary>
+    /// <param name="path">The path that is dropped.</param>
+    /// <returns>The effect that should be displayed if the path is valid; <see cref="DragDropEffects.None" /> otherwise.</returns>
+    protected override DragDropEffects ValidatePath(string path)
+    {
+        return Directory.Exists(path) ? DragDropEffects.Link : DragDropEffects.None;
     }
 }

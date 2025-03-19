@@ -7,7 +7,7 @@ using System.Windows.Controls;
 /// <summary>
 ///     Add the drag and drop behavior for the path of a file to a <see cref="TextBox" />.
 /// </summary>
-public class FilePathDragAndDropTextBoxBehavior() : DragAndDropUIElementBehavior<TextBox>(DataFormats.FileDrop)
+public class FilePathDragAndDropTextBoxBehavior : PathDragAndDropUIElementBehavior<TextBox>
 {
     /// <summary>
     ///     Extends the <see cref="FilePathDragAndDropTextBoxBehavior" /> by a <see cref="DependencyProperty" /> wrapped by
@@ -32,23 +32,26 @@ public class FilePathDragAndDropTextBoxBehavior() : DragAndDropUIElementBehavior
     }
 
     /// <summary>
-    ///     Handle the drag and dropped element.
+    ///     Handle the dropped path.
     /// </summary>
-    /// <param name="dropped">The dropped element to handle.</param>
-    protected override void HandleDropped(object dropped)
+    /// <param name="path">The path that is dropped.</param>
+    protected override void HandlePath(string path)
     {
-        if (dropped is not string[] files)
-        {
-            return;
-        }
+        this.AssociatedObject.Text = path;
+    }
 
-        var file = files.FirstOrDefault(File.Exists);
-        if (file is not null &&
-            file.EndsWith(
-                this.FileEndsWithFilter,
-                StringComparison.OrdinalIgnoreCase))
-        {
-            this.AssociatedObject.Text = file;
-        }
+    /// <summary>
+    ///     Validate the dropped path.
+    /// </summary>
+    /// <param name="path">The path that is dropped.</param>
+    /// <returns>The effect that should be displayed if the path is valid; <see cref="DragDropEffects.None" /> otherwise.</returns>
+    protected override DragDropEffects ValidatePath(string path)
+    {
+        return File.Exists(path) &&
+        path.EndsWith(
+            this.FileEndsWithFilter,
+            StringComparison.OrdinalIgnoreCase)
+            ? DragDropEffects.Link
+            : DragDropEffects.None;
     }
 }
