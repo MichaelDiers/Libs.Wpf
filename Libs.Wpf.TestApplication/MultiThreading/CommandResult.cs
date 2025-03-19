@@ -1,6 +1,7 @@
 ﻿namespace Libs.Wpf.TestApplication.MultiThreading;
 
 using System.Collections.ObjectModel;
+using Libs.Wpf.Localization;
 using Libs.Wpf.ViewModels;
 
 internal class CommandResult : ViewModelBase

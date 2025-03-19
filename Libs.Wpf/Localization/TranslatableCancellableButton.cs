@@ -1,10 +1,9 @@
-﻿namespace Libs.Wpf.ViewModels;
+﻿namespace Libs.Wpf.Localization;
 
 using System.ComponentModel;
 using System.Resources;
 using System.Windows.Media;
 using Libs.Wpf.Commands;
-using Libs.Wpf.Localization;
 
 /// <summary>
 ///     The data of a cancellable translatable button.

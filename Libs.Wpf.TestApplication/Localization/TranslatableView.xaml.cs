@@ -1,4 +1,4 @@
-﻿namespace Libs.Wpf.TestApplication.ViewModels;
+﻿namespace Libs.Wpf.TestApplication.Localization;
 
 using System.Windows.Controls;
 

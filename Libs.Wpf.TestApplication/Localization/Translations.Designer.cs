@@ -8,10 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Libs.Wpf.TestApplication.ViewModels {
-    using System;
-    
-    
+namespace Libs.Wpf.TestApplication.Localization {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -38,11 +35,11 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+                if (object.ReferenceEquals(Translations.resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Libs.Wpf.TestApplication.ViewModels.Translations", typeof(Translations).Assembly);
-                    resourceMan = temp;
+                    Translations.resourceMan = temp;
                 }
-                return resourceMan;
+                return Translations.resourceMan;
             }
         }
         
@@ -53,10 +50,10 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Globalization.CultureInfo Culture {
             get {
-                return resourceCulture;
+                return Translations.resourceCulture;
             }
             set {
-                resourceCulture = value;
+                Translations.resourceCulture = value;
             }
         }
         
@@ -65,7 +62,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ButtonLabel {
             get {
-                return ResourceManager.GetString("ButtonLabel", resourceCulture);
+                return Translations.ResourceManager.GetString("ButtonLabel", Translations.resourceCulture);
             }
         }
         
@@ -74,7 +71,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ButtonToolTip {
             get {
-                return ResourceManager.GetString("ButtonToolTip", resourceCulture);
+                return Translations.ResourceManager.GetString("ButtonToolTip", Translations.resourceCulture);
             }
         }
         
@@ -83,7 +80,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string CheckBoxErrorIsRequired {
             get {
-                return ResourceManager.GetString("CheckBoxErrorIsRequired", resourceCulture);
+                return Translations.ResourceManager.GetString("CheckBoxErrorIsRequired", Translations.resourceCulture);
             }
         }
         
@@ -92,7 +89,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string CheckBoxLabel {
             get {
-                return ResourceManager.GetString("CheckBoxLabel", resourceCulture);
+                return Translations.ResourceManager.GetString("CheckBoxLabel", Translations.resourceCulture);
             }
         }
         
@@ -101,7 +98,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string CheckBoxToolTip {
             get {
-                return ResourceManager.GetString("CheckBoxToolTip", resourceCulture);
+                return Translations.ResourceManager.GetString("CheckBoxToolTip", Translations.resourceCulture);
             }
         }
         
@@ -110,7 +107,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ComboBoxErrorIsRequired {
             get {
-                return ResourceManager.GetString("ComboBoxErrorIsRequired", resourceCulture);
+                return Translations.ResourceManager.GetString("ComboBoxErrorIsRequired", Translations.resourceCulture);
             }
         }
         
@@ -119,7 +116,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ComboBoxItemLabel_0 {
             get {
-                return ResourceManager.GetString("ComboBoxItemLabel_0", resourceCulture);
+                return Translations.ResourceManager.GetString("ComboBoxItemLabel_0", Translations.resourceCulture);
             }
         }
         
@@ -128,7 +125,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ComboBoxItemLabel_1 {
             get {
-                return ResourceManager.GetString("ComboBoxItemLabel_1", resourceCulture);
+                return Translations.ResourceManager.GetString("ComboBoxItemLabel_1", Translations.resourceCulture);
             }
         }
         
@@ -137,7 +134,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ComboBoxItemLabel_2 {
             get {
-                return ResourceManager.GetString("ComboBoxItemLabel_2", resourceCulture);
+                return Translations.ResourceManager.GetString("ComboBoxItemLabel_2", Translations.resourceCulture);
             }
         }
         
@@ -146,7 +143,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ComboBoxLabel {
             get {
-                return ResourceManager.GetString("ComboBoxLabel", resourceCulture);
+                return Translations.ResourceManager.GetString("ComboBoxLabel", Translations.resourceCulture);
             }
         }
         
@@ -155,7 +152,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ComboBoxToolTip {
             get {
-                return ResourceManager.GetString("ComboBoxToolTip", resourceCulture);
+                return Translations.ResourceManager.GetString("ComboBoxToolTip", Translations.resourceCulture);
             }
         }
         
@@ -164,7 +161,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ComboBoxWatermark {
             get {
-                return ResourceManager.GetString("ComboBoxWatermark", resourceCulture);
+                return Translations.ResourceManager.GetString("ComboBoxWatermark", Translations.resourceCulture);
             }
         }
         
@@ -173,7 +170,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ExpanderLabel {
             get {
-                return ResourceManager.GetString("ExpanderLabel", resourceCulture);
+                return Translations.ResourceManager.GetString("ExpanderLabel", Translations.resourceCulture);
             }
         }
         
@@ -182,7 +179,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string GroupBoxLabel {
             get {
-                return ResourceManager.GetString("GroupBoxLabel", resourceCulture);
+                return Translations.ResourceManager.GetString("GroupBoxLabel", Translations.resourceCulture);
             }
         }
         
@@ -191,7 +188,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string Label {
             get {
-                return ResourceManager.GetString("Label", resourceCulture);
+                return Translations.ResourceManager.GetString("Label", Translations.resourceCulture);
             }
         }
         
@@ -200,7 +197,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string PasswordBoxIsRequired {
             get {
-                return ResourceManager.GetString("PasswordBoxIsRequired", resourceCulture);
+                return Translations.ResourceManager.GetString("PasswordBoxIsRequired", Translations.resourceCulture);
             }
         }
         
@@ -209,7 +206,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string PasswordBoxLabel {
             get {
-                return ResourceManager.GetString("PasswordBoxLabel", resourceCulture);
+                return Translations.ResourceManager.GetString("PasswordBoxLabel", Translations.resourceCulture);
             }
         }
         
@@ -218,7 +215,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string PasswordBoxToolTip {
             get {
-                return ResourceManager.GetString("PasswordBoxToolTip", resourceCulture);
+                return Translations.ResourceManager.GetString("PasswordBoxToolTip", Translations.resourceCulture);
             }
         }
         
@@ -227,7 +224,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string PasswordBoxWatermark {
             get {
-                return ResourceManager.GetString("PasswordBoxWatermark", resourceCulture);
+                return Translations.ResourceManager.GetString("PasswordBoxWatermark", Translations.resourceCulture);
             }
         }
         
@@ -236,7 +233,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string SubmitButtonLabel {
             get {
-                return ResourceManager.GetString("SubmitButtonLabel", resourceCulture);
+                return Translations.ResourceManager.GetString("SubmitButtonLabel", Translations.resourceCulture);
             }
         }
         
@@ -245,7 +242,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string SubmitButtonToolTip {
             get {
-                return ResourceManager.GetString("SubmitButtonToolTip", resourceCulture);
+                return Translations.ResourceManager.GetString("SubmitButtonToolTip", Translations.resourceCulture);
             }
         }
         
@@ -254,7 +251,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string TextBlockLabel {
             get {
-                return ResourceManager.GetString("TextBlockLabel", resourceCulture);
+                return Translations.ResourceManager.GetString("TextBlockLabel", Translations.resourceCulture);
             }
         }
         
@@ -263,7 +260,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string TextBoxLabel {
             get {
-                return ResourceManager.GetString("TextBoxLabel", resourceCulture);
+                return Translations.ResourceManager.GetString("TextBoxLabel", Translations.resourceCulture);
             }
         }
         
@@ -272,7 +269,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string TextBoxToolTip {
             get {
-                return ResourceManager.GetString("TextBoxToolTip", resourceCulture);
+                return Translations.ResourceManager.GetString("TextBoxToolTip", Translations.resourceCulture);
             }
         }
         
@@ -281,7 +278,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string TextBoxValueIsRequired {
             get {
-                return ResourceManager.GetString("TextBoxValueIsRequired", resourceCulture);
+                return Translations.ResourceManager.GetString("TextBoxValueIsRequired", Translations.resourceCulture);
             }
         }
         
@@ -290,7 +287,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string TextBoxWatermark {
             get {
-                return ResourceManager.GetString("TextBoxWatermark", resourceCulture);
+                return Translations.ResourceManager.GetString("TextBoxWatermark", Translations.resourceCulture);
             }
         }
         
@@ -299,7 +296,7 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ToggleLanguageButtonLabel {
             get {
-                return ResourceManager.GetString("ToggleLanguageButtonLabel", resourceCulture);
+                return Translations.ResourceManager.GetString("ToggleLanguageButtonLabel", Translations.resourceCulture);
             }
         }
         
@@ -308,8 +305,10 @@ namespace Libs.Wpf.TestApplication.ViewModels {
         /// </summary>
         internal static string ToggleLanguageButtonToolTip {
             get {
-                return ResourceManager.GetString("ToggleLanguageButtonToolTip", resourceCulture);
+                return Translations.ResourceManager.GetString("ToggleLanguageButtonToolTip", Translations.resourceCulture);
             }
         }
     }
+}
+
 }

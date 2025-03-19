@@ -1,8 +1,8 @@
-﻿namespace Libs.Wpf.ViewModels;
+﻿namespace Libs.Wpf.Localization;
 
 using System.ComponentModel;
 using System.Resources;
-using Libs.Wpf.Localization;
+using Libs.Wpf.ViewModels;
 
 /// <summary>
 ///     The data of a control with translatable resources.

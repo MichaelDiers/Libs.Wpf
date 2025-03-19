@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:viewModels="clr-namespace:Libs.Wpf.ViewModels">
+    xmlns:localization="clr-namespace:Libs.Wpf.Localization">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="ControlStyle.xaml" />
@@ -19,7 +19,7 @@
             <Setter.Value>
                 <DataTemplate>
                     <TextBlock
-                        Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Label}, Path=DataContext.(viewModels:Translatable.LabelTranslation)}" />
+                        Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Label}, Path=DataContext.(localization:Translatable.LabelTranslation)}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>

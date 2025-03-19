@@ -36,10 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Libs.Wpf" Version="1.0.9" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Libs.Wpf\Libs.Wpf.csproj" />
   </ItemGroup>
 
@@ -59,17 +55,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Translations.resx</DependentUpon>
     </Compile>
-    <Compile Update="Localization\Translation.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Translation.resx</DependentUpon>
-    </Compile>
     <Compile Update="MultiThreading\Translation.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Translation.resx</DependentUpon>
     </Compile>
-    <Compile Update="ViewModels\Translations.Designer.cs">
+    <Compile Update="Localization\Translations.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Translations.resx</DependentUpon>
@@ -81,15 +72,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Translations.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Localization\Translation.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Translation.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="MultiThreading\Translation.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Translation.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="ViewModels\Translations.resx">
+    <EmbeddedResource Update="Localization\Translations.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Translations.Designer.cs</LastGenOutput>
     </EmbeddedResource>

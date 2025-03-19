@@ -6,9 +6,8 @@
     xmlns:behaviors="clr-namespace:Libs.Wpf.TestApplication.Behaviors"
     xmlns:commands="clr-namespace:Libs.Wpf.TestApplication.Commands"
     xmlns:dependencyProperties="clr-namespace:Libs.Wpf.TestApplication.DependencyProperties"
-    xmlns:localization="clr-namespace:Libs.Wpf.TestApplication.Localization"
-    xmlns:viewModels="clr-namespace:Libs.Wpf.TestApplication.ViewModels"
     xmlns:multiThreading="clr-namespace:Libs.Wpf.TestApplication.MultiThreading"
+    xmlns:localization="clr-namespace:Libs.Wpf.TestApplication.Localization"
     Title="MainWindow">
     <ScrollViewer
         HorizontalScrollBarVisibility="Auto"
@@ -31,16 +30,12 @@
                 <dependencyProperties:DependencyPropertiesView />
             </TabItem>
             <TabItem
-                Header="Localization">
-                <localization:LocalizationView/>
-            </TabItem>
-            <TabItem
                 Header="Translatable">
-                <viewModels:TranslatableView/>
+                <localization:TranslatableView />
             </TabItem>
             <TabItem
                 Header="Multi Threading">
-                <multiThreading:MultiThreadingView/>
+                <multiThreading:MultiThreadingView />
             </TabItem>
         </TabControl>
     </ScrollViewer>

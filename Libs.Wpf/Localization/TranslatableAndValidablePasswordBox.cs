@@ -1,4 +1,4 @@
-﻿namespace Libs.Wpf.ViewModels;
+﻿namespace Libs.Wpf.Localization;
 
 using System.Resources;
 

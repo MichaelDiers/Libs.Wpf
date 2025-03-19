@@ -1,38 +1,35 @@
-﻿namespace Libs.Wpf.ViewModels;
+﻿namespace Libs.Wpf.Localization;
 
+using System.Collections.ObjectModel;
 using System.Resources;
 
 /// <summary>
 ///     The data of a control with translatable and validable resources.
 /// </summary>
-public class TranslatableAndValidable<TValue> : Translatable
+public class TranslatableAndValidableComboBox<T>
+    : TranslatableAndValidable<ObservableCollection<TranslatableAndValidable<T>>>
 {
     /// <summary>
-    ///     The validator function.
+    ///     The selected value.
     /// </summary>
-    private readonly Func<TranslatableAndValidable<TValue>, string?>? validator;
+    private TranslatableAndValidable<T>? selectedValue;
 
     /// <summary>
-    ///     The value.
+    ///     Initializes a new instance of the <see cref="TranslatableAndValidableComboBox{TValue}" /> class.
     /// </summary>
-    private TValue? value;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="TranslatableAndValidable{TValue}" /> class.
-    /// </summary>
-    /// <param name="value">The current value.</param>
+    /// <param name="values">The current values.</param>
     /// <param name="validator">The validator function.</param>
     /// <param name="validateOnInitialize">
-    ///     Indicates weather the <paramref name="value" /> is validated in the constructor
+    ///     Indicates weather the validation is executed during constructor
     ///     init.
     /// </param>
     /// <param name="resourceManager">Translations are retrieved from this resource manager.</param>
     /// <param name="labelResourceKey">The resource key of the label.</param>
     /// <param name="toolTipResourceKey">The resource key of the tool tip.</param>
     /// <param name="watermarkResourceKey">The resource key of the watermark.</param>
-    public TranslatableAndValidable(
-        TValue? value,
-        Func<TranslatableAndValidable<TValue>, string?>? validator,
+    public TranslatableAndValidableComboBox(
+        IEnumerable<TranslatableAndValidable<T>> values,
+        Func<TranslatableAndValidable<ObservableCollection<TranslatableAndValidable<T>>>, string?>? validator,
         bool validateOnInitialize,
         ResourceManager resourceManager,
         string? labelResourceKey = null,
@@ -40,38 +37,29 @@ public class TranslatableAndValidable<TValue> : Translatable
         string? watermarkResourceKey = null
     )
         : base(
+            new ObservableCollection<TranslatableAndValidable<T>>(values),
+            validator,
+            validateOnInitialize,
             resourceManager,
             labelResourceKey,
             toolTipResourceKey,
             watermarkResourceKey)
     {
-        this.validator = validator;
-        this.ErrorResourceKey = validateOnInitialize && validator is not null ? validator(this) : null;
-        this.value = value;
     }
 
     /// <summary>
-    ///     Gets or sets the value.
+    ///     Gets or sets the selected value.
     /// </summary>
-    public TValue? Value
+    public TranslatableAndValidable<T>? SelectedValue
     {
-        get => this.value;
+        get => this.selectedValue;
         set
         {
             this.SetField(
-                ref this.value,
+                ref this.selectedValue,
                 value);
 
             this.Validate();
         }
-    }
-
-    /// <summary>
-    ///     Validates the instance.
-    /// </summary>
-    public bool Validate()
-    {
-        this.ErrorResourceKey = this.validator?.Invoke(this);
-        return !this.HasError;
     }
 }

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
+using Libs.Wpf.Localization;
 using Libs.Wpf.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
