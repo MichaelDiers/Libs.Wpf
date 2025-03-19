@@ -10,7 +10,7 @@ using Libs.Wpf.Commands;
 /// <summary>
 ///     A service that shows a message box using the given parameters.
 /// </summary>
-public class MessageBoxService(Window window, ICommandFactory commandFactory) : IMessageBoxService
+public class MessageBoxService(ICommandFactory commandFactory, Window? window = null) : IMessageBoxService
 {
     /// <summary>
     ///     Shows a custom message box.
