@@ -18,7 +18,7 @@ public abstract class PathDragAndDropUIElementBehavior<T>() : DragAndDropUIEleme
     /// <returns>The effect that should be displayed.</returns>
     protected override DragDropEffects GetDragDropEffects(object dropped)
     {
-        var path = this.GetPath(dropped);
+        var path = PathDragAndDropUIElementBehavior<T>.GetPath(dropped);
         if (string.IsNullOrWhiteSpace(path))
         {
             return DragDropEffects.None;
@@ -40,7 +40,7 @@ public abstract class PathDragAndDropUIElementBehavior<T>() : DragAndDropUIEleme
     /// <param name="dropped">The dropped element to handle.</param>
     protected override void HandleDropped(object dropped)
     {
-        var path = this.GetPath(dropped);
+        var path = PathDragAndDropUIElementBehavior<T>.GetPath(dropped);
         if (string.IsNullOrWhiteSpace(path))
         {
             return;
@@ -79,13 +79,8 @@ public abstract class PathDragAndDropUIElementBehavior<T>() : DragAndDropUIEleme
     /// </summary>
     /// <param name="dropped">The dropped element.</param>
     /// <returns>The extracted path or <c>null</c>.</returns>
-    private string? GetPath(object dropped)
+    private static string? GetPath(object dropped)
     {
-        if (dropped is not string[] folders)
-        {
-            return null;
-        }
-
-        return folders.FirstOrDefault(Path.Exists);
+        return dropped is not string[] folders ? null : folders.FirstOrDefault(Path.Exists);
     }
 }

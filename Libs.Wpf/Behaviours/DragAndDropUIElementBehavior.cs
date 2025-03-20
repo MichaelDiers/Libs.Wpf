@@ -53,12 +53,7 @@ public abstract class DragAndDropUIElementBehavior<T>(string dataFormat) : Behav
     /// <returns>The dropped data.</returns>
     private object? GetData(DragEventArgs e)
     {
-        if (!e.Data.GetDataPresent(dataFormat))
-        {
-            return null;
-        }
-
-        return e.Data.GetData(dataFormat);
+        return !e.Data.GetDataPresent(dataFormat) ? null : e.Data.GetData(dataFormat);
     }
 
     /// <summary>
