@@ -22,7 +22,7 @@ internal class CustomCommand(
         return parameter is string s && !string.IsNullOrWhiteSpace(s);
     }
 
-    /// <summary>Occurs when changes take place that affect whether or not the command should execute.</summary>
+    /// <summary>Occurs when changes take place that affect whether the command should execute.</summary>
     public event EventHandler? CanExecuteChanged;
 
     /// <summary>Defines the method to be called when the command is invoked.</summary>

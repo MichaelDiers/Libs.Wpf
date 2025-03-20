@@ -15,11 +15,6 @@ internal class ControlsViewModel : ViewModelBase
     private string messageBoxResult;
 
     /// <summary>
-    ///     The show message box command.
-    /// </summary>
-    private ICommand showMessageBoxCommand;
-
-    /// <summary>
     ///     Initializes a new instance of the <see cref="ControlsViewModel" /> class.
     /// </summary>
     public ControlsViewModel()
@@ -28,7 +23,7 @@ internal class ControlsViewModel : ViewModelBase
             CustomMessageBoxServiceCollectionExtensions.TryAddCustomMessageBoxServiceCollectionExtensions,
             ServiceCollectionExtensions.TryAddCommandFactory);
 
-        this.showMessageBoxCommand = provider.GetRequiredService<ICommandFactory>()
+        this.ShowMessageBoxCommand = provider.GetRequiredService<ICommandFactory>()
             .CreateSyncCommand(
                 _ =>
                 {
@@ -60,12 +55,5 @@ internal class ControlsViewModel : ViewModelBase
     /// <summary>
     ///     Gets or sets the show message box command.
     /// </summary>
-    public ICommand ShowMessageBoxCommand
-    {
-        get => this.showMessageBoxCommand;
-        set =>
-            this.SetField(
-                ref this.showMessageBoxCommand,
-                value);
-    }
+    public ICommand ShowMessageBoxCommand { get; }
 }

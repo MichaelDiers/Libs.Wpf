@@ -15,11 +15,6 @@ internal class OpenFolderDialogCommandViewModel : ViewModelBase
     private string folderPath = string.Empty;
 
     /// <summary>
-    ///     The open folder dialog command.
-    /// </summary>
-    private ICommand openFolderDialogCommand;
-
-    /// <summary>
     ///     Initializes a new instance of the <see cref="OpenFolderDialogCommandViewModel" /> class.
     /// </summary>
     public OpenFolderDialogCommandViewModel()

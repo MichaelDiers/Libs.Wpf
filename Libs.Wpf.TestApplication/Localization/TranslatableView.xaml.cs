@@ -1,11 +1,9 @@
 ﻿namespace Libs.Wpf.TestApplication.Localization;
 
-using System.Windows.Controls;
-
 /// <summary>
-///     Interaction logic for BindableControlDataView.xaml
+///     Interaction logic for TranslatableView.xaml
 /// </summary>
-public partial class TranslatableView : UserControl
+public partial class TranslatableView
 {
     public TranslatableView()
     {
