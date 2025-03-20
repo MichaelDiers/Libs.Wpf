@@ -656,4 +656,5 @@ public $PROP_TYPE$ $PROP_NAME$ { get; set; } $PROP_INIT$;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Firestore/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=localizer/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=mongo/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UserDictionary/Words/=Segoe/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Segoe/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=validable/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

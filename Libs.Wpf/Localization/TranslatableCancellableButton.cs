@@ -10,6 +10,9 @@ using Libs.Wpf.Commands;
 /// </summary>
 public class TranslatableCancellableButton : TranslatableButton<ICancellableCommand>
 {
+    /// <summary>
+    ///     The resource key of the cancel tool tip.
+    /// </summary>
     private readonly string? cancelInfoTextResourceKey;
 
     /// <summary>
@@ -87,6 +90,7 @@ public class TranslatableCancellableButton : TranslatableButton<ICancellableComm
     /// <summary>
     ///     Gets or sets the cancel image source.
     /// </summary>
+    // ReSharper disable once UnusedMember.Global
     public ImageSource? CancelImageSource
     {
         get => this.cancelImageSource;
