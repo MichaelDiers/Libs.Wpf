@@ -30,6 +30,7 @@ public static class GridRowsDependencyProperty
     /// </summary>
     /// <param name="element">The element to that the <see cref="DependencyProperty" /> is attached to.</param>
     /// <returns>The value of the <see cref="DependencyProperty" />.</returns>
+    // ReSharper disable once UnusedMember.Global
     public static string GetGridRows(DependencyObject element)
     {
         return (string) element.GetValue(GridRowsDependencyProperty.GridRowsProperty);
