@@ -153,7 +153,7 @@ public class AsyncCommandTests
                     value);
                 return Task.FromResult(true);
             },
-            task => { });
+            _ => { });
 
         command.Execute(10);
 

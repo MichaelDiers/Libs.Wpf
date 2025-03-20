@@ -150,14 +150,14 @@ public class ValidatorViewModelBaseTests : ValidatorViewModelBase
     [Fact]
     public void ResetErrors_ShouldNotRaiseErrorsChanged_WhenNoErrorIsSet()
     {
-        this.ErrorsChanged += OnErrorsChanged;
+        this.ErrorsChanged += OnErrorsChangedFail;
 
         this.ErrorProperty = ValidatorViewModelBaseTests.NoErrorValue;
 
-        this.ErrorsChanged -= OnErrorsChanged;
+        this.ErrorsChanged -= OnErrorsChangedFail;
         return;
 
-        void OnErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
+        void OnErrorsChangedFail(object? sender, DataErrorsChangedEventArgs e)
         {
             Assert.Fail("should not be called.");
         }
@@ -168,16 +168,16 @@ public class ValidatorViewModelBaseTests : ValidatorViewModelBase
     {
         var called = false;
 
-        this.ErrorsChanged += OnErrorsChanged;
+        this.ErrorsChanged += OnErrorsChangedCalled;
 
         this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueSingle;
 
-        this.ErrorsChanged -= OnErrorsChanged;
+        this.ErrorsChanged -= OnErrorsChangedCalled;
 
         Assert.True(called);
         return;
 
-        void OnErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
+        void OnErrorsChangedCalled(object? sender, DataErrorsChangedEventArgs e)
         {
             called = true;
         }
@@ -209,16 +209,16 @@ public class ValidatorViewModelBaseTests : ValidatorViewModelBase
     {
         var raised = false;
 
-        this.ErrorsChanged += OnErrorsChanged;
+        this.ErrorsChanged += OnErrorsChangedRaised;
 
         this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueSingle;
 
-        this.ErrorsChanged -= OnErrorsChanged;
+        this.ErrorsChanged -= OnErrorsChangedRaised;
 
         Assert.True(raised);
         return;
 
-        void OnErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
+        void OnErrorsChangedRaised(object? sender, DataErrorsChangedEventArgs e)
         {
             raised = true;
             Assert.Equal(
@@ -267,16 +267,16 @@ public class ValidatorViewModelBaseTests : ValidatorViewModelBase
     {
         var raised = false;
 
-        this.ErrorsChanged += OnErrorsChanged;
+        this.ErrorsChanged += OnErrorsChangedRaised;
 
         this.ErrorProperty = ValidatorViewModelBaseTests.ErrorValueMultiple;
 
-        this.ErrorsChanged -= OnErrorsChanged;
+        this.ErrorsChanged -= OnErrorsChangedRaised;
 
         Assert.True(raised);
         return;
 
-        void OnErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
+        void OnErrorsChangedRaised(object? sender, DataErrorsChangedEventArgs e)
         {
             raised = true;
             Assert.Equal(

@@ -2,7 +2,6 @@
 
 using System.Globalization;
 using Libs.Wpf.Localization;
-using Libs.Wpf.ViewModels;
 
 public class TranslatableTests
 {
