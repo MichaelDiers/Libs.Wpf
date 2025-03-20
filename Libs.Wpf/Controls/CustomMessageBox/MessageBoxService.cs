@@ -39,7 +39,7 @@ public class MessageBoxService(ICommandFactory commandFactory, Window? window = 
             Result = defaultMessageBoxButtons,
             Caption = caption,
             Message = message,
-            ImageSource = this.ToImageSource(messageBoxImage)
+            ImageSource = MessageBoxService.ToImageSource(messageBoxImage)
         };
         var buttons = Enum.GetValues<MessageBoxButtons>()
             .Where(value => (value & messageBoxButtons) == value)
@@ -69,37 +69,31 @@ public class MessageBoxService(ICommandFactory commandFactory, Window? window = 
     /// <param name="messageBoxImage">The specification of the image.</param>
     /// <returns>An <see cref="ImageSource" /> of the image to display.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Raised if no image is available.</exception>
-    private ImageSource? ToImageSource(MessageBoxImage messageBoxImage)
+    private static ImageSource? ToImageSource(MessageBoxImage messageBoxImage)
     {
-        switch (messageBoxImage)
+        return messageBoxImage switch
         {
-            case MessageBoxImage.None:
-                return null;
-            case MessageBoxImage.Asterisk:
-                return new BitmapImage(
-                    new Uri(
-                        "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_information.png",
-                        UriKind.Absolute));
-            case MessageBoxImage.Error:
-                return new BitmapImage(
-                    new Uri(
-                        "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_error.png",
-                        UriKind.Absolute));
-            case MessageBoxImage.Exclamation:
-                return new BitmapImage(
-                    new Uri(
-                        "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_warning.png",
-                        UriKind.Absolute));
-            case MessageBoxImage.Question:
-                return new BitmapImage(
-                    new Uri(
-                        "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_question.png",
-                        UriKind.Absolute));
-            default:
-                throw new ArgumentOutOfRangeException(
-                    nameof(messageBoxImage),
-                    messageBoxImage,
-                    null);
-        }
+            MessageBoxImage.None => (ImageSource?) null,
+            MessageBoxImage.Asterisk => new BitmapImage(
+                new Uri(
+                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_information.png",
+                    UriKind.Absolute)),
+            MessageBoxImage.Error => new BitmapImage(
+                new Uri(
+                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_error.png",
+                    UriKind.Absolute)),
+            MessageBoxImage.Exclamation => new BitmapImage(
+                new Uri(
+                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_warning.png",
+                    UriKind.Absolute)),
+            MessageBoxImage.Question => new BitmapImage(
+                new Uri(
+                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_question.png",
+                    UriKind.Absolute)),
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(messageBoxImage),
+                messageBoxImage,
+                null)
+        };
     }
 }

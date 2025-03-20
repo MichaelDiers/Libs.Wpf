@@ -15,5 +15,9 @@
             Header="Custom Message Box">
             <controls:CustomMessageBoxView />
         </TabItem>
+        <TabItem
+            Header="Reset IsEnabled">
+            <controls:ResetIsEnabledView />
+        </TabItem>
     </TabControl>
 </UserControl>

@@ -1,0 +1,58 @@
+﻿<!-- ReSharper disable Xaml.IndexOutOfGridDefinition -->
+<UserControl
+    x:Class="Libs.Wpf.TestApplication.Controls.ResetIsEnabledView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Libs.Wpf.Controls;assembly=Libs.Wpf"
+    xmlns:dependencyProperties="clr-namespace:Libs.Wpf.DependencyProperties;assembly=Libs.Wpf">
+    <Grid
+        dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto"
+        dependencyProperties:GridColumnsDependencyProperty.GridColumns="Auto|*">
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Parent IsEnabled"
+            Margin="16" />
+        <CheckBox
+            Grid.Row="0"
+            Grid.Column="1"
+            x:Name="IsEnabledCheckBox"
+            VerticalAlignment="Center"
+            Margin="16" />
+
+        <GroupBox
+            Header="Parent"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            IsEnabled="{Binding ElementName=IsEnabledCheckBox, Path=IsChecked}">
+            <Grid
+                dependencyProperties:GridRowsDependencyProperty.GridRows="Auto|Auto"
+                dependencyProperties:GridColumnsDependencyProperty.GridColumns="Auto|*">
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Inherited IsEnabled"
+                    Margin="16" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="16" />
+                <controls:ResetIsEnabled
+                    Grid.Row="1"
+                    Grid.Column="0">
+                    <Label
+                        Content="Reset IsEnabled"
+                        Margin="16" />
+                </controls:ResetIsEnabled>
+                <controls:ResetIsEnabled
+                    Grid.Row="1"
+                    Grid.Column="1">
+                    <TextBox
+                        Margin="16" />
+                </controls:ResetIsEnabled>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>
+<!-- ReSharper restore Xaml.IndexOutOfGridDefinition -->
