@@ -55,18 +55,17 @@ internal class CommandFactory : ICommandFactory
     ///     An <see cref="ICommand" /> that opens a file dialog. If a file is selected the <paramref name="execute" /> is
     ///     called using the selected file and the command parameter.
     /// </summary>
-    /// <typeparam name="T">The type of the command parameter.</typeparam>
     /// <param name="basePath">Specifies the base path of the open file dialog.</param>
     /// <param name="execute">An <see cref="Action{T,TT}" /> called with the selected file and the command parameter.</param>
     /// <param name="filter">An optional <see cref="OpenFileDialog.Filter" /> of the <see cref="OpenFileDialog" />.</param>
     /// <returns>A new <see cref="ICommand" />.</returns>
-    public ICommand CreateOpenFileDialogCommand<T>(
+    public ICommand CreateOpenFileDialogCommand(
         DirectoryInfo basePath,
-        Action<T?, string> execute,
+        Action<string?, string> execute,
         string? filter = null
     )
     {
-        return new OpenFileDialogCommand<T>(
+        return new OpenFileDialogCommand(
             basePath,
             execute,
             filter);
@@ -76,11 +75,10 @@ internal class CommandFactory : ICommandFactory
     ///     An <see cref="ICommand" /> that opens a file dialog. If a file is selected the <paramref name="execute" /> is
     ///     called using the selected file and the command parameter.
     /// </summary>
-    /// <typeparam name="T">The type of the command parameter.</typeparam>
     /// <param name="execute">An <see cref="Action{T,TT}" /> called with the selected file and the command parameter.</param>
     /// <param name="filter">An optional <see cref="OpenFileDialog.Filter" /> of the <see cref="OpenFileDialog" />.</param>
     /// <returns>A new <see cref="ICommand" />.</returns>
-    public ICommand CreateOpenFileDialogCommand<T>(Action<T?, string> execute, string? filter = null)
+    public ICommand CreateOpenFileDialogCommand(Action<string?, string> execute, string? filter = null)
     {
         return this.CreateOpenFileDialogCommand(
             new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)),

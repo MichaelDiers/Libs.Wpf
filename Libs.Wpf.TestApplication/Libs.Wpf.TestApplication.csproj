@@ -50,6 +50,9 @@
     <Compile Update="Behaviors\FolderPathDragAndDropTextBoxBehaviorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Commands\OpenFolderDialogCommandView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Commands\Translations.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

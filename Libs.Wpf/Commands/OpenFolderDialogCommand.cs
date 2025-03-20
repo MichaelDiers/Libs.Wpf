@@ -20,6 +20,9 @@ internal class OpenFolderDialogCommand(DirectoryInfo basePath, Action<string> ex
                 string.IsNullOrWhiteSpace(currentDirectory) || !Directory.Exists(currentDirectory)
                     ? basePath.FullName
                     : currentDirectory,
+            InitialDirectory = string.IsNullOrWhiteSpace(currentDirectory) || !Directory.Exists(currentDirectory)
+                ? basePath.FullName
+                : currentDirectory,
             Multiselect = false,
             ValidateNames = true
         };

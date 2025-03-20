@@ -1,5 +1,6 @@
 ﻿namespace Libs.Wpf.TestApplication.Commands;
 
+using System.IO;
 using System.Windows.Input;
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
@@ -23,12 +24,16 @@ internal class OpenFileDialogCommandViewModel : ViewModelBase
     /// </summary>
     public OpenFileDialogCommandViewModel()
     {
-        this.openFileDialogCommand = CustomServiceProviderBuilder
-            .Build(ServiceCollectionExtensions.TryAddCommandFactory)
-            .GetRequiredService<ICommandFactory>()
-            .CreateOpenFileDialogCommand<object?>(
-                (_, path) => this.FilePath = path,
-                "Text documents (.txt)|*.txt");
+        var commandFactory = CustomServiceProviderBuilder.Build(ServiceCollectionExtensions.TryAddCommandFactory)
+            .GetRequiredService<ICommandFactory>();
+
+        this.openFileDialogCommand = commandFactory.CreateOpenFileDialogCommand(
+            (_, path) => this.FilePath = path,
+            "Text documents (.txt)|*.txt");
+
+        this.OpenFileDialogCommandWithBasePath = commandFactory.CreateOpenFileDialogCommand(
+            new DirectoryInfo("c:\\"),
+            (_, path) => this.FilePath = path);
     }
 
     /// <summary>
@@ -54,4 +59,6 @@ internal class OpenFileDialogCommandViewModel : ViewModelBase
                 ref this.openFileDialogCommand,
                 value);
     }
+
+    public ICommand OpenFileDialogCommandWithBasePath { get; }
 }

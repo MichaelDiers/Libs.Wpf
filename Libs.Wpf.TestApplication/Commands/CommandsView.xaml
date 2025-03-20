@@ -14,6 +14,10 @@
             <local:OpenFileDialogCommandView />
         </TabItem>
         <TabItem
+            Header="OpenFolderDialogCommand">
+            <local:OpenFolderDialogCommandView />
+        </TabItem>
+        <TabItem
             Header="Cancel Command">
             <local:CancelCommandView />
         </TabItem>
