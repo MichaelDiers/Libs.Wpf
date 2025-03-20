@@ -1,10 +1,16 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:localization="clr-namespace:Libs.Wpf.Localization"
+    mc:Ignorable="d">
+
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="ControlStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    
     <Style
         TargetType="Window"
         x:Key="WindowStyle"
@@ -13,12 +19,15 @@
             Property="WindowState"
             Value="Maximized" />
     </Style>
+
     <Style
         TargetType="Window"
         x:Key="TranslatableWindowStyle"
-        BasedOn="{StaticResource WindowStyle}">
+        BasedOn="{StaticResource WindowStyle}"
+        d:DataContext="{d:DesignInstance d:Type={x:Type localization:Translatable}}">
         <Setter
             Property="Title"
             Value="{Binding LabelTranslation}" />
     </Style>
+
 </ResourceDictionary>

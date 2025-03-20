@@ -2,28 +2,36 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Libs.Wpf.Converters"
-    xmlns:localization="clr-namespace:Libs.Wpf.Localization">
+    xmlns:localization="clr-namespace:Libs.Wpf.Localization"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="ControlStyle.xaml" />
         <ResourceDictionary
             Source="LabelStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
     <converters:ImageSourceToVisibilityConverter
         x:Key="ImageSourceToVisibilityConverter" />
+
     <converters:NullOrEmptyToVisibilityConverter
         x:Key="NullOrEmptyToVisibilityConverter" />
+
     <Style
         TargetType="Button"
         x:Key="ButtonStyle"
         BasedOn="{StaticResource ControlStyle}" />
+
     <Style
         TargetType="Button"
         x:Key="TranslatableButtonStyle"
-        BasedOn="{StaticResource ButtonStyle}">
+        BasedOn="{StaticResource ButtonStyle}"
+        d:DataContext="{d:DesignInstance d:Type={x:Type localization:TranslatableButton`1}}">
         <Setter
             Property="Command"
-            Value="{Binding Command}" />
+            Value="{Binding .Command}" />
         <Setter
             Property="ToolTip"
             Value="{Binding ToolTipTranslation}" />
@@ -62,6 +70,10 @@
         TargetType="Button"
         x:Key="CancellableTranslatableButtonStyle"
         BasedOn="{StaticResource TranslatableButtonStyle}">
+        <d:Style.DataContext>
+            <x:Type
+                Type="localization:TranslatableCancellableButton" />
+        </d:Style.DataContext>
         <Style.Triggers>
             <DataTrigger
                 Binding="{Binding Command.IsActive}"
@@ -93,8 +105,8 @@
                                     <Image
                                         Grid.Column="0"
                                         MaxHeight="{Binding ElementName=Label, Path=ActualHeight}"
-                                        Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.CancelImageSource}"
-                                        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.CancelImageSource, Converter={StaticResource ImageSourceToVisibilityConverter}}" />
+                                        Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(localization:TranslatableCancellableButton.CancelImageSource)}"
+                                        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(localization:TranslatableCancellableButton.CancelImageSource), Converter={StaticResource ImageSourceToVisibilityConverter}}" />
                                     <Label
                                         Grid.Column="1"
                                         x:Name="Label"
@@ -104,7 +116,7 @@
                                         <Label.ContentTemplate>
                                             <DataTemplate>
                                                 <TextBlock
-                                                    Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Label}, Path=DataContext.CancelLabelTranslation}" />
+                                                    Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Label}, Path=DataContext.(localization:TranslatableCancellableButton.CancelLabelTranslation)}" />
                                             </DataTemplate>
                                         </Label.ContentTemplate>
                                     </Label>

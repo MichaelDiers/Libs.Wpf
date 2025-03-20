@@ -2,19 +2,27 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:watermark="clr-namespace:Libs.Wpf.DependencyProperties.Watermark"
-    xmlns:error="clr-namespace:Libs.Wpf.DependencyProperties.Error">
+    xmlns:error="clr-namespace:Libs.Wpf.DependencyProperties.Error"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:localization="clr-namespace:Libs.Wpf.Localization"
+    mc:Ignorable="d">
+
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="ExtendedControlStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
     <Style
         TargetType="ComboBox"
         x:Key="ComboBoxStyle"
         BasedOn="{StaticResource ExtendedControlStyle}" />
+
     <Style
         TargetType="ComboBox"
         x:Key="TranslatableComboBoxStyle"
-        BasedOn="{StaticResource ComboBoxStyle}">
+        BasedOn="{StaticResource ComboBoxStyle}"
+        d:DataContext="{d:DesignInstance d:Type={x:Type localization:TranslatableAndValidableComboBox`1}}">
         <Setter
             Property="ItemsSource"
             Value="{Binding Value}" />
@@ -40,4 +48,5 @@
             Property="error:ErrorDependencyProperty.Error"
             Value="{Binding ErrorTranslation}" />
     </Style>
+
 </ResourceDictionary>

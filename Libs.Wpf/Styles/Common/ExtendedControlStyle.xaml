@@ -1,10 +1,12 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="ControlStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
     <Style
         TargetType="Control"
         x:Key="ExtendedControlStyle"
@@ -13,4 +15,5 @@
             Property="VerticalContentAlignment"
             Value="Center" />
     </Style>
+
 </ResourceDictionary>
