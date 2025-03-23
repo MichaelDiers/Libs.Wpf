@@ -2,7 +2,6 @@
 
 using System.Resources;
 using System.Windows.Input;
-using System.Windows.Media;
 
 /// <summary>
 ///     The data of a translatable button.
@@ -15,7 +14,7 @@ using System.Windows.Media;
 /// <param name="toolTipResourceKey">The resource key of the tool tip.</param>
 public class TranslatableButton<TCommand>(
     TCommand command,
-    ImageSource? imageSource,
+    string? imageSource,
     ResourceManager resourceManager,
     string? labelResourceKey = null,
     string? toolTipResourceKey = null

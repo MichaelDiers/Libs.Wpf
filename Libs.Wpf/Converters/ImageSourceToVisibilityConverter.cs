@@ -3,7 +3,6 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
 
 /// <summary>
 ///     Converts from <see cref="Visibility" /> to <see cref="bool" />.
@@ -23,7 +22,7 @@ public class ImageSourceToVisibilityConverter : IValueConverter
         CultureInfo culture
     )
     {
-        return value is not ImageSource ? Visibility.Collapsed : Visibility.Visible;
+        return value is not string s || string.IsNullOrWhiteSpace(s) ? Visibility.Collapsed : Visibility.Visible;
     }
 
     /// <summary>Converts a value.</summary>

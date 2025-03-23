@@ -2,7 +2,6 @@
 
 using System.ComponentModel;
 using System.Resources;
-using System.Windows.Media;
 using Libs.Wpf.Commands;
 
 /// <summary>
@@ -28,7 +27,7 @@ public class TranslatableCancellableButton : TranslatableButton<ICancellableComm
     /// <summary>
     ///     The cancel image source.
     /// </summary>
-    private ImageSource? cancelImageSource;
+    private string? cancelImageSource;
 
     /// <summary>
     ///     The cancel info text translation.
@@ -59,13 +58,13 @@ public class TranslatableCancellableButton : TranslatableButton<ICancellableComm
     /// <param name="cancelInfoTextResourceKey">The info text of the cancel button.</param>
     public TranslatableCancellableButton(
         ICancellableCommand command,
-        ImageSource? imageSource,
+        string? imageSource,
         ResourceManager resourceManager,
         string? labelResourceKey = null,
         string? toolTipResourceKey = null,
         string? cancelLabelResourceKey = null,
         string? cancelToolTipResourceKey = null,
-        ImageSource? cancelImageSource = null,
+        string? cancelImageSource = null,
         string? cancelInfoTextResourceKey = null
     )
         : base(
@@ -91,7 +90,7 @@ public class TranslatableCancellableButton : TranslatableButton<ICancellableComm
     ///     Gets or sets the cancel image source.
     /// </summary>
     // ReSharper disable once UnusedMember.Global
-    public ImageSource? CancelImageSource
+    public string? CancelImageSource
     {
         get => this.cancelImageSource;
         set =>

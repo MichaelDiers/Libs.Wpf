@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
 using Libs.Wpf.Localization;
@@ -244,10 +243,7 @@ public class TranslatableViewModel : ViewModelBase
             nameof(Translations.ButtonToolTip));
         this.translatableButton2 = new TranslatableButton<ICommand>(
             commandFactory.CreateSyncCommand(_ => { }),
-            new BitmapImage(
-                new Uri(
-                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_attach_file.png",
-                    UriKind.Absolute)),
+            "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_attach_file.png",
             Translations.ResourceManager,
             null,
             nameof(Translations.ButtonToolTip));
@@ -259,10 +255,7 @@ public class TranslatableViewModel : ViewModelBase
             nameof(Translations.ButtonToolTip));
         this.translatableButton4 = new TranslatableButton<ICommand>(
             commandFactory.CreateSyncCommand(_ => { }),
-            new BitmapImage(
-                new Uri(
-                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_attach_file.png",
-                    UriKind.Absolute)),
+            "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_attach_file.png",
             Translations.ResourceManager,
             nameof(Translations.ButtonLabel),
             nameof(Translations.ButtonToolTip));

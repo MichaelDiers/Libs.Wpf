@@ -3,7 +3,6 @@
 using System.Globalization;
 using System.Resources;
 using System.Windows;
-using System.Windows.Media;
 using Libs.Wpf.Commands;
 
 /// <summary>
@@ -63,10 +62,10 @@ public class MessageBoxService(ICommandFactory commandFactory, Window? window = 
     }
 
     /// <summary>
-    ///     Converts from <see cref="MessageBoxImage" /> to an <see cref="ImageSource" />.
+    ///     Converts from <see cref="MessageBoxImage" /> to an image.
     /// </summary>
     /// <param name="messageBoxImage">The specification of the image.</param>
-    /// <returns>An <see cref="ImageSource" /> of the image to display.</returns>
+    /// <returns>The source of the image to display.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Raised if no image is available.</exception>
     private static string? ToImageSource(MessageBoxImage messageBoxImage)
     {

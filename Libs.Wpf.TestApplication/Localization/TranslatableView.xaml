@@ -120,7 +120,8 @@
         <Button
             Grid.Row="8"
             Grid.Column="3"
-            DataContext="{Binding TranslatableButton4}" />
+            DataContext="{Binding TranslatableButton4}"
+            Style="{StaticResource TranslatableButtonStyle}" />
     </Grid>
 </UserControl>
 <!-- ReSharper restore Xaml.IndexOutOfGridDefinition -->

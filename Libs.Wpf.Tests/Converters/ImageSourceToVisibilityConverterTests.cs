@@ -2,7 +2,6 @@
 
 using System.Globalization;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using Libs.Wpf.Converters;
 
 public class ImageSourceToVisibilityConverterTests
@@ -12,7 +11,7 @@ public class ImageSourceToVisibilityConverterTests
     [Fact]
     public void Convert_ShouldReturnCollapsed_WhenValueIsImageSource()
     {
-        var value = new BitmapImage();
+        var value = "image";
         Assert.Equal(
             Visibility.Visible,
             this.converter.Convert(

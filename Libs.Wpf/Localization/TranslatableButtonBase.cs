@@ -1,7 +1,6 @@
 ﻿namespace Libs.Wpf.Localization;
 
 using System.Resources;
-using System.Windows.Media;
 
 /// <summary>
 ///     The data of the translatable button base.
@@ -11,7 +10,7 @@ using System.Windows.Media;
 /// <param name="labelResourceKey">The resource key of the label.</param>
 /// <param name="toolTipResourceKey">The resource key of the tool tip.</param>
 public class TranslatableButtonBase(
-    ImageSource? imageSource,
+    string? imageSource,
     ResourceManager resourceManager,
     string? labelResourceKey = null,
     string? toolTipResourceKey = null
@@ -23,5 +22,5 @@ public class TranslatableButtonBase(
     /// <summary>
     ///     Gets the image source.
     /// </summary>
-    public ImageSource? ImageSource => imageSource;
+    public string? ImageSource => imageSource;
 }

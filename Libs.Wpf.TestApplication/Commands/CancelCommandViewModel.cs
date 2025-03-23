@@ -1,7 +1,6 @@
 ﻿namespace Libs.Wpf.TestApplication.Commands;
 
 using System.Windows;
-using System.Windows.Media.Imaging;
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
 using Libs.Wpf.Localization;
@@ -57,19 +56,13 @@ public class CancelCommandViewModel : ViewModelBase
                             MessageBoxImage.Error);
                     }
                 }),
-            new BitmapImage(
-                new Uri(
-                    "pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_edit_square.png",
-                    UriKind.Absolute)),
+            "pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_edit_square.png",
             Translations.ResourceManager,
             nameof(Translations.Label),
             nameof(Translations.ToolTip),
             nameof(Translations.CancelLabel),
             nameof(Translations.CancelToolTip),
-            new BitmapImage(
-                new Uri(
-                    "pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_cancel.png",
-                    UriKind.Absolute)));
+            "pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_cancel.png");
     }
 
     /// <summary>
