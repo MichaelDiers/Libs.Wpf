@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Resources;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Libs.Wpf.Commands;
 
 /// <summary>
@@ -69,27 +68,17 @@ public class MessageBoxService(ICommandFactory commandFactory, Window? window = 
     /// <param name="messageBoxImage">The specification of the image.</param>
     /// <returns>An <see cref="ImageSource" /> of the image to display.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Raised if no image is available.</exception>
-    private static ImageSource? ToImageSource(MessageBoxImage messageBoxImage)
+    private static string? ToImageSource(MessageBoxImage messageBoxImage)
     {
         return messageBoxImage switch
         {
-            MessageBoxImage.None => (ImageSource?) null,
-            MessageBoxImage.Asterisk => new BitmapImage(
-                new Uri(
-                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_information.png",
-                    UriKind.Absolute)),
-            MessageBoxImage.Error => new BitmapImage(
-                new Uri(
-                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_error.png",
-                    UriKind.Absolute)),
-            MessageBoxImage.Exclamation => new BitmapImage(
-                new Uri(
-                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_warning.png",
-                    UriKind.Absolute)),
-            MessageBoxImage.Question => new BitmapImage(
-                new Uri(
-                    "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_question.png",
-                    UriKind.Absolute)),
+            MessageBoxImage.None => null,
+            MessageBoxImage.Asterisk =>
+                "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_information.png",
+            MessageBoxImage.Error => "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_error.png",
+            MessageBoxImage.Exclamation =>
+                "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_warning.png",
+            MessageBoxImage.Question => "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_question.png",
             _ => throw new ArgumentOutOfRangeException(
                 nameof(messageBoxImage),
                 messageBoxImage,

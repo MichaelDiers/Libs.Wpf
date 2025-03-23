@@ -1,6 +1,5 @@
 ﻿namespace Libs.Wpf.Controls.CustomMessageBox;
 
-using System.Windows.Media;
 using Libs.Wpf.ViewModels;
 
 /// <summary>
@@ -21,7 +20,7 @@ internal class MessageBoxViewModel : ViewModelBase
     /// <summary>
     ///     The image source.
     /// </summary>
-    private ImageSource? imageSource;
+    private string? imageSource;
 
     /// <summary>
     ///     The message.
@@ -60,7 +59,7 @@ internal class MessageBoxViewModel : ViewModelBase
     /// <summary>
     ///     Gets or sets the image source.
     /// </summary>
-    public ImageSource? ImageSource
+    public string? ImageSource
     {
         get => this.imageSource;
         set =>
