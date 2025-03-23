@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 /// <summary>
 ///     An adorner for an error element.
@@ -12,7 +13,7 @@ using System.Windows.Media;
 /// <param name="adornedElement">The element to bind the adorner to.</param>
 /// <param name="error">The error text.</param>
 /// <param name="imageSource">The source of the error image.</param>
-public class ErrorAdorner(UIElement adornedElement, string error, ImageSource imageSource) : Adorner(adornedElement)
+public class ErrorAdorner(UIElement adornedElement, string error, string imageSource) : Adorner(adornedElement)
 {
     /// <summary>
     ///     When overridden in a derived class, participates in rendering operations that are directed by the layout
@@ -55,7 +56,10 @@ public class ErrorAdorner(UIElement adornedElement, string error, ImageSource im
             formattedText.Height);
 
         drawingContext.DrawImage(
-            imageSource,
+            new BitmapImage(
+                new Uri(
+                    imageSource,
+                    UriKind.Absolute)),
             new Rect(
                 origin,
                 rect));

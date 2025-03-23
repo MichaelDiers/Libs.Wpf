@@ -3,7 +3,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Media.Imaging;
 
 /// <summary>
 ///     An attached <see cref="DependencyProperty" /> that adds the error property.
@@ -63,17 +62,12 @@ public static class ErrorDependencyProperty
             return;
         }
 
-        var imageSource = new BitmapImage(
-            new Uri(
-                "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_error.png",
-                UriKind.RelativeOrAbsolute));
-
         // add the adorner
         adornerLayer.Add(
             new ErrorAdorner(
                 control,
                 ErrorDependencyProperty.GetError(control),
-                imageSource));
+                "pack://application:,,,/Libs.Wpf;component/Assets/material_symbol_error.png"));
     }
 
     /// <summary>
