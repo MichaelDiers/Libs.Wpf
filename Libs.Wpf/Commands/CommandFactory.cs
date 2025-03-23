@@ -2,19 +2,14 @@
 
 using System.IO;
 using System.Windows.Input;
-using System.Windows.Threading;
+using Libs.Wpf.Threads;
 using Microsoft.Win32;
 
 /// <summary>
 ///     A factory for <see cref="ICommand" /> and <see cref="ICancellableCommand" /> implementations.
 /// </summary>
-internal class CommandFactory : ICommandFactory
+internal class CommandFactory(IDispatcherWrapper dispatcherWrapper) : ICommandFactory
 {
-    /// <summary>
-    ///     Provides UI services for a thread.
-    /// </summary>
-    private readonly Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
-
     /// <summary>
     ///     Initializes a new instance of an <see cref="ICancellableCommand" /> implementing class. The command does not block
     ///     the ui thread during execution and can be cancelled.
@@ -48,7 +43,7 @@ internal class CommandFactory : ICommandFactory
             preExecute,
             execute,
             postExecute,
-            this.dispatcher);
+            dispatcherWrapper.Dispatcher);
     }
 
     /// <summary>

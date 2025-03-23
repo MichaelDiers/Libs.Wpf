@@ -2,18 +2,22 @@
 
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
+using Libs.Wpf.Tests.Helper;
 using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 ///     Tests of <see cref="SyncCommand{T}" />.
 /// </summary>
+[Collection(ApplicationCollectionDefinition.CollectionName)]
 public class SyncCommandTests
 {
     private readonly ICommandFactory commandFactory;
 
-    public SyncCommandTests()
+    public SyncCommandTests(ApplicationFixture applicationFixture)
     {
-        var serviceProvider = CustomServiceProviderBuilder.Build(ServiceCollectionExtensions.TryAddCommandFactory);
+        var serviceProvider = CustomServiceProviderBuilder.Build(
+            ServiceCollectionExtensions.TryAddCommandFactory,
+            applicationFixture.TryAddDispatcherWrapper);
         this.commandFactory = serviceProvider.GetRequiredService<ICommandFactory>();
     }
 

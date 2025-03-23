@@ -8,13 +8,16 @@ using Microsoft.Extensions.DependencyInjection;
 /// <summary>
 ///     Tests of <see cref="AsyncCommand{T,TT}" />.
 /// </summary>
+[Collection(ApplicationCollectionDefinition.CollectionName)]
 public class AsyncCommandTests
 {
     private readonly ICommandFactory commandFactory;
 
-    public AsyncCommandTests()
+    public AsyncCommandTests(ApplicationFixture applicationFixture)
     {
-        var serviceProvider = CustomServiceProviderBuilder.Build(ServiceCollectionExtensions.TryAddCommandFactory);
+        var serviceProvider = CustomServiceProviderBuilder.Build(
+            ServiceCollectionExtensions.TryAddCommandFactory,
+            applicationFixture.TryAddDispatcherWrapper);
         this.commandFactory = serviceProvider.GetRequiredService<ICommandFactory>();
     }
 
@@ -69,6 +72,7 @@ public class AsyncCommandTests
         Assert.True(executeCalledPre);
         Assert.False(executeCalledPost);
         Assert.True(postExecuteCalled);
+        Assert.False(command.IsActive);
     }
 
     [Fact]
@@ -162,6 +166,7 @@ public class AsyncCommandTests
             () => Assert.True(called));
 
         Assert.True(called);
+        Assert.False(command.IsActive);
     }
 
     [Fact]
@@ -181,6 +186,7 @@ public class AsyncCommandTests
             () => Assert.True(called));
 
         Assert.True(called);
+        Assert.False(command.IsActive);
     }
 
     [Fact]
@@ -222,6 +228,7 @@ public class AsyncCommandTests
         Assert.True(preExecuteCalled);
         Assert.True(executeCalled);
         Assert.True(postExecuteCalled);
+        Assert.False(command.IsActive);
     }
 
     [Fact]
