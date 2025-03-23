@@ -1,7 +1,6 @@
 ﻿namespace Libs.Wpf.Tests.DependencyProperties;
 
 using System.Windows;
-using System.Windows.Media.Imaging;
 using Libs.Wpf.DependencyProperties;
 
 /// <summary>
@@ -13,7 +12,7 @@ public class ImageSourceDependencyPropertyTests
     public void GetImage()
     {
         var dependencyObject = new DependencyObject();
-        var expected = new BitmapImage();
+        var expected = "image";
 
         ImageSourceDependencyProperty.SetImageSource(
             dependencyObject,
@@ -43,6 +42,6 @@ public class ImageSourceDependencyPropertyTests
 
         ImageSourceDependencyProperty.SetImageSource(
             dependencyObject,
-            new BitmapImage());
+            "image");
     }
 }
