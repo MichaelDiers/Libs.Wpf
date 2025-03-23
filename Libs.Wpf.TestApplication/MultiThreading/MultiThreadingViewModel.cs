@@ -3,6 +3,7 @@
 using System.Windows.Input;
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
+using Libs.Wpf.Threads;
 using Libs.Wpf.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -52,7 +53,9 @@ internal class MultiThreadingViewModel : ViewModelBase
                 Mouse.OverrideCursor = Cursors.Arrow;
             });
 
-        this.asyncCommand = CustomServiceProviderBuilder.Build(ServiceCollectionExtensions.TryAddCommandFactory)
+        this.asyncCommand = CustomServiceProviderBuilder.Build(
+                ServiceCollectionExtensions.TryAddCommandFactory,
+                ThreadsServiceCollectionExtensions.TryAddDispatcherWrapper)
             .GetRequiredService<ICommandFactory>()
             .CreateAsyncCommand<string, CommandResultModel>(
                 _ => true,

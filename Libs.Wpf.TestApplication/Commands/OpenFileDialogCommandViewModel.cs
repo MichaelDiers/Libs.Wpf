@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Input;
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
+using Libs.Wpf.Threads;
 using Libs.Wpf.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,7 +25,9 @@ internal class OpenFileDialogCommandViewModel : ViewModelBase
     /// </summary>
     public OpenFileDialogCommandViewModel()
     {
-        var commandFactory = CustomServiceProviderBuilder.Build(ServiceCollectionExtensions.TryAddCommandFactory)
+        var commandFactory = CustomServiceProviderBuilder.Build(
+                ServiceCollectionExtensions.TryAddCommandFactory,
+                ThreadsServiceCollectionExtensions.TryAddDispatcherWrapper)
             .GetRequiredService<ICommandFactory>();
 
         this.openFileDialogCommand = commandFactory.CreateOpenFileDialogCommand(

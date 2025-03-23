@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
 using Libs.Wpf.Localization;
+using Libs.Wpf.Threads;
 using Libs.Wpf.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -96,7 +97,9 @@ public class TranslatableViewModel : ViewModelBase
     public TranslatableViewModel()
     {
         // buttons
-        var commandFactory = CustomServiceProviderBuilder.Build(ServiceCollectionExtensions.TryAddCommandFactory)
+        var commandFactory = CustomServiceProviderBuilder.Build(
+                ServiceCollectionExtensions.TryAddCommandFactory,
+                ThreadsServiceCollectionExtensions.TryAddDispatcherWrapper)
             .GetRequiredService<ICommandFactory>();
         this.toggleLanguageButtonData = new TranslatableButton<ICommand>(
             commandFactory.CreateSyncCommand(

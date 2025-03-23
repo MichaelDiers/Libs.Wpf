@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Libs.Wpf.Commands;
 using Libs.Wpf.Controls.CustomMessageBox;
 using Libs.Wpf.DependencyInjection;
+using Libs.Wpf.Threads;
 using Libs.Wpf.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,7 +22,8 @@ internal class ControlsViewModel : ViewModelBase
     {
         var provider = CustomServiceProviderBuilder.Build(
             CustomMessageBoxServiceCollectionExtensions.TryAddCustomMessageBoxServiceCollectionExtensions,
-            ServiceCollectionExtensions.TryAddCommandFactory);
+            ServiceCollectionExtensions.TryAddCommandFactory,
+            ThreadsServiceCollectionExtensions.TryAddDispatcherWrapper);
 
         this.ShowMessageBoxCommand = provider.GetRequiredService<ICommandFactory>()
             .CreateSyncCommand(
