@@ -4,7 +4,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dependencyProperties="clr-namespace:Libs.Wpf.DependencyProperties;assembly=Libs.Wpf"
-    xmlns:localization="clr-namespace:Libs.Wpf.TestApplication.Localization">
+    xmlns:localization="clr-namespace:Libs.Wpf.TestApplication.Localization"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:password="clr-namespace:Libs.Wpf.Behaviours.Password;assembly=Libs.Wpf">
     <UserControl.DataContext>
         <localization:TranslatableViewModel />
     </UserControl.DataContext>
@@ -23,7 +25,6 @@
         <Button
             Grid.Row="0"
             Grid.Column="2"
-            CommandParameter="{Binding ElementName=PasswordBox}"
             DataContext="{Binding SubmitButtonData}" />
         <!-- checkbox -->
         <Label
@@ -79,8 +80,11 @@
         <PasswordBox
             Grid.Row="5"
             Grid.Column="1"
-            DataContext="{Binding PasswordBoxData}"
-            x:Name="PasswordBox" />
+            DataContext="{Binding PasswordBoxData}">
+            <b:Interaction.Behaviors>
+                <password:PasswordBehavior />
+            </b:Interaction.Behaviors>
+        </PasswordBox>
         <!-- text block -->
         <TextBlock
             Grid.Row="6"

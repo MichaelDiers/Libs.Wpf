@@ -1,8 +1,8 @@
 ﻿namespace Libs.Wpf.TestApplication.Localization;
 
 using System.Globalization;
+using System.Security;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
@@ -46,7 +46,12 @@ public class TranslatableViewModel : ViewModelBase
     /// <summary>
     ///     The password box data.
     /// </summary>
-    private TranslatableAndValidablePasswordBox passwordBoxData;
+    private TranslatableAndValidable<SecureString> passwordBoxData;
+
+    /// <summary>
+    ///     The secure string.
+    /// </summary>
+    private SecureString secureString;
 
     /// <summary>
     ///     The button control data.
@@ -114,9 +119,9 @@ public class TranslatableViewModel : ViewModelBase
             nameof(Translations.ToggleLanguageButtonLabel),
             nameof(Translations.ToggleLanguageButtonToolTip));
         this.submitButtonData = new TranslatableButton<ICommand>(
-            commandFactory.CreateSyncCommand<PasswordBox>(
+            commandFactory.CreateSyncCommand(
                 _ => true,
-                passwordBox =>
+                _ =>
                 {
                     this.CheckBoxData1.Validate();
                     this.CheckBoxData2.Validate();
@@ -124,7 +129,7 @@ public class TranslatableViewModel : ViewModelBase
                     this.ComboBoxData2.Validate();
                     this.TextBoxData1.Validate();
                     this.TextBoxData2.Validate();
-                    this.PasswordBoxData.Validate(passwordBox?.Password);
+                    this.PasswordBoxData.Validate();
 
                     if (this.CheckBoxData1.HasError ||
                         this.CheckBoxData2.HasError ||
@@ -208,9 +213,10 @@ public class TranslatableViewModel : ViewModelBase
         this.groupBoxData = new Translatable(
             Translations.ResourceManager,
             nameof(Translations.GroupBoxLabel));
-        this.passwordBoxData = new TranslatableAndValidablePasswordBox(
+        this.passwordBoxData = new TranslatableAndValidable<SecureString>(
             null,
-            password => string.IsNullOrWhiteSpace(password) ? nameof(Translations.PasswordBoxIsRequired) : null,
+            password => password.Value?.Length > 0 ? null : nameof(Translations.PasswordBoxIsRequired),
+            false,
             Translations.ResourceManager,
             nameof(Translations.PasswordBoxLabel),
             nameof(Translations.PasswordBoxToolTip),
@@ -336,12 +342,24 @@ public class TranslatableViewModel : ViewModelBase
     /// <summary>
     ///     Gets or sets the password box data.
     /// </summary>
-    public TranslatableAndValidablePasswordBox PasswordBoxData
+    public TranslatableAndValidable<SecureString> PasswordBoxData
     {
         get => this.passwordBoxData;
         set =>
             this.SetField(
                 ref this.passwordBoxData,
+                value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the secure string.
+    /// </summary>
+    public SecureString SecureString
+    {
+        get => this.secureString;
+        set =>
+            this.SetField(
+                ref this.secureString,
                 value);
     }
 
