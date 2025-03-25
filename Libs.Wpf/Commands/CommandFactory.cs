@@ -2,13 +2,13 @@
 
 using System.IO;
 using System.Windows.Input;
-using Libs.Wpf.Threads;
+using System.Windows.Threading;
 using Microsoft.Win32;
 
 /// <summary>
 ///     A factory for <see cref="ICommand" /> and <see cref="ICancellableCommand" /> implementations.
 /// </summary>
-internal class CommandFactory(IDispatcherWrapper dispatcherWrapper) : ICommandFactory
+internal class CommandFactory : ICommandFactory
 {
     /// <summary>
     ///     Initializes a new instance of an <see cref="ICancellableCommand" /> implementing class. The command does not block
@@ -38,12 +38,67 @@ internal class CommandFactory(IDispatcherWrapper dispatcherWrapper) : ICommandFa
         Action<Task<TExecuteResult?>>? postExecute
     )
     {
-        return new AsyncCommand<TCommandParameter, TExecuteResult>(
+        return new AsyncCommandOld<TCommandParameter, TExecuteResult>(
             canExecute,
             preExecute,
             execute,
             postExecute,
-            dispatcherWrapper.Dispatcher);
+            Dispatcher.CurrentDispatcher);
+    }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ICancellableCommand" /> implementation.
+    /// </summary>
+    /// <typeparam name="TCommandParameter">The type of the command parameter.</typeparam>
+    /// <param name="commandSync">Synchronizes the command execution to ensure only one command at the same is executed.</param>
+    /// <param name="canExecute">Determines whether the command can execute in its current state.</param>
+    /// <param name="executeAsync">Defines the method to be called when the command is invoked.</param>
+    /// <param name="handleErrorAsync">
+    ///     Handles command execution errors. If an <see cref="Exception" /> is thrown at
+    ///     <see cref="ICommand.Execute" /> this error handler is called.
+    /// </param>
+    /// <param name="force">Allow to run the command in parallel to other commands.</param>
+    public ICancellableCommand CreateAsyncCommand<TCommandParameter>(
+        ICommandSync commandSync,
+        Func<TCommandParameter?, bool> canExecute,
+        Func<TCommandParameter?, CancellationToken, Task> executeAsync,
+        Func<Exception, CancellationToken, Task> handleErrorAsync,
+        bool force = false
+    )
+    {
+        return new AsyncCommand<TCommandParameter>(
+            commandSync,
+            canExecute,
+            executeAsync,
+            handleErrorAsync,
+            force);
+    }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ICancellableCommand" /> implementation.
+    /// </summary>
+    /// <param name="commandSync">Synchronizes the command execution to ensure only one command at the same is executed.</param>
+    /// <param name="canExecute">Determines whether the command can execute in its current state.</param>
+    /// <param name="executeAsync">Defines the method to be called when the command is invoked.</param>
+    /// <param name="handleErrorAsync">
+    ///     Handles command execution errors. If an <see cref="Exception" /> is thrown at
+    ///     <see cref="ICommand.Execute" /> this error handler is called.
+    /// </param>
+    /// <param name="force">Allow to run the command in parallel to other commands.</param>
+    public ICancellableCommand CreateAsyncCommand(
+        ICommandSync commandSync,
+        Func<bool> canExecute,
+        Func<CancellationToken, Task> executeAsync,
+        Func<Exception, CancellationToken, Task> handleErrorAsync,
+        bool force = false
+    )
+    {
+        return this.CreateAsyncCommand<object?>(
+            commandSync,
+            _ => canExecute(),
+            async (_, cancellationToken) => await executeAsync(cancellationToken),
+            handleErrorAsync,
+            force);
     }
 
     /// <summary>

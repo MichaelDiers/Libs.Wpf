@@ -16,7 +16,7 @@ public class SyncCommandTests
     public SyncCommandTests(ApplicationFixture applicationFixture)
     {
         var serviceProvider = CustomServiceProviderBuilder.Build(
-            ServiceCollectionExtensions.TryAddCommandFactory,
+            CommandsServiceCollectionExtensions.TryAddCommands,
             applicationFixture.TryAddDispatcherWrapper);
         this.commandFactory = serviceProvider.GetRequiredService<ICommandFactory>();
     }

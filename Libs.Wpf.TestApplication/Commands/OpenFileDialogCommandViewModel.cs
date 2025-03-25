@@ -26,7 +26,7 @@ internal class OpenFileDialogCommandViewModel : ViewModelBase
     public OpenFileDialogCommandViewModel()
     {
         var commandFactory = CustomServiceProviderBuilder.Build(
-                ServiceCollectionExtensions.TryAddCommandFactory,
+                CommandsServiceCollectionExtensions.TryAddCommands,
                 ThreadsServiceCollectionExtensions.TryAddDispatcherWrapper)
             .GetRequiredService<ICommandFactory>();
 

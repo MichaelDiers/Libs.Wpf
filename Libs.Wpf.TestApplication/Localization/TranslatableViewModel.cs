@@ -102,7 +102,7 @@ public class TranslatableViewModel : ViewModelBase
     {
         // buttons
         var commandFactory = CustomServiceProviderBuilder.Build(
-                ServiceCollectionExtensions.TryAddCommandFactory,
+                CommandsServiceCollectionExtensions.TryAddCommands,
                 ThreadsServiceCollectionExtensions.TryAddDispatcherWrapper)
             .GetRequiredService<ICommandFactory>();
         this.toggleLanguageButtonData = new TranslatableButton<ICommand>(

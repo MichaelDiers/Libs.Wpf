@@ -21,7 +21,7 @@ internal class OpenFolderDialogCommandViewModel : ViewModelBase
     public OpenFolderDialogCommandViewModel()
     {
         var commandFactory = CustomServiceProviderBuilder.Build(
-                ServiceCollectionExtensions.TryAddCommandFactory,
+                CommandsServiceCollectionExtensions.TryAddCommands,
                 ThreadsServiceCollectionExtensions.TryAddDispatcherWrapper)
             .GetRequiredService<ICommandFactory>();
 

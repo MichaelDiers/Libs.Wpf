@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 
 /// <summary>
-///     Extends <see cref="ICommand" /> and supports an asynchronous execution of <see cref="ICommand.Execute" />.
+///     An implementation of <see cref="ICommand" /> using async and await.
 /// </summary>
 /// <seealso cref="ICommand" />
 /// <seealso cref="INotifyPropertyChanged" />

@@ -1,158 +1,122 @@
 ﻿namespace Libs.Wpf.Commands;
 
 using System.Windows.Input;
-using System.Windows.Threading;
 using Libs.Wpf.ViewModels;
 
 /// <summary>
-///     A generic and asynchronous implementation of <see cref="ICommand" />. Executes <see cref="ICommand.Execute" /> in a
-///     new background <see cref="Task" /> and does not block the UI.
+///     An implementation of <see cref="ICommand" /> using async and await.
 /// </summary>
-/// <typeparam name="TCommandParameter">
-///     The type of the command parameter used in <see cref="ICommand.CanExecute" /> and
-///     <see cref="ICommand.Execute" />.
-/// </typeparam>
-/// <typeparam name="TExecuteResult">The result type of the execute method.</typeparam>
+/// <typeparam name="TCommandParameter">The <see cref="Type" /> of the command parameter.</typeparam>
 /// <seealso cref="ViewModelBase" />
 /// <seealso cref="ICancellableCommand" />
-internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, ICancellableCommand
+public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableCommand
 {
     /// <summary>
-    ///     A function to check whether a command can be executed. if <see cref="canExecute" /> is <c>null</c> the execution of
-    ///     the command is not restricted.
+    ///     Determines whether the command can execute in its current state.
     /// </summary>
-    private readonly Func<TCommandParameter?, bool>? canExecute;
+    private readonly Func<TCommandParameter?, bool> canExecute;
 
     /// <summary>
-    ///     Provides UI services for a thread.
+    ///     Synchronizes the command execution to ensure only one command at the same is executed.
     /// </summary>
-    private readonly Dispatcher dispatcher;
+    private readonly ICommandSync commandSync;
 
     /// <summary>
-    ///     The function is executed in a new background <see cref="Task" /> and does not block the UI thread.
+    ///     Defines the method to be called when the command is invoked.
     /// </summary>
-    private readonly Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>>? execute;
+    private readonly Func<TCommandParameter?, CancellationToken, Task> executeAsync;
 
     /// <summary>
-    ///     If <c>true</c>, a new command is initialized that supports cancellation. If <c>false</c>,
-    ///     a new command is initialized whose sole purpose is to abort another command. A cancel command cannot be created
-    ///     outside this class and is not cancelable.
+    ///     Allow to run the command in parallel to other commands.
+    /// </summary>
+    /// <seealso cref="ICommandSync.Enter" />
+    private readonly bool force;
+
+    /// <summary>
+    ///     Handles command execution errors. If an <see cref="Exception" /> is thrown at <see cref="ICommand.Execute" /> this
+    ///     error handler is called.
+    /// </summary>
+    private readonly Func<Exception, CancellationToken, Task> handleErrorAsync;
+
+    /// <summary>
+    ///     Indicates if the only purpose of this <see cref="AsyncCommand{TCommandParameter}" /> is to cancel the execution of
+    ///     a different <see cref="AsyncCommand{TCommandParameter}" />.
     /// </summary>
     private readonly bool isCancelCommand;
 
     /// <summary>
-    ///     The action is called with the result of <see cref="execute" />. If required the action
-    ///     executes using a UI thread dispatcher.
-    /// </summary>
-    private readonly Action<Task<TExecuteResult?>>? postExecute;
-
-    /// <summary>
-    ///     The optional action is executed before <see cref="execute" />. The action executes in the
-    ///     ui thread.
-    /// </summary>
-    private readonly Action<TCommandParameter?>? preExecute;
-
-    /// <summary>
-    ///     The command that stops the execution of <see cref="execute" /> by cancelling the
-    ///     <see cref="cancellationTokenSource" />. The value is <c>null</c> if the command is a cancel command itself:
-    ///     <see cref="isCancelCommand" /> is <c>true</c>.
+    ///     The command that stops the execution of <see cref="ICommand.Execute" />.
     /// </summary>
     private IAsyncCommand? cancelCommand;
 
     /// <summary>
-    ///     Provides the <see cref="CancellationToken" /> of the <see cref="execute" /> function. Is only set if
-    ///     <see cref="Execute" /> is called.
-    /// </summary>
-    private CancellationTokenSource? cancellationTokenSource;
-
-    /// <summary>
-    ///     Indicates weather the command is executing: <c>true</c> the command is running; otherwise <c>false</c>.
+    ///     A value that indicates weather the command is executing: <c>true</c> the command is running; otherwise
+    ///     <c>false</c>.
     /// </summary>
     private bool isActive;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="AsyncCommand{TCommandParameter,TExecuteResult}" /> class.
+    ///     Initializes a new instance of the <see cref="AsyncCommand{TCommandParameter}" /> class.
     /// </summary>
-    /// <param name="canExecute">
-    ///     A function to check whether a command can be executed. if <paramref name="canExecute" /> is
-    ///     <c>null</c> the execution of the command is not restricted.
+    /// <param name="commandSync">Synchronizes the command execution to ensure only one command at the same is executed.</param>
+    /// <param name="canExecute">Determines whether the command can execute in its current state.</param>
+    /// <param name="executeAsync">Defines the method to be called when the command is invoked.</param>
+    /// <param name="handleErrorAsync">
+    ///     Handles command execution errors. If an <see cref="Exception" /> is thrown at
+    ///     <see cref="ICommand.Execute" /> this error handler is called.
     /// </param>
-    /// <param name="preExecute">
-    ///     The optional action is executed before <paramref name="execute" />. The action executes in the
-    ///     ui thread.
-    /// </param>
-    /// <param name="execute">
-    ///     The function is executed in a new background <see cref="Task" /> and does not block the UI
-    ///     thread.
-    /// </param>
-    /// <param name="postExecute">
-    ///     The action is called with the result of <paramref name="execute" />. If required the action
-    ///     executes using a UI thread dispatcher.
-    /// </param>
-    /// <param name="dispatcher">Provides UI services for a thread.</param>
+    /// <param name="force">Allow to run the command in parallel to other commands.</param>
     public AsyncCommand(
-        Func<TCommandParameter?, bool>? canExecute,
-        Action<TCommandParameter?>? preExecute,
-        Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>>? execute,
-        Action<Task<TExecuteResult?>>? postExecute,
-        Dispatcher dispatcher
+        ICommandSync commandSync,
+        Func<TCommandParameter?, bool> canExecute,
+        Func<TCommandParameter?, CancellationToken, Task> executeAsync,
+        Func<Exception, CancellationToken, Task> handleErrorAsync,
+        bool force = false
     )
         : this(
+            commandSync,
             canExecute,
-            preExecute,
-            execute,
-            postExecute,
-            dispatcher,
+            executeAsync,
+            handleErrorAsync,
+            force,
             false)
     {
     }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="AsyncCommand{TCommandParameter,TExecuteResult}" /> class.
+    ///     Initializes a new instance of the <see cref="AsyncCommand{TCommandParameter}" /> class.
     /// </summary>
-    /// <param name="canExecute">
-    ///     A function to check whether a command can be executed. if <paramref name="canExecute" /> is
-    ///     <c>null</c> the execution of the command is not restricted.
+    /// <param name="commandSync">Synchronizes the command execution to ensure only one command at the same is executed.</param>
+    /// <param name="canExecute">Determines whether the command can execute in its current state.</param>
+    /// <param name="executeAsync">Defines the method to be called when the command is invoked.</param>
+    /// <param name="handleErrorAsync">
+    ///     Handles command execution errors. If an <see cref="Exception" /> is thrown at
+    ///     <see cref="ICommand.Execute" /> this error handler is called.
     /// </param>
-    /// <param name="preExecute">
-    ///     The optional action is executed before <paramref name="execute" />. The action executes in the
-    ///     ui thread.
-    /// </param>
-    /// <param name="execute">
-    ///     The function is executed in a new background <see cref="Task" /> and does not block the UI
-    ///     thread.
-    /// </param>
-    /// <param name="postExecute">
-    ///     The action is called with the result of <paramref name="execute" />. If required the action
-    ///     executes using a UI thread dispatcher.
-    /// </param>
+    /// <param name="force">Allow to run the command in parallel to other commands.</param>
     /// <param name="isCancelCommand">
-    ///     If <c>true</c>, a new command is initialized that supports cancellation. If <c>false</c>,
-    ///     a new command is initialized whose sole purpose is to abort another command. A cancel command cannot be created
-    ///     outside this class and is not cancelable.
+    ///     Indicates if the only purpose of this <see cref="AsyncCommand{TCommandParameter}" /> is
+    ///     to cancel the execution of a different <see cref="AsyncCommand{TCommandParameter}" />.
     /// </param>
-    /// <param name="dispatcher">Provides UI services for a thread.</param>
     private AsyncCommand(
-        Func<TCommandParameter?, bool>? canExecute,
-        Action<TCommandParameter?>? preExecute,
-        Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>>? execute,
-        Action<Task<TExecuteResult?>>? postExecute,
-        Dispatcher dispatcher,
+        ICommandSync commandSync,
+        Func<TCommandParameter?, bool> canExecute,
+        Func<TCommandParameter?, CancellationToken, Task> executeAsync,
+        Func<Exception, CancellationToken, Task> handleErrorAsync,
+        bool force,
         bool isCancelCommand
     )
     {
+        this.commandSync = commandSync;
         this.canExecute = canExecute;
-        this.preExecute = preExecute;
-        this.execute = execute;
-        this.postExecute = postExecute;
-        this.dispatcher = dispatcher;
+        this.executeAsync = executeAsync;
+        this.handleErrorAsync = handleErrorAsync;
+        this.force = force;
         this.isCancelCommand = isCancelCommand;
     }
 
     /// <summary>
-    ///     Gets or sets the command that stops the execution of <see cref="execute" /> by cancelling the
-    ///     <see cref="cancellationTokenSource" />. The value is <c>null</c> if the command is a cancel command itself:
-    ///     <see cref="isCancelCommand" /> is <c>true</c>.
+    ///     Gets the command that stops the execution of <see cref="ICommand.Execute" />.
     /// </summary>
     public IAsyncCommand? CancelCommand
     {
@@ -164,19 +128,16 @@ internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, 
     }
 
     /// <summary>
-    ///     Gets or sets a value that indicates weather the command is executing: <c>true</c> the command is running; otherwise
+    ///     Gets a value that indicates weather the command is executing: <c>true</c> the command is running; otherwise
     ///     <c>false</c>.
     /// </summary>
     public bool IsActive
     {
         get => this.isActive;
-        set
-        {
+        set =>
             this.SetField(
                 ref this.isActive,
                 value);
-            CommandManager.InvalidateRequerySuggested();
-        }
     }
 
     /// <summary>Determines whether the command can execute in its current state.</summary>
@@ -187,9 +148,16 @@ internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, 
     /// <returns>
     ///     <see langword="true" /> if this command can be executed; otherwise, <see langword="false" />.
     /// </returns>
-    public virtual bool CanExecute(object? parameter)
+    public bool CanExecute(object? parameter)
     {
-        return !this.IsActive && (this.canExecute is null || this.canExecute((TCommandParameter?) parameter));
+        if (!this.isCancelCommand)
+        {
+            return !this.IsActive &&
+                   (this.force || !this.commandSync.IsActive) &&
+                   this.canExecute((TCommandParameter?) parameter);
+        }
+
+        return this.canExecute((TCommandParameter?) parameter);
     }
 
     /// <summary>
@@ -206,143 +174,73 @@ internal class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, 
     ///     Data used by the command. If the command does not require data to be passed, this object can be
     ///     set to <see langword="null" />.
     /// </param>
-    public void Execute(object? parameter)
-    {
-        this.Setup();
-
-        this.PreExecute((TCommandParameter?) parameter);
-
-        if (this.RunExecute(parameter))
-        {
-            return;
-        }
-
-        if (!this.PostExecute())
-        {
-            this.CleanUp();
-        }
-    }
-
-    /// <summary>
-    ///     Resets all values that are required during command execution only.
-    /// </summary>
-    private void CleanUp()
-    {
-        if (this.dispatcher.CheckAccess())
-        {
-            this.cancellationTokenSource = null;
-            this.CancelCommand = null;
-            this.IsActive = false;
-        }
-        else
-        {
-            this.dispatcher.Invoke(this.CleanUp);
-        }
-    }
-
-    /// <summary>
-    ///     Execute <see cref="postExecute" />.
-    /// </summary>
-    /// <returns>Returns <c>true</c> if <see cref="postExecute" /> is not null; otherwise <c>false</c>.</returns>
-    private bool PostExecute()
-    {
-        if (this.postExecute is null)
-        {
-            return false;
-        }
-
-        try
-        {
-            this.dispatcher.Invoke(() => this.postExecute(Task.FromResult<TExecuteResult?>(default)));
-        }
-        finally
-        {
-            this.CleanUp();
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    ///     Executes the action <see cref="preExecute" />.
-    /// </summary>
-    private void PreExecute(TCommandParameter? commandParameter)
+    public async void Execute(object? parameter)
     {
         try
         {
-            if (this.preExecute is null)
+            await this.ExecuteAsync(parameter);
+        }
+        catch
+        {
+            // suppress exceptions in async void context
+        }
+    }
+
+    /// <summary>Defines the method to be called when the command is invoked.</summary>
+    /// <param name="parameter">
+    ///     Data used by the command. If the command does not require data to be passed, this object can be
+    ///     set to <see langword="null" />.
+    /// </param>
+    private async Task ExecuteAsync(object? parameter)
+    {
+        var cancellationTokenSource = new CancellationTokenSource();
+        try
+        {
+            if (!this.CanExecute(parameter))
             {
                 return;
             }
 
-            if (this.dispatcher.CheckAccess())
+            if (!this.commandSync.Enter(this.force))
             {
-                this.preExecute(commandParameter);
+                return;
             }
-            else
+
+            try
             {
-                this.dispatcher.Invoke(
-                    this.preExecute,
-                    commandParameter);
-            }
-        }
-        catch
-        {
-            this.CleanUp();
-            throw;
-        }
-    }
+                this.IsActive = true;
 
-    /// <summary>
-    ///     Executes the <see cref="execute" /> function.
-    /// </summary>
-    /// <param name="parameter">The command parameter of <see cref="execute" />.</param>
-    /// <returns><c>true</c> if <see cref="execute" /> is not <c>null</c>; otherwise <c>false</c>.</returns>
-    private bool RunExecute(object? parameter)
-    {
-        if (this.execute is null)
-        {
-            return false;
-        }
+                this.CancelCommand = new AsyncCommand<object?>(
+                    new CommandSync(),
+                    _ => this.IsActive &&
+                         this.CancelCommand?.IsActive == false &&
+                         cancellationTokenSource.IsCancellationRequested != true,
+                    async (_, _) => { await cancellationTokenSource.CancelAsync(); },
+                    (_, _) => Task.CompletedTask,
+                    false,
+                    true);
 
-        Task.Run(
-                () => this.execute(
+                await this.executeAsync(
                     (TCommandParameter?) parameter,
-                    this.cancellationTokenSource?.Token ?? CancellationToken.None),
-                this.cancellationTokenSource?.Token ?? CancellationToken.None)
-            .ContinueWith(
-                task =>
-                {
-                    if (this.postExecute is not null)
-                    {
-                        this.dispatcher.Invoke(() => this.postExecute(task));
-                    }
-                })
-            .ContinueWith(_ => this.dispatcher.Invoke(this.CleanUp));
-        return true;
-    }
-
-    /// <summary>
-    ///     Setups the data required for executing the command.
-    /// </summary>
-    private void Setup()
-    {
-        this.IsActive = true;
-        this.cancellationTokenSource = new CancellationTokenSource();
-
-        if (!this.isCancelCommand)
+                    cancellationTokenSource.Token);
+            }
+            finally
+            {
+                this.IsActive = false;
+                this.CancelCommand = null;
+                this.commandSync.Exit();
+                CommandManager.InvalidateRequerySuggested();
+            }
+        }
+        catch (OperationCanceledException)
         {
-            this.CancelCommand = new AsyncCommand<object, object>(
-                _ => this.IsActive && this.CancelCommand?.IsActive != true,
-                null,
-                async (_, _) =>
-                {
-                    await (this.cancellationTokenSource?.CancelAsync() ?? Task.CompletedTask);
-                    return Task.FromResult<object?>(null);
-                },
-                null,
-                this.dispatcher,
-                true);
+            // do not handle cancelled operations
+        }
+        catch (Exception ex)
+        {
+            await this.handleErrorAsync(
+                ex,
+                cancellationTokenSource.Token);
         }
     }
 }

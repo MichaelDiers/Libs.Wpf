@@ -22,7 +22,7 @@ internal class ControlsViewModel : ViewModelBase
     {
         var provider = CustomServiceProviderBuilder.Build(
             CustomMessageBoxServiceCollectionExtensions.TryAddCustomMessageBoxServiceCollectionExtensions,
-            ServiceCollectionExtensions.TryAddCommandFactory,
+            CommandsServiceCollectionExtensions.TryAddCommands,
             ThreadsServiceCollectionExtensions.TryAddDispatcherWrapper);
 
         this.ShowMessageBoxCommand = provider.GetRequiredService<ICommandFactory>()

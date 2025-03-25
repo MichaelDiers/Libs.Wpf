@@ -54,7 +54,7 @@ internal class MultiThreadingViewModel : ViewModelBase
             });
 
         this.asyncCommand = CustomServiceProviderBuilder.Build(
-                ServiceCollectionExtensions.TryAddCommandFactory,
+                CommandsServiceCollectionExtensions.TryAddCommands,
                 ThreadsServiceCollectionExtensions.TryAddDispatcherWrapper)
             .GetRequiredService<ICommandFactory>()
             .CreateAsyncCommand<string, CommandResultModel>(

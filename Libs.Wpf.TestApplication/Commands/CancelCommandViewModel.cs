@@ -1,10 +1,8 @@
 ﻿namespace Libs.Wpf.TestApplication.Commands;
 
-using System.Windows;
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
 using Libs.Wpf.Localization;
-using Libs.Wpf.Threads;
 using Libs.Wpf.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,42 +18,23 @@ public class CancelCommandViewModel : ViewModelBase
     /// </summary>
     public CancelCommandViewModel()
     {
-        var commandFactory = CustomServiceProviderBuilder.Build(
-                ServiceCollectionExtensions.TryAddCommandFactory,
-                ThreadsServiceCollectionExtensions.TryAddDispatcherWrapper)
-            .GetRequiredService<ICommandFactory>();
+        var provider = CustomServiceProviderBuilder.Build(
+            CommandsServiceCollectionExtensions.TryAddCommands,
+            CommandsServiceCollectionExtensions.TryAddCommandSync);
+        var commandFactory = provider.GetRequiredService<ICommandFactory>();
+        var commandSync = provider.GetRequiredService<ICommandSync>();
 
         this.translatableButton = new TranslatableCancellableButton(
-            commandFactory.CreateAsyncCommand<object, bool>(
-                null,
-                null,
-                async (_, cancellationToken) =>
+            commandFactory.CreateAsyncCommand(
+                commandSync,
+                () => true,
+                async cancellationToken =>
                 {
                     await Task.Delay(
                         10000,
                         cancellationToken);
-                    return true;
                 },
-                task =>
-                {
-                    try
-                    {
-                        var result = task.Result;
-                        MessageBox.Show(
-                            "command executed",
-                            string.Empty,
-                            MessageBoxButton.OK,
-                            result ? MessageBoxImage.Information : MessageBoxImage.Error);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(
-                            ex.Message,
-                            string.Empty,
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Error);
-                    }
-                }),
+                async (_, _) => { await Task.CompletedTask; }),
             "pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_edit_square.png",
             Translations.ResourceManager,
             nameof(Translations.Label),

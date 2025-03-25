@@ -2,421 +2,328 @@
 
 using Libs.Wpf.Commands;
 using Libs.Wpf.DependencyInjection;
-using Libs.Wpf.Tests.Helper;
 using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
-///     Tests of <see cref="AsyncCommand{T,TT}" />.
+///     Tests of <see cref="IAsyncCommand" />.
 /// </summary>
-[Collection(ApplicationCollectionDefinition.CollectionName)]
 public class AsyncCommandTests
 {
     private readonly ICommandFactory commandFactory;
+    private readonly ICommandSync commandSync;
 
-    public AsyncCommandTests(ApplicationFixture applicationFixture)
+    public AsyncCommandTests()
     {
-        var serviceProvider = CustomServiceProviderBuilder.Build(
-            ServiceCollectionExtensions.TryAddCommandFactory,
-            applicationFixture.TryAddDispatcherWrapper);
-        this.commandFactory = serviceProvider.GetRequiredService<ICommandFactory>();
+        var provider = CustomServiceProviderBuilder.Build(CommandsServiceCollectionExtensions.TryAddCommands);
+        this.commandFactory = provider.GetRequiredService<ICommandFactory>();
+        this.commandSync = provider.GetRequiredService<ICommandSync>();
     }
 
     [Fact]
-    public async Task Cancel()
+    public void CanExecuteFails()
     {
         const int commandParameter = 10;
+        var command = this.commandFactory.CreateAsyncCommand<int?>(
+            this.commandSync,
+            value => value != commandParameter,
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("Should be an error.");
+            },
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("should be an error");
+            });
 
-        var preExecuteCalled = false;
-        var executeCalledPre = false;
-        var executeCalledPost = false;
-        var postExecuteCalled = false;
+        Assert.False(command.CanExecute(commandParameter));
+    }
 
-        var command = this.commandFactory.CreateAsyncCommand<int?, int>(
+    [Fact]
+    public void CanExecuteSucceeds()
+    {
+        const int commandParameter = 10;
+        var command = this.commandFactory.CreateAsyncCommand<int?>(
+            this.commandSync,
             value => value == commandParameter,
-            _ => preExecuteCalled = true,
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("Should be an error.");
+            },
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("should be an error");
+            });
+
+        Assert.True(command.CanExecute(commandParameter));
+    }
+
+    [Fact]
+    public void CanExecuteThrowsException()
+    {
+        const int commandParameter = 10;
+        var command = this.commandFactory.CreateAsyncCommand<int?>(
+            this.commandSync,
+            _ => throw new NotImplementedException(),
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("should be an error");
+            },
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("should be an error");
+            });
+
+        Assert.Throws<NotImplementedException>(() => command.CanExecute(commandParameter));
+    }
+
+    [Fact]
+    public async Task Execute_ShouldFail_IfCommandIsCancelled()
+    {
+        const int commandParameter = 10;
+        var command = this.commandFactory.CreateAsyncCommand<int?>(
+            this.commandSync,
+            value => value == commandParameter,
             async (value, cancellationToken) =>
             {
-                executeCalledPre = true;
-                await Task.Delay(
-                    3000,
-                    cancellationToken);
-                executeCalledPost = true;
-                return (value ?? 0) + 1;
-            },
-            task =>
-            {
-                postExecuteCalled = true;
-
-                Assert.Equal(
-                    commandParameter + 1,
-                    task.Result);
-            });
-
-        Assert.True(command.CanExecute(commandParameter));
-
-        command.Execute(commandParameter);
-        DispatcherHelperCore.DoEvents();
-
-        Assert.True(command.IsActive);
-        Assert.NotNull(command.CancelCommand);
-        command.CancelCommand.Execute(null);
-
-        await AsyncCommandTests.Wait(
-            command,
-            () => Assert.True(preExecuteCalled),
-            () => Assert.True(executeCalledPre),
-            () => Assert.False(executeCalledPost),
-            () => Assert.True(postExecuteCalled));
-
-        Assert.True(preExecuteCalled);
-        Assert.True(executeCalledPre);
-        Assert.False(executeCalledPost);
-        Assert.True(postExecuteCalled);
-        Assert.False(command.IsActive);
-    }
-
-    [Fact]
-    public async Task CanExecute()
-    {
-        const int trueValue = 1;
-        var canExecute = new Func<int?, bool>(value => value == trueValue);
-        var command = this.commandFactory.CreateAsyncCommand(
-            canExecute,
-            _ => { },
-            async (_, cancellationToken) =>
-            {
-                await Task.Delay(
-                    5000,
-                    cancellationToken);
-                return Task.FromResult(7);
-            },
-            _ => { });
-
-        Assert.False(command.CanExecute(trueValue + 1));
-        Assert.True(command.CanExecute(trueValue));
-
-        command.Execute(trueValue);
-        await Task.Delay(1000);
-        Assert.False(command.CanExecute(trueValue));
-    }
-
-    [Fact]
-    public async Task CanExecute_ReturnFalse_WhenCommandIsExecuting()
-    {
-        var command = this.commandFactory.CreateAsyncCommand<object, object>(
-            null,
-            null,
-            async (_, cancellationToken) =>
-            {
-                await Task.Delay(
-                    5000,
-                    cancellationToken);
-                return Task.FromResult(7);
-            },
-            null);
-
-        command.Execute(null);
-
-        await Task.Delay(500);
-
-        Assert.True(command.IsActive);
-
-        Assert.False(command.CanExecute(null));
-    }
-
-    [Fact]
-    public void CanExecute_ReturnTrue_WhenCommandIsNotExecutingAndCanExecuteIsNull()
-    {
-        var command = this.commandFactory.CreateAsyncCommand<object, object>(
-            null,
-            null,
-            async (_, cancellationToken) =>
-            {
-                await Task.Delay(
-                    5000,
-                    cancellationToken);
-                return Task.FromResult(7);
-            },
-            null);
-
-        Assert.True(command.CanExecute(null));
-    }
-
-    [Fact]
-    public async Task Execute()
-    {
-        var called = false;
-        var command = this.commandFactory.CreateAsyncCommand<int, bool>(
-            _ => true,
-            _ => { },
-            (value, _) =>
-            {
-                called = true;
-                Assert.Equal(
-                    10,
-                    value);
-                return Task.FromResult(true);
-            },
-            _ => { });
-
-        command.Execute(10);
-
-        await AsyncCommandTests.Wait(
-            command,
-            () => Assert.True(called));
-
-        Assert.True(called);
-        Assert.False(command.IsActive);
-    }
-
-    [Fact]
-    public async Task Execute_PreExecuteOnly()
-    {
-        var called = false;
-        var command = this.commandFactory.CreateAsyncCommand<int, bool>(
-            _ => true,
-            _ => { called = true; },
-            null,
-            null);
-
-        command.Execute(10);
-
-        await AsyncCommandTests.Wait(
-            command,
-            () => Assert.True(called));
-
-        Assert.True(called);
-        Assert.False(command.IsActive);
-    }
-
-    [Fact]
-    public async Task ExecuteAsync()
-    {
-        const int commandParameter = 10;
-
-        var preExecuteCalled = false;
-        var executeCalled = false;
-        var postExecuteCalled = false;
-
-        var command = this.commandFactory.CreateAsyncCommand<int, int>(
-            value => value == commandParameter,
-            _ => preExecuteCalled = true,
-            (value, _) =>
-            {
-                executeCalled = true;
-                return Task.FromResult(value + 1);
-            },
-            task =>
-            {
-                postExecuteCalled = true;
-
-                Assert.Equal(
-                    commandParameter + 1,
-                    task.Result);
-            });
-
-        Assert.True(command.CanExecute(commandParameter));
-
-        command.Execute(commandParameter);
-
-        await AsyncCommandTests.Wait(
-            command,
-            () => Assert.True(preExecuteCalled),
-            () => Assert.True(executeCalled),
-            () => Assert.True(postExecuteCalled));
-
-        Assert.True(preExecuteCalled);
-        Assert.True(executeCalled);
-        Assert.True(postExecuteCalled);
-        Assert.False(command.IsActive);
-    }
-
-    [Fact]
-    public async Task ExecutionOrder()
-    {
-        var preExecuteEnter = false;
-        var preExecuteExit = false;
-
-        var executeEnter = false;
-        var executeExit = false;
-
-        var postExecuteEnter = false;
-        var postExecuteExit = false;
-
-        var lockObject = new Lock();
-
-        var command = this.commandFactory.CreateAsyncCommand<int, int>(
-            _ => true,
-            _ =>
-            {
-                lock (lockObject)
-                {
-                    Assert.False(preExecuteEnter);
-                    Assert.False(preExecuteExit);
-                    Assert.False(executeEnter);
-                    Assert.False(executeExit);
-                    Assert.False(postExecuteEnter);
-                    Assert.False(postExecuteExit);
-
-                    preExecuteEnter = true;
-                }
-
-                Thread.Sleep(1000);
-
-                lock (lockObject)
-                {
-                    Assert.True(preExecuteEnter);
-                    Assert.False(preExecuteExit);
-                    Assert.False(executeEnter);
-                    Assert.False(executeExit);
-                    Assert.False(postExecuteEnter);
-                    Assert.False(postExecuteExit);
-
-                    preExecuteExit = true;
-                }
-            },
-            async (_, cancellationToken) =>
-            {
-                lock (lockObject)
-                {
-                    Assert.True(preExecuteEnter);
-                    Assert.True(preExecuteExit);
-                    Assert.False(executeEnter);
-                    Assert.False(executeExit);
-                    Assert.False(postExecuteEnter);
-                    Assert.False(postExecuteExit);
-
-                    executeEnter = true;
-                }
-
                 await Task.Delay(
                     2000,
                     cancellationToken);
-
-                lock (lockObject)
-                {
-                    Assert.True(preExecuteEnter);
-                    Assert.True(preExecuteExit);
-                    Assert.True(executeEnter);
-                    Assert.False(executeExit);
-                    Assert.False(postExecuteEnter);
-                    Assert.False(postExecuteExit);
-
-                    executeExit = true;
-                }
-
-                return 7;
+                Assert.Fail("should be an error");
             },
-            _ =>
+            async (_, _) =>
             {
-                lock (lockObject)
-                {
-                    Assert.True(preExecuteEnter);
-                    Assert.True(preExecuteExit);
-                    Assert.True(executeEnter);
-                    Assert.True(executeExit);
-                    Assert.False(postExecuteEnter);
-                    Assert.False(postExecuteExit);
-
-                    postExecuteEnter = true;
-                }
-
-                lock (lockObject)
-                {
-                    Assert.True(preExecuteEnter);
-                    Assert.True(preExecuteExit);
-                    Assert.True(executeEnter);
-                    Assert.True(executeExit);
-                    Assert.True(postExecuteEnter);
-                    Assert.False(postExecuteExit);
-
-                    postExecuteExit = true;
-                }
+                await Task.CompletedTask;
+                Assert.Fail("should be an error");
             });
 
-        command.Execute(10);
+        Assert.True(command.CanExecute(commandParameter));
+        command.Execute(commandParameter);
 
-        await AsyncCommandTests.Wait(
-            command,
-            () => Assert.True(preExecuteEnter),
-            () => Assert.True(preExecuteExit),
-            () => Assert.True(executeEnter),
-            () => Assert.True(executeExit),
-            () => Assert.True(postExecuteEnter),
-            () => Assert.True(postExecuteExit));
-
-        Assert.True(preExecuteEnter);
-        Assert.True(preExecuteExit);
-        Assert.True(executeEnter);
-        Assert.True(executeExit);
-        Assert.True(postExecuteEnter);
-        Assert.True(postExecuteExit);
-    }
-
-    [Fact]
-    public void PostExecute()
-    {
-        var called = false;
-
-        var command = this.commandFactory.CreateAsyncCommand<int, int>(
-            _ => true,
-            _ => { },
-            null,
-            _ => { called = true; });
-
-        command.Execute(10);
-
-        Assert.True(called);
-    }
-
-    [Fact]
-    public void PreExecute()
-    {
-        var called = false;
-
-        var command = this.commandFactory.CreateAsyncCommand<int, int>(
-            _ => true,
-            _ => called = true,
-            (_, _) => Task.FromResult(7),
-            _ => { });
-
-        command.Execute(10);
-
-        Assert.True(called);
-    }
-
-    private static async Task Wait(IAsyncCommand command, params Action[] asserts)
-    {
-        for (var i = 0; command.IsActive && i < 30; i += 1)
+        for (var i = 0; i < 50 && !command.IsActive; i++)
         {
-            DispatcherHelperCore.DoEvents();
-
-            await Task.Delay(
-                200,
-                CancellationToken.None);
+            await Task.Delay(100);
         }
 
-        for (var i = 0; i < 30; i += 1)
+        Assert.NotNull(command.CancelCommand);
+        command.CancelCommand.Execute(null);
+
+        for (var i = 0; i < 50 && command.IsActive; i++)
         {
-            DispatcherHelperCore.DoEvents();
+            await Task.Delay(100);
+        }
+    }
 
-            await Task.Delay(
-                200,
-                CancellationToken.None);
+    [Fact]
+    public async Task Execute_ShouldHandleError_IfExecuteThrowsException()
+    {
+        var executed = false;
 
-            try
+        const int commandParameter = 10;
+        var command = this.commandFactory.CreateAsyncCommand<int?>(
+            this.commandSync,
+            value => value == commandParameter,
+            async (_, _) =>
             {
-                foreach (var assert in asserts)
-                {
-                    assert();
-                }
+                await Task.CompletedTask;
+                throw new NotImplementedException();
+            },
+            async (ex, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.IsAssignableFrom<NotImplementedException>(ex);
+                executed = true;
+            });
 
+        Assert.True(command.CanExecute(commandParameter));
+        command.Execute(commandParameter);
+
+        for (var i = 0; i < 50 && !executed; i++)
+        {
+            await Task.Delay(100);
+        }
+
+        Assert.True(executed);
+    }
+
+    [Fact]
+    public void Execute_ShouldNotStart_IfAnotherCommandIsActive()
+    {
+        Assert.True(this.commandSync.Enter());
+
+        const int commandParameter = 10;
+        var command = this.commandFactory.CreateAsyncCommand<int?>(
+            this.commandSync,
+            value => value == commandParameter,
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("should be an error");
+            },
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("should be an error");
+            });
+
+        command.Execute(commandParameter);
+    }
+
+    [Fact]
+    public void Execute_ShouldNotStart_IfCanExecuteFails()
+    {
+        const int commandParameter = 10;
+        var command = this.commandFactory.CreateAsyncCommand<int?>(
+            this.commandSync,
+            value => value != commandParameter,
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("should be an error");
+            },
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("should be an error");
+            });
+
+        command.Execute(commandParameter);
+    }
+
+    [Fact]
+    public async Task ExecuteFails_IsActiveCheck()
+    {
+        var isActivated = false;
+        var isDeactivated = false;
+
+        const int commandParameter = 10;
+        var command = this.commandFactory.CreateAsyncCommand<int?>(
+            this.commandSync,
+            value => value == commandParameter,
+            async (value, _) =>
+            {
+                await Task.CompletedTask;
+                throw new NotImplementedException();
+            },
+            async (_, _) => { await Task.CompletedTask; });
+
+        command.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName != nameof(IAsyncCommand.IsActive))
+            {
                 return;
             }
-            catch
+
+            if (command.IsActive)
             {
-                // next round
+                isActivated = true;
             }
+            else
+            {
+                isDeactivated = true;
+            }
+        };
+
+        Assert.True(command.CanExecute(commandParameter));
+        command.Execute(commandParameter);
+
+        for (var i = 0; i < 50 && !isDeactivated; i++)
+        {
+            await Task.Delay(100);
         }
+
+        Assert.True(isActivated);
+        Assert.True(isDeactivated);
+    }
+
+    [Fact]
+    public async Task ExecuteSucceeds()
+    {
+        var executed = false;
+
+        const int commandParameter = 10;
+        var command = this.commandFactory.CreateAsyncCommand<int?>(
+            this.commandSync,
+            value => value == commandParameter,
+            async (value, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Equal(
+                    commandParameter,
+                    value);
+                executed = true;
+            },
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("should be an error");
+            });
+
+        Assert.True(command.CanExecute(commandParameter));
+        command.Execute(commandParameter);
+
+        for (var i = 0; i < 50 && !executed; i++)
+        {
+            await Task.Delay(100);
+        }
+
+        Assert.True(executed);
+    }
+
+    [Fact]
+    public async Task ExecuteSucceeds_IsActiveCheck()
+    {
+        var isActivated = false;
+        var isDeactivated = false;
+
+        const int commandParameter = 10;
+        var command = this.commandFactory.CreateAsyncCommand<int?>(
+            this.commandSync,
+            value => value == commandParameter,
+            async (value, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Equal(
+                    commandParameter,
+                    value);
+            },
+            async (_, _) =>
+            {
+                await Task.CompletedTask;
+                Assert.Fail("should be an error");
+            });
+
+        command.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName != nameof(IAsyncCommand.IsActive))
+            {
+                return;
+            }
+
+            if (command.IsActive)
+            {
+                isActivated = true;
+            }
+            else
+            {
+                isDeactivated = true;
+            }
+        };
+
+        Assert.True(command.CanExecute(commandParameter));
+        command.Execute(commandParameter);
+
+        for (var i = 0; i < 50 && !isDeactivated; i++)
+        {
+            await Task.Delay(100);
+        }
+
+        Assert.True(isActivated);
+        Assert.True(isDeactivated);
     }
 }
