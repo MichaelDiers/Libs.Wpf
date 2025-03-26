@@ -20,7 +20,7 @@ public interface IExtendedCommandSync : ICommandSync
     ///     permission without that restriction.
     /// </param>
     /// <returns><c>True</c> if execution permission is granted.</returns>
-    bool Enter(TranslatableCancellableButton translatableCancellableButton, bool force = false);
+    bool Enter(TranslatableCancellableButton? translatableCancellableButton, bool force = false);
 
     /// <summary>
     ///     An event raised if <see cref="CommandSync.IsActive" /> changed.

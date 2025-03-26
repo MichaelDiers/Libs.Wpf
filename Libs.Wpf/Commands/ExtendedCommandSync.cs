@@ -20,7 +20,7 @@ internal class ExtendedCommandSync : CommandSync, IExtendedCommandSync
     ///     permission without that restriction.
     /// </param>
     /// <returns><c>True</c> if execution permission is granted.</returns>
-    public bool Enter(TranslatableCancellableButton translatableCancellableButton, bool force = false)
+    public bool Enter(TranslatableCancellableButton? translatableCancellableButton, bool force = false)
     {
         if (!base.Enter(force))
         {
