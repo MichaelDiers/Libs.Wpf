@@ -12,7 +12,7 @@ public class ImageSourceDependencyPropertyTests
     public void GetImage()
     {
         var dependencyObject = new DependencyObject();
-        var expected = "image";
+        const string expected = "image";
 
         ImageSourceDependencyProperty.SetImageSource(
             dependencyObject,

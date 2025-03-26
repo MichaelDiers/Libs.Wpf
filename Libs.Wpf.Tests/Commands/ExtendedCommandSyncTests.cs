@@ -132,16 +132,18 @@ public class ExtendedCommandSyncTests
 
         this.extendedCommandSync.PropertyChanged += (_, e) =>
         {
-            if (e.PropertyName == nameof(this.extendedCommandSync.IsActive))
+            if (e.PropertyName != nameof(this.extendedCommandSync.IsActive))
             {
-                if (this.extendedCommandSync.IsActive)
-                {
-                    activated++;
-                }
-                else
-                {
-                    deactivated++;
-                }
+                return;
+            }
+
+            if (this.extendedCommandSync.IsActive)
+            {
+                activated++;
+            }
+            else
+            {
+                deactivated++;
             }
         };
 

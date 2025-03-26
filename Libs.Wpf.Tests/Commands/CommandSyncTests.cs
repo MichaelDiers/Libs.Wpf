@@ -70,16 +70,18 @@ public class CommandSyncTests
 
         this.commandSync.PropertyChanged += (_, e) =>
         {
-            if (e.PropertyName == nameof(this.commandSync.IsActive))
+            if (e.PropertyName != nameof(this.commandSync.IsActive))
             {
-                if (this.commandSync.IsActive)
-                {
-                    activated++;
-                }
-                else
-                {
-                    deactivated++;
-                }
+                return;
+            }
+
+            if (this.commandSync.IsActive)
+            {
+                activated++;
+            }
+            else
+            {
+                deactivated++;
             }
         };
 

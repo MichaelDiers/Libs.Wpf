@@ -11,7 +11,7 @@ public class ImageSourceToVisibilityConverterTests
     [Fact]
     public void Convert_ShouldReturnCollapsed_WhenValueIsImageSource()
     {
-        var value = "image";
+        const string value = "image";
         Assert.Equal(
             Visibility.Visible,
             this.converter.Convert(

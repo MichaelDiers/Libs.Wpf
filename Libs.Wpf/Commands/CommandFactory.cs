@@ -2,7 +2,6 @@
 
 using System.IO;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Microsoft.Win32;
 
 /// <summary>
@@ -10,42 +9,6 @@ using Microsoft.Win32;
 /// </summary>
 internal class CommandFactory : ICommandFactory
 {
-    /// <summary>
-    ///     Initializes a new instance of an <see cref="ICancellableCommand" /> implementing class. The command does not block
-    ///     the ui thread during execution and can be cancelled.
-    /// </summary>
-    /// <param name="canExecute">
-    ///     A function to check whether a command can be executed. if <paramref name="canExecute" /> is
-    ///     <c>null</c> the execution of the command is not restricted.
-    /// </param>
-    /// <param name="preExecute">
-    ///     The optional action is executed before <paramref name="execute" />. The action executes in the
-    ///     ui thread.
-    /// </param>
-    /// <param name="execute">
-    ///     The function is executed in a new background <see cref="Task" /> and does not block the UI
-    ///     thread.
-    /// </param>
-    /// <param name="postExecute">
-    ///     The action is called with the result of <paramref name="execute" />. If required the action
-    ///     executes using a UI thread dispatcher.
-    /// </param>
-    /// <returns>A new <see cref="ICancellableCommand" />.</returns>
-    public ICancellableCommand CreateAsyncCommand<TCommandParameter, TExecuteResult>(
-        Func<TCommandParameter?, bool>? canExecute,
-        Action<TCommandParameter?>? preExecute,
-        Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>>? execute,
-        Action<Task<TExecuteResult?>>? postExecute
-    )
-    {
-        return new AsyncCommandOld<TCommandParameter, TExecuteResult>(
-            canExecute,
-            preExecute,
-            execute,
-            postExecute,
-            Dispatcher.CurrentDispatcher);
-    }
-
     /// <summary>
     ///     Initializes a new instance of the <see cref="ICancellableCommand" /> implementation.
     /// </summary>
