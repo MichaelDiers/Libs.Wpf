@@ -22,7 +22,7 @@ public class CancelCommandViewModel : ViewModelBase
             CommandsServiceCollectionExtensions.TryAddCommands,
             CommandsServiceCollectionExtensions.TryAddCommandSync);
         var commandFactory = provider.GetRequiredService<ICommandFactory>();
-        var commandSync = provider.GetRequiredService<ICommandSync>();
+        var commandSync = provider.GetRequiredService<IExtendedCommandSync>();
 
         this.translatableButton = new TranslatableCancellableButton(
             commandFactory.CreateAsyncCommand(

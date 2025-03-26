@@ -59,7 +59,7 @@ internal class CommandFactory : ICommandFactory
     /// </param>
     /// <param name="force">Allow to run the command in parallel to other commands.</param>
     public ICancellableCommand CreateAsyncCommand<TCommandParameter>(
-        ICommandSync commandSync,
+        IExtendedCommandSync commandSync,
         Func<TCommandParameter?, bool> canExecute,
         Func<TCommandParameter?, CancellationToken, Task> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
@@ -86,7 +86,7 @@ internal class CommandFactory : ICommandFactory
     /// </param>
     /// <param name="force">Allow to run the command in parallel to other commands.</param>
     public ICancellableCommand CreateAsyncCommand(
-        ICommandSync commandSync,
+        IExtendedCommandSync commandSync,
         Func<bool> canExecute,
         Func<CancellationToken, Task> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,

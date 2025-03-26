@@ -10,13 +10,13 @@ using Microsoft.Extensions.DependencyInjection;
 public class AsyncCommandTests
 {
     private readonly ICommandFactory commandFactory;
-    private readonly ICommandSync commandSync;
+    private readonly IExtendedCommandSync commandSync;
 
     public AsyncCommandTests()
     {
         var provider = CustomServiceProviderBuilder.Build(CommandsServiceCollectionExtensions.TryAddCommands);
         this.commandFactory = provider.GetRequiredService<ICommandFactory>();
-        this.commandSync = provider.GetRequiredService<ICommandSync>();
+        this.commandSync = provider.GetRequiredService<IExtendedCommandSync>();
     }
 
     [Fact]
