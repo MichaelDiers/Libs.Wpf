@@ -11,7 +11,7 @@ public interface ICommandSync : INotifyPropertyChanged
     ///     Gets a value that indicates weather the command is executing: <c>true</c> the command is running; otherwise
     ///     <c>false</c>.
     /// </summary>
-    bool IsActive { get; }
+    public bool IsActive { get; }
 
     /// <summary>
     ///     Requests the permission to run a command.
@@ -21,10 +21,10 @@ public interface ICommandSync : INotifyPropertyChanged
     ///     permission without that restriction.
     /// </param>
     /// <returns><c>True</c> if execution permission is granted.</returns>
-    bool Enter(bool force = false);
+    public bool Enter(bool force = false);
 
     /// <summary>
     ///     Indicates that a command has terminated.
     /// </summary>
-    void Exit();
+    public void Exit();
 }

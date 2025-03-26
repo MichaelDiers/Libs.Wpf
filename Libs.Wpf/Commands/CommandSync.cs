@@ -7,7 +7,7 @@ using Libs.Wpf.ViewModels;
 /// </summary>
 /// <seealso cref="ViewModelBase" />
 /// <seealso cref="ICommandSync" />
-public class CommandSync : ViewModelBase, ICommandSync
+internal class CommandSync : ViewModelBase, ICommandSync
 {
     /// <summary>
     ///     A synchronization object for accessing <seealso cref="activeCommands" />.
@@ -46,7 +46,7 @@ public class CommandSync : ViewModelBase, ICommandSync
     ///     permission without that restriction.
     /// </param>
     /// <returns><c>True</c> if execution permission is granted.</returns>
-    public bool Enter(bool force = false)
+    public virtual bool Enter(bool force = false)
     {
         if (this.IsActive && !force)
         {
@@ -69,7 +69,7 @@ public class CommandSync : ViewModelBase, ICommandSync
     /// <summary>
     ///     Indicates that a command has terminated.
     /// </summary>
-    public void Exit()
+    public virtual void Exit()
     {
         lock (CommandSync.LockObject)
         {
