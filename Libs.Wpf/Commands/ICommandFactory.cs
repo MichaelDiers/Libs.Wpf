@@ -2,6 +2,7 @@
 
 using System.IO;
 using System.Windows.Input;
+using Libs.Wpf.Localization;
 using Microsoft.Win32;
 
 /// <summary>
@@ -21,12 +22,17 @@ public interface ICommandFactory
     ///     <see cref="ICommand.Execute" /> this error handler is called.
     /// </param>
     /// <param name="force">Allow to run the command in parallel to other commands.</param>
+    /// <param name="translatableCancellableButton">
+    ///     The data of the <see cref="IExtendedCommandSync.ExtendedCommandSyncChanged" /> event if the
+    ///     method succeeds.
+    /// </param>
     ICancellableCommand CreateAsyncCommand<TCommandParameter>(
         IExtendedCommandSync commandSync,
         Func<TCommandParameter?, bool> canExecute,
         Func<TCommandParameter?, CancellationToken, Task> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
-        bool force = false
+        bool force = false,
+        TranslatableCancellableButton? translatableCancellableButton = null
     );
 
     /// <summary>
@@ -40,12 +46,17 @@ public interface ICommandFactory
     ///     <see cref="ICommand.Execute" /> this error handler is called.
     /// </param>
     /// <param name="force">Allow to run the command in parallel to other commands.</param>
+    /// <param name="translatableCancellableButton">
+    ///     The data of the <see cref="IExtendedCommandSync.ExtendedCommandSyncChanged" /> event if the
+    ///     method succeeds.
+    /// </param>
     ICancellableCommand CreateAsyncCommand(
         IExtendedCommandSync commandSync,
         Func<bool> canExecute,
         Func<CancellationToken, Task> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
-        bool force = false
+        bool force = false,
+        TranslatableCancellableButton? translatableCancellableButton = null
     );
 
     /// <summary>
