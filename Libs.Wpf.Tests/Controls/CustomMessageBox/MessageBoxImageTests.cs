@@ -29,6 +29,6 @@ public class MessageBoxImageTests
     public void CheckUniques(MessageBoxImage messageBoxImage)
     {
         var names = Enum.GetNames<MessageBoxImage>();
-        Assert.Single(names.Where(name => Enum.Parse<MessageBoxImage>(name) == messageBoxImage));
+        Assert.NotNull(names.SingleOrDefault(name => Enum.Parse<MessageBoxImage>(name) == messageBoxImage));
     }
 }

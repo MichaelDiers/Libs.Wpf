@@ -107,7 +107,9 @@ public class AsyncCommandTests
 
         for (var i = 0; i < 50 && !command.IsActive; i++)
         {
-            await Task.Delay(100);
+            await Task.Delay(
+                100,
+                TestContext.Current.CancellationToken);
         }
 
         Assert.NotNull(command.CancelCommand);
@@ -115,7 +117,9 @@ public class AsyncCommandTests
 
         for (var i = 0; i < 50 && command.IsActive; i++)
         {
-            await Task.Delay(100);
+            await Task.Delay(
+                100,
+                TestContext.Current.CancellationToken);
         }
     }
 
@@ -145,7 +149,9 @@ public class AsyncCommandTests
 
         for (var i = 0; i < 50 && !executed; i++)
         {
-            await Task.Delay(100);
+            await Task.Delay(
+                100,
+                TestContext.Current.CancellationToken);
         }
 
         Assert.True(executed);
@@ -234,7 +240,9 @@ public class AsyncCommandTests
 
         for (var i = 0; i < 50 && !isDeactivated; i++)
         {
-            await Task.Delay(100);
+            await Task.Delay(
+                100,
+                TestContext.Current.CancellationToken);
         }
 
         Assert.True(isActivated);
@@ -269,7 +277,9 @@ public class AsyncCommandTests
 
         for (var i = 0; i < 50 && !executed; i++)
         {
-            await Task.Delay(100);
+            await Task.Delay(
+                100,
+                TestContext.Current.CancellationToken);
         }
 
         Assert.True(executed);
@@ -320,7 +330,9 @@ public class AsyncCommandTests
 
         for (var i = 0; i < 50 && !isDeactivated; i++)
         {
-            await Task.Delay(100);
+            await Task.Delay(
+                100,
+                TestContext.Current.CancellationToken);
         }
 
         Assert.True(isActivated);
