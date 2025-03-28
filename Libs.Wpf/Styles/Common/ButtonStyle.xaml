@@ -31,7 +31,7 @@
         d:DataContext="{d:DesignInstance d:Type={x:Type localization:TranslatableButton`1}}">
         <Setter
             Property="Command"
-            Value="{Binding .Command}" />
+            Value="{Binding Command}" />
         <Setter
             Property="ToolTip"
             Value="{Binding ToolTipTranslation}" />
@@ -66,66 +66,4 @@
         </Setter>
     </Style>
 
-    <Style
-        TargetType="Button"
-        x:Key="CancellableTranslatableButtonStyle"
-        BasedOn="{StaticResource TranslatableButtonStyle}">
-        <d:Style.DataContext>
-            <x:Type
-                Type="localization:TranslatableCancellableButton" />
-        </d:Style.DataContext>
-        <Style.Triggers>
-            <DataTrigger
-                Binding="{Binding Command.IsActive}"
-                Value="True">
-                <Setter
-                    Property="Command"
-                    Value="{Binding Command.CancelCommand}" />
-                <Setter
-                    Property="ToolTip"
-                    Value="{Binding CancelToolTipTranslation}" />
-                <Setter
-                    Property="Panel.ZIndex"
-                    Value="2000" />
-                <Setter
-                    Property="Cursor"
-                    Value="Arrow" />
-                <Setter
-                    Property="ContentTemplate">
-                    <Setter.Value>
-                        <DataTemplate>
-                            <Border>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition
-                                            Width="Auto" />
-                                        <ColumnDefinition
-                                            Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Image
-                                        Grid.Column="0"
-                                        MaxHeight="{Binding ElementName=Label, Path=ActualHeight}"
-                                        Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(localization:TranslatableCancellableButton.CancelImageSource)}"
-                                        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(localization:TranslatableCancellableButton.CancelImageSource), Converter={StaticResource ImageSourceToVisibilityConverter}}" />
-                                    <Label
-                                        Grid.Column="1"
-                                        x:Name="Label"
-                                        DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext}"
-                                        Style="{StaticResource LabelStyle}"
-                                        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button},Path=DataContext.(localization:TranslatableButtonBase.LabelTranslation), Converter={StaticResource NullOrEmptyToVisibilityConverter}}">
-                                        <Label.ContentTemplate>
-                                            <DataTemplate>
-                                                <TextBlock
-                                                    Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Label}, Path=DataContext.(localization:TranslatableCancellableButton.CancelLabelTranslation)}" />
-                                            </DataTemplate>
-                                        </Label.ContentTemplate>
-                                    </Label>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </Setter.Value>
-                </Setter>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
 </ResourceDictionary>

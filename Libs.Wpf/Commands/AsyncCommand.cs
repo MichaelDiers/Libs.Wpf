@@ -1,5 +1,6 @@
 ﻿namespace Libs.Wpf.Commands;
 
+using System.Windows;
 using System.Windows.Input;
 using Libs.Wpf.Localization;
 using Libs.Wpf.ViewModels;
@@ -18,14 +19,14 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     private readonly Func<TCommandParameter?, bool> canExecute;
 
     /// <summary>
+    ///     Synchronizes the command execution to ensure only one command at the same is executed.
+    /// </summary>
+    private readonly ICommandSync commandSync;
+
+    /// <summary>
     ///     Defines the method to be called when the command is invoked.
     /// </summary>
     private readonly Func<TCommandParameter?, CancellationToken, Task> executeAsync;
-
-    /// <summary>
-    ///     Synchronizes the command execution to ensure only one command at the same is executed.
-    /// </summary>
-    private readonly IExtendedCommandSync extendedCommandSync;
 
     /// <summary>
     ///     Allow to run the command in parallel to other commands.
@@ -46,10 +47,9 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     private readonly bool isCancelCommand;
 
     /// <summary>
-    ///     The data of the <see cref="IExtendedCommandSync.ExtendedCommandSyncChanged" /> event if the
-    ///     method succeeds.
+    ///     The data of the cancel button.
     /// </summary>
-    private readonly TranslatableCancellableButton? translatableCancellableButton;
+    private readonly TranslatableCancelButton? translatableCancelButton;
 
     /// <summary>
     ///     The command that stops the execution of <see cref="ICommand.Execute" />.
@@ -65,7 +65,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     /// <summary>
     ///     Initializes a new instance of the <see cref="AsyncCommand{TCommandParameter}" /> class.
     /// </summary>
-    /// <param name="extendedCommandSync">
+    /// <param name="commandSync">
     ///     Synchronizes the command execution to ensure only one command at the same is
     ///     executed.
     /// </param>
@@ -76,33 +76,32 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     ///     <see cref="ICommand.Execute" /> this error handler is called.
     /// </param>
     /// <param name="force">Allow to run the command in parallel to other commands.</param>
-    /// <param name="translatableCancellableButton">
-    ///     The data of the <see cref="IExtendedCommandSync.ExtendedCommandSyncChanged" /> event if the
-    ///     method succeeds.
+    /// <param name="translatableCancelButton">
+    ///     The data of the cancel button.
     /// </param>
     public AsyncCommand(
-        IExtendedCommandSync extendedCommandSync,
+        ICommandSync commandSync,
         Func<TCommandParameter?, bool> canExecute,
         Func<TCommandParameter?, CancellationToken, Task> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
         bool force = false,
-        TranslatableCancellableButton? translatableCancellableButton = null
+        TranslatableCancelButton? translatableCancelButton = null
     )
         : this(
-            extendedCommandSync,
+            commandSync,
             canExecute,
             executeAsync,
             handleErrorAsync,
             force,
             false,
-            translatableCancellableButton)
+            translatableCancelButton)
     {
     }
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="AsyncCommand{TCommandParameter}" /> class.
     /// </summary>
-    /// <param name="extendedCommandSync">
+    /// <param name="commandSync">
     ///     Synchronizes the command execution to ensure only one command at the same is
     ///     executed.
     /// </param>
@@ -117,28 +116,27 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     ///     Indicates if the only purpose of this <see cref="AsyncCommand{TCommandParameter}" /> is
     ///     to cancel the execution of a different <see cref="AsyncCommand{TCommandParameter}" />.
     /// </param>
-    /// <param name="translatableCancellableButton">
-    ///     The data of the <see cref="IExtendedCommandSync.ExtendedCommandSyncChanged" /> event if the
-    ///     method succeeds.
+    /// <param name="translatableCancelButton">
+    ///     The data of the cancel button.
     /// </param>
     private AsyncCommand(
-        IExtendedCommandSync extendedCommandSync,
+        ICommandSync commandSync,
         Func<TCommandParameter?, bool> canExecute,
         Func<TCommandParameter?, CancellationToken, Task> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
         bool force,
         bool isCancelCommand,
-        TranslatableCancellableButton? translatableCancellableButton
+        TranslatableCancelButton? translatableCancelButton
     )
     {
-        this.extendedCommandSync = extendedCommandSync;
-        this.extendedCommandSync = extendedCommandSync;
+        this.commandSync = commandSync;
+        this.commandSync = commandSync;
         this.canExecute = canExecute;
         this.executeAsync = executeAsync;
         this.handleErrorAsync = handleErrorAsync;
         this.force = force;
         this.isCancelCommand = isCancelCommand;
-        this.translatableCancellableButton = translatableCancellableButton;
+        this.translatableCancelButton = translatableCancelButton;
     }
 
     /// <summary>
@@ -179,7 +177,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
         if (!this.isCancelCommand)
         {
             return !this.IsActive &&
-                   (this.force || !this.extendedCommandSync.IsActive) &&
+                   (this.force || !this.commandSync.IsActive) &&
                    this.canExecute((TCommandParameter?) parameter);
         }
 
@@ -227,27 +225,32 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
                 return;
             }
 
-            if (!this.extendedCommandSync.Enter(
-                    this.translatableCancellableButton,
-                    this.force))
+            if (!this.commandSync.Enter(this.force))
             {
                 return;
             }
+
+            Window? cancelWindow = null;
 
             try
             {
                 this.IsActive = true;
 
-                this.CancelCommand = new AsyncCommand<object?>(
-                    new ExtendedCommandSync(),
-                    _ => this.IsActive &&
-                         this.CancelCommand?.IsActive == false &&
-                         cancellationTokenSource.IsCancellationRequested != true,
-                    async (_, _) => { await cancellationTokenSource.CancelAsync(); },
-                    (_, _) => Task.CompletedTask,
-                    false,
-                    true,
-                    this.translatableCancellableButton);
+                if (!this.isCancelCommand && this.translatableCancelButton is not null)
+                {
+                    this.CancelCommand = new AsyncCommand<object?>(
+                        new CommandSync(),
+                        _ => this.IsActive && cancellationTokenSource.IsCancellationRequested != true,
+                        async (_, _) => { await cancellationTokenSource.CancelAsync(); },
+                        (_, _) => Task.CompletedTask,
+                        false,
+                        true,
+                        null);
+                    this.translatableCancelButton.Command = this.CancelCommand;
+                    cancelWindow = new CancelWindow();
+                    cancelWindow.DataContext = this.translatableCancelButton;
+                    cancelWindow.Show();
+                }
 
                 await this.executeAsync(
                     (TCommandParameter?) parameter,
@@ -257,8 +260,9 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
             {
                 this.IsActive = false;
                 this.CancelCommand = null;
-                this.extendedCommandSync.Exit();
+                this.commandSync.Exit();
                 CommandManager.InvalidateRequerySuggested();
+                cancelWindow?.Close();
             }
         }
         catch (OperationCanceledException)

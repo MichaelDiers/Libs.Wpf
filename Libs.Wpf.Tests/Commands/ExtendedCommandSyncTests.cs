@@ -8,12 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 public class ExtendedCommandSyncTests
 {
     private readonly ICommandFactory commandFactory;
-    private readonly IExtendedCommandSync extendedCommandSync;
+    private readonly ICommandSync extendedCommandSync;
 
     public ExtendedCommandSyncTests()
     {
         var provider = CustomServiceProviderBuilder.Build(CommandsServiceCollectionExtensions.TryAddCommands);
-        this.extendedCommandSync = provider.GetRequiredService<IExtendedCommandSync>();
+        this.extendedCommandSync = provider.GetRequiredService<ICommandSync>();
         this.commandFactory = provider.GetRequiredService<ICommandFactory>();
     }
 
@@ -86,13 +86,9 @@ public class ExtendedCommandSyncTests
 
         bool? isActive = null;
         TranslatableCancellableButton? translatable = null;
-        this.extendedCommandSync.ExtendedCommandSyncChanged += (_, e) =>
-        {
-            isActive = e.IsCommandActive;
-            translatable = e.TranslatableCancellableButton;
-        };
+        this.extendedCommandSync.CommandSyncChanged += (_, e) => { isActive = e.IsCommandActive; };
 
-        Assert.True(this.extendedCommandSync.Enter(data));
+        Assert.True(this.extendedCommandSync.Enter());
         for (var i = 0; i < 20 && isActive is null; i++)
         {
             await Task.Delay(100);
@@ -106,7 +102,7 @@ public class ExtendedCommandSyncTests
         isActive = null;
         translatable = null;
 
-        Assert.False(this.extendedCommandSync.Enter(data));
+        Assert.False(this.extendedCommandSync.Enter());
         await Task.Delay(
             500,
             TestContext.Current.CancellationToken);

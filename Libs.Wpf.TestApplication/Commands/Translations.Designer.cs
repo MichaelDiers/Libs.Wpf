@@ -61,6 +61,15 @@ namespace Libs.Wpf.TestApplication.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Let&apos;s cancel that!.
+        /// </summary>
+        internal static string CancelInfoText {
+            get {
+                return ResourceManager.GetString("CancelInfoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel Button Label.
         /// </summary>
         internal static string CancelLabel {

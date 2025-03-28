@@ -29,7 +29,6 @@ public static class CommandsServiceCollectionExtensions
     {
         services.TryAddCommandFactory();
         services.TryAddCommandSync();
-        services.TryAddExtendedCommandSync();
 
         return services;
     }
@@ -42,18 +41,6 @@ public static class CommandsServiceCollectionExtensions
     public static IServiceCollection TryAddCommandSync(this IServiceCollection services)
     {
         services.TryAddSingleton<ICommandSync, CommandSync>();
-
-        return services;
-    }
-
-    /// <summary>
-    ///     Adds the <see cref="IExtendedCommandSync" /> to the given <paramref name="services" />.
-    /// </summary>
-    /// <param name="services">The dependencies are added to this <see cref="IServiceCollection" />.</param>
-    /// <returns>The given <paramref name="services" />.</returns>
-    public static IServiceCollection TryAddExtendedCommandSync(this IServiceCollection services)
-    {
-        services.TryAddSingleton<IExtendedCommandSync, ExtendedCommandSync>();
 
         return services;
     }

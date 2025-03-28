@@ -22,17 +22,16 @@ internal class CommandFactory : ICommandFactory
     ///     <see cref="ICommand.Execute" /> this error handler is called.
     /// </param>
     /// <param name="force">Allow to run the command in parallel to other commands.</param>
-    /// <param name="translatableCancellableButton">
-    ///     The data of the <see cref="IExtendedCommandSync.ExtendedCommandSyncChanged" /> event if the
-    ///     method succeeds.
+    /// <param name="translatableCancelButton">
+    ///     The data of the cancel button.
     /// </param>
     public ICancellableCommand CreateAsyncCommand<TCommandParameter>(
-        IExtendedCommandSync commandSync,
+        ICommandSync commandSync,
         Func<TCommandParameter?, bool> canExecute,
         Func<TCommandParameter?, CancellationToken, Task> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
         bool force = false,
-        TranslatableCancellableButton? translatableCancellableButton = null
+        TranslatableCancelButton? translatableCancelButton = null
     )
     {
         return new AsyncCommand<TCommandParameter>(
@@ -41,7 +40,7 @@ internal class CommandFactory : ICommandFactory
             executeAsync,
             handleErrorAsync,
             force,
-            translatableCancellableButton);
+            translatableCancelButton);
     }
 
     /// <summary>
@@ -55,17 +54,16 @@ internal class CommandFactory : ICommandFactory
     ///     <see cref="ICommand.Execute" /> this error handler is called.
     /// </param>
     /// <param name="force">Allow to run the command in parallel to other commands.</param>
-    /// <param name="translatableCancellableButton">
-    ///     The data of the <see cref="IExtendedCommandSync.ExtendedCommandSyncChanged" /> event if the
-    ///     method succeeds.
+    /// <param name="translatableCancelButton">
+    ///     The data of the cancel button.
     /// </param>
     public ICancellableCommand CreateAsyncCommand(
-        IExtendedCommandSync commandSync,
+        ICommandSync commandSync,
         Func<bool> canExecute,
         Func<CancellationToken, Task> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
         bool force = false,
-        TranslatableCancellableButton? translatableCancellableButton = null
+        TranslatableCancelButton? translatableCancelButton = null
     )
     {
         return this.CreateAsyncCommand<object?>(
@@ -74,7 +72,7 @@ internal class CommandFactory : ICommandFactory
             async (_, cancellationToken) => await executeAsync(cancellationToken),
             handleErrorAsync,
             force,
-            translatableCancellableButton);
+            translatableCancelButton);
     }
 
     /// <summary>

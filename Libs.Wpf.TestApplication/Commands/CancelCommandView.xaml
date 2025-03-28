@@ -17,5 +17,5 @@
     </UserControl.DataContext>
     <Button
         DataContext="{Binding TranslatableButton }"
-        Style="{StaticResource CancellableTranslatableButtonStyle}" />
+        Style="{StaticResource TranslatableButtonStyle}" />
 </UserControl>

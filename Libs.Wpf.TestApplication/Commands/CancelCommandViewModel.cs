@@ -22,7 +22,7 @@ public class CancelCommandViewModel : ViewModelBase
             CommandsServiceCollectionExtensions.TryAddCommands,
             CommandsServiceCollectionExtensions.TryAddCommandSync);
         var commandFactory = provider.GetRequiredService<ICommandFactory>();
-        var commandSync = provider.GetRequiredService<IExtendedCommandSync>();
+        var commandSync = provider.GetRequiredService<ICommandSync>();
 
         this.translatableButton = new TranslatableCancellableButton(
             commandFactory.CreateAsyncCommand(
@@ -30,11 +30,18 @@ public class CancelCommandViewModel : ViewModelBase
                 () => true,
                 async cancellationToken =>
                 {
+                    await Task.Delay(1000);
                     await Task.Delay(
-                        10000,
+                        50000,
                         cancellationToken);
                 },
-                async (_, _) => { await Task.CompletedTask; }),
+                async (_, _) => { await Task.CompletedTask; },
+                translatableCancelButton: new TranslatableCancelButton(
+                    Translations.ResourceManager,
+                    nameof(Translations.CancelLabel),
+                    nameof(Translations.CancelToolTip),
+                    "pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_cancel.png",
+                    nameof(Translations.CancelInfoText))),
             "pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_edit_square.png",
             Translations.ResourceManager,
             nameof(Translations.Label),

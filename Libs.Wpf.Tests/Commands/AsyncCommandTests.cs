@@ -10,13 +10,13 @@ using Microsoft.Extensions.DependencyInjection;
 public class AsyncCommandTests
 {
     private readonly ICommandFactory commandFactory;
-    private readonly IExtendedCommandSync commandSync;
+    private readonly ICommandSync commandSync;
 
     public AsyncCommandTests()
     {
         var provider = CustomServiceProviderBuilder.Build(CommandsServiceCollectionExtensions.TryAddCommands);
         this.commandFactory = provider.GetRequiredService<ICommandFactory>();
-        this.commandSync = provider.GetRequiredService<IExtendedCommandSync>();
+        this.commandSync = provider.GetRequiredService<ICommandSync>();
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public class AsyncCommandTests
         var command = this.commandFactory.CreateAsyncCommand<int?>(
             this.commandSync,
             value => value == commandParameter,
-            async (value, cancellationToken) =>
+            async (_, cancellationToken) =>
             {
                 await Task.Delay(
                     2000,
@@ -211,7 +211,7 @@ public class AsyncCommandTests
         var command = this.commandFactory.CreateAsyncCommand<int?>(
             this.commandSync,
             value => value == commandParameter,
-            async (value, _) =>
+            async (_, _) =>
             {
                 await Task.CompletedTask;
                 throw new NotImplementedException();

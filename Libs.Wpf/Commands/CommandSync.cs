@@ -39,6 +39,11 @@ internal class CommandSync : ViewModelBase, ICommandSync
     }
 
     /// <summary>
+    ///     An event raised if <see cref="CommandSync.IsActive" /> changed.
+    /// </summary>
+    public event EventHandler<CommandSyncChangedEventArgs>? CommandSyncChanged;
+
+    /// <summary>
     ///     Requests the permission to run a command.
     /// </summary>
     /// <param name="force">
@@ -62,6 +67,14 @@ internal class CommandSync : ViewModelBase, ICommandSync
 
             this.IsActive = true;
             this.activeCommands++;
+
+            if (this.activeCommands == 1)
+            {
+                this.CommandSyncChanged?.Invoke(
+                    this,
+                    new CommandSyncChangedEventArgs(true));
+            }
+
             return true;
         }
     }
@@ -77,6 +90,13 @@ internal class CommandSync : ViewModelBase, ICommandSync
                 0,
                 this.activeCommands - 1);
             this.IsActive = this.activeCommands != 0;
+
+            if (this.activeCommands == 0)
+            {
+                this.CommandSyncChanged?.Invoke(
+                    this,
+                    new CommandSyncChangedEventArgs(false));
+            }
         }
     }
 }
