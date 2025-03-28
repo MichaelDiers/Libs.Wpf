@@ -16,12 +16,8 @@ public class TranslatableTests
 
         TranslationSource.Instance.CurrentCulture = new CultureInfo("de-DE");
 
-        Assert.Equal(
-            null,
-            translatable.ErrorResourceKey);
-        Assert.Equal(
-            false,
-            translatable.HasError);
+        Assert.Null(translatable.ErrorResourceKey);
+        Assert.False(translatable.HasError);
         Assert.Equal(
             "LabelText (de)",
             translatable.LabelTranslation);
@@ -44,12 +40,8 @@ public class TranslatableTests
 
         TranslationSource.Instance.CurrentCulture = new CultureInfo("en-US");
 
-        Assert.Equal(
-            null,
-            translatable.ErrorResourceKey);
-        Assert.Equal(
-            false,
-            translatable.HasError);
+        Assert.Null(translatable.ErrorResourceKey);
+        Assert.False(translatable.HasError);
         Assert.Equal(
             "LabelText (en)",
             translatable.LabelTranslation);
