@@ -8,6 +8,12 @@
     <Version>1.0.68</Version>
     <RepositoryUrl>https://github.com/MichaelDiers/Libs.Wpf</RepositoryUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Michael Diers</Authors>
+    <Description>A library that provides WPF functionality.</Description>
+    <PackageProjectUrl>https://github.com/MichaelDiers/Libs.Wpf</PackageProjectUrl>
+    <PackageTags>WPF</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +24,13 @@
     <None Remove="Assets\material_symbol_information.png" />
     <None Remove="Assets\material_symbol_question.png" />
     <None Remove="Assets\material_symbol_warning.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
