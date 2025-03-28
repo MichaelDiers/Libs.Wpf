@@ -2,13 +2,14 @@
 
 using System.IO;
 using System.Windows.Input;
+using Libs.Wpf.Commands.CancelWindow;
 using Libs.Wpf.Localization;
 using Microsoft.Win32;
 
 /// <summary>
 ///     A factory for <see cref="ICommand" /> and <see cref="ICancellableCommand" /> implementations.
 /// </summary>
-internal class CommandFactory : ICommandFactory
+internal class CommandFactory(ICancelWindowService cancelWindowService) : ICommandFactory
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="ICancellableCommand" /> implementation.
@@ -39,6 +40,7 @@ internal class CommandFactory : ICommandFactory
             canExecute,
             executeAsync,
             handleErrorAsync,
+            cancelWindowService,
             force,
             translatableCancelButton);
     }

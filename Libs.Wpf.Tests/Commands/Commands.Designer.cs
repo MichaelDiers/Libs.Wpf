@@ -59,5 +59,14 @@ namespace Libs.Wpf.Tests.Commands {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Label.
+        /// </summary>
+        internal static string Label {
+            get {
+                return ResourceManager.GetString("Label", resourceCulture);
+            }
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Libs.Wpf.Commands;
 
-using System.Windows;
 using System.Windows.Input;
+using Libs.Wpf.Commands.CancelWindow;
 using Libs.Wpf.Localization;
 using Libs.Wpf.ViewModels;
 
@@ -13,6 +13,11 @@ using Libs.Wpf.ViewModels;
 /// <seealso cref="ICancellableCommand" />
 public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableCommand
 {
+    /// <summary>
+    ///     A factory for creating an <see cref="ICancelWindow" />.
+    /// </summary>
+    private readonly ICancelWindowService cancelWindowService;
+
     /// <summary>
     ///     Determines whether the command can execute in its current state.
     /// </summary>
@@ -75,6 +80,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     ///     Handles command execution errors. If an <see cref="Exception" /> is thrown at
     ///     <see cref="ICommand.Execute" /> this error handler is called.
     /// </param>
+    /// <param name="cancelWindowService">A factory for creating an <see cref="ICancelWindow" />.</param>
     /// <param name="force">Allow to run the command in parallel to other commands.</param>
     /// <param name="translatableCancelButton">
     ///     The data of the cancel button.
@@ -84,6 +90,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
         Func<TCommandParameter?, bool> canExecute,
         Func<TCommandParameter?, CancellationToken, Task> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
+        ICancelWindowService cancelWindowService,
         bool force = false,
         TranslatableCancelButton? translatableCancelButton = null
     )
@@ -92,6 +99,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
             canExecute,
             executeAsync,
             handleErrorAsync,
+            cancelWindowService,
             force,
             false,
             translatableCancelButton)
@@ -111,6 +119,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     ///     Handles command execution errors. If an <see cref="Exception" /> is thrown at
     ///     <see cref="ICommand.Execute" /> this error handler is called.
     /// </param>
+    /// <param name="cancelWindowService">A factory for creating an <see cref="ICancelWindow" />.</param>
     /// <param name="force">Allow to run the command in parallel to other commands.</param>
     /// <param name="isCancelCommand">
     ///     Indicates if the only purpose of this <see cref="AsyncCommand{TCommandParameter}" /> is
@@ -124,6 +133,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
         Func<TCommandParameter?, bool> canExecute,
         Func<TCommandParameter?, CancellationToken, Task> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
+        ICancelWindowService cancelWindowService,
         bool force,
         bool isCancelCommand,
         TranslatableCancelButton? translatableCancelButton
@@ -134,6 +144,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
         this.canExecute = canExecute;
         this.executeAsync = executeAsync;
         this.handleErrorAsync = handleErrorAsync;
+        this.cancelWindowService = cancelWindowService;
         this.force = force;
         this.isCancelCommand = isCancelCommand;
         this.translatableCancelButton = translatableCancelButton;
@@ -230,7 +241,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
                 return;
             }
 
-            Window? cancelWindow = null;
+            ICancelWindow? cancelWindow = null;
 
             try
             {
@@ -243,12 +254,13 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
                         _ => this.IsActive && cancellationTokenSource.IsCancellationRequested != true,
                         async (_, _) => { await cancellationTokenSource.CancelAsync(); },
                         (_, _) => Task.CompletedTask,
+                        this.cancelWindowService,
                         false,
                         true,
                         null);
                     this.translatableCancelButton.Command = this.CancelCommand;
-                    cancelWindow = new CancelWindow();
-                    cancelWindow.DataContext = this.translatableCancelButton;
+
+                    cancelWindow = this.cancelWindowService.CreateCancelWindow(this.translatableCancelButton);
                     cancelWindow.Show();
                 }
 

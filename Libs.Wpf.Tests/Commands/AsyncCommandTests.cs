@@ -1,8 +1,11 @@
 ﻿namespace Libs.Wpf.Tests.Commands;
 
 using Libs.Wpf.Commands;
+using Libs.Wpf.Commands.CancelWindow;
 using Libs.Wpf.DependencyInjection;
+using Libs.Wpf.Localization;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 
 /// <summary>
 ///     Tests of <see cref="IAsyncCommand" />.
@@ -14,7 +17,15 @@ public class AsyncCommandTests
 
     public AsyncCommandTests()
     {
-        var provider = CustomServiceProviderBuilder.Build(CommandsServiceCollectionExtensions.TryAddCommands);
+        var cancelWindowMock = new Mock<ICancelWindow>();
+
+        var cancelWindowServiceMock = new Mock<ICancelWindowService>();
+        cancelWindowServiceMock.Setup(window => window.CreateCancelWindow(It.IsAny<object?>()))
+            .Returns(cancelWindowMock.Object);
+
+        var provider = CustomServiceProviderBuilder.Build(
+            services => services.AddSingleton<ICancelWindowService>(cancelWindowServiceMock.Object),
+            CommandsServiceCollectionExtensions.TryAddCommands);
         this.commandFactory = provider.GetRequiredService<ICommandFactory>();
         this.commandSync = provider.GetRequiredService<ICommandSync>();
     }
@@ -100,7 +111,10 @@ public class AsyncCommandTests
             {
                 await Task.CompletedTask;
                 Assert.Fail("should be an error");
-            });
+            },
+            translatableCancelButton: new TranslatableCancelButton(
+                Commands.ResourceManager,
+                nameof(Commands.Label)));
 
         Assert.True(command.CanExecute(commandParameter));
         command.Execute(commandParameter);

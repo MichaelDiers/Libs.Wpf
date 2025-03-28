@@ -1,5 +1,6 @@
 ﻿namespace Libs.Wpf.Commands;
 
+using Libs.Wpf.Commands.CancelWindow;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -8,6 +9,18 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 /// </summary>
 public static class CommandsServiceCollectionExtensions
 {
+    /// <summary>
+    ///     Adds the <see cref="ICancelWindowService" /> to the given <paramref name="services" />.
+    /// </summary>
+    /// <param name="services">The dependencies are added to this <see cref="IServiceCollection" />.</param>
+    /// <returns>The given <paramref name="services" />.</returns>
+    public static IServiceCollection TryAddCancelWindowService(this IServiceCollection services)
+    {
+        services.TryAddSingleton<ICancelWindowService, CancelWindowService>();
+
+        return services;
+    }
+
     /// <summary>
     ///     Adds the <see cref="ICommandFactory" /> to the given <paramref name="services" />.
     /// </summary>
@@ -29,6 +42,7 @@ public static class CommandsServiceCollectionExtensions
     {
         services.TryAddCommandFactory();
         services.TryAddCommandSync();
+        services.TryAddCancelWindowService();
 
         return services;
     }

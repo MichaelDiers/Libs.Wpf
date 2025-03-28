@@ -1,11 +1,11 @@
-﻿namespace Libs.Wpf.Commands;
+﻿namespace Libs.Wpf.Commands.CancelWindow;
 
 /// <summary>
 ///     Interaction logic for CancelWindow.xaml
 /// </summary>
-public partial class CancelWindow
+public partial class CustomCancelWindow : ICancelWindow
 {
-    public CancelWindow()
+    public CustomCancelWindow()
     {
         this.InitializeComponent();
     }
