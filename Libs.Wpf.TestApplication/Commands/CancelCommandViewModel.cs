@@ -11,7 +11,7 @@ public class CancelCommandViewModel : ViewModelBase
     /// <summary>
     ///     The translatable button.
     /// </summary>
-    private TranslatableCancellableButton translatableButton;
+    private TranslatableButton<IAsyncCommand> translatableButton;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CancelCommandViewModel" /> class.
@@ -24,7 +24,7 @@ public class CancelCommandViewModel : ViewModelBase
         var commandFactory = provider.GetRequiredService<ICommandFactory>();
         var commandSync = provider.GetRequiredService<ICommandSync>();
 
-        this.translatableButton = new TranslatableCancellableButton(
+        this.translatableButton = new TranslatableButton<IAsyncCommand>(
             commandFactory.CreateAsyncCommand(
                 commandSync,
                 () => true,
@@ -45,16 +45,13 @@ public class CancelCommandViewModel : ViewModelBase
             "pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_edit_square.png",
             Translations.ResourceManager,
             nameof(Translations.Label),
-            nameof(Translations.ToolTip),
-            nameof(Translations.CancelLabel),
-            nameof(Translations.CancelToolTip),
-            "pack://application:,,,/Libs.Wpf.TestApplication;component/Assets/material_symbol_cancel.png");
+            nameof(Translations.ToolTip));
     }
 
     /// <summary>
     ///     Gets or sets the translatable button.
     /// </summary>
-    public TranslatableCancellableButton TranslatableButton
+    public TranslatableButton<IAsyncCommand> TranslatableButton
     {
         get => this.translatableButton;
         set =>
