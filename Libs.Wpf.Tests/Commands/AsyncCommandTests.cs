@@ -24,7 +24,7 @@ public class AsyncCommandTests
             .Returns(cancelWindowMock.Object);
 
         var provider = CustomServiceProviderBuilder.Build(
-            services => services.AddSingleton<ICancelWindowService>(cancelWindowServiceMock.Object),
+            services => services.AddSingleton(cancelWindowServiceMock.Object),
             CommandsServiceCollectionExtensions.TryAddCommands);
         this.commandFactory = provider.GetRequiredService<ICommandFactory>();
         this.commandSync = provider.GetRequiredService<ICommandSync>();
@@ -34,13 +34,14 @@ public class AsyncCommandTests
     public void CanExecuteFails()
     {
         const int commandParameter = 10;
-        var command = this.commandFactory.CreateAsyncCommand<int?>(
+        var command = this.commandFactory.CreateAsyncCommand<int?, bool>(
             this.commandSync,
             value => value != commandParameter,
             async (_, _) =>
             {
                 await Task.CompletedTask;
                 Assert.Fail("Should be an error.");
+                return false;
             },
             async (_, _) =>
             {
@@ -55,13 +56,14 @@ public class AsyncCommandTests
     public void CanExecuteSucceeds()
     {
         const int commandParameter = 10;
-        var command = this.commandFactory.CreateAsyncCommand<int?>(
+        var command = this.commandFactory.CreateAsyncCommand<int?, bool>(
             this.commandSync,
             value => value == commandParameter,
             async (_, _) =>
             {
                 await Task.CompletedTask;
                 Assert.Fail("Should be an error.");
+                return false;
             },
             async (_, _) =>
             {
@@ -76,13 +78,14 @@ public class AsyncCommandTests
     public void CanExecuteThrowsException()
     {
         const int commandParameter = 10;
-        var command = this.commandFactory.CreateAsyncCommand<int?>(
+        var command = this.commandFactory.CreateAsyncCommand<int?, bool>(
             this.commandSync,
             _ => throw new NotImplementedException(),
             async (_, _) =>
             {
                 await Task.CompletedTask;
                 Assert.Fail("should be an error");
+                return false;
             },
             async (_, _) =>
             {
@@ -97,7 +100,7 @@ public class AsyncCommandTests
     public async Task Execute_ShouldFail_IfCommandIsCancelled()
     {
         const int commandParameter = 10;
-        var command = this.commandFactory.CreateAsyncCommand<int?>(
+        var command = this.commandFactory.CreateAsyncCommand<int?, bool>(
             this.commandSync,
             value => value == commandParameter,
             async (_, cancellationToken) =>
@@ -106,6 +109,7 @@ public class AsyncCommandTests
                     2000,
                     cancellationToken);
                 Assert.Fail("should be an error");
+                return false;
             },
             async (_, _) =>
             {
@@ -143,7 +147,7 @@ public class AsyncCommandTests
         var executed = false;
 
         const int commandParameter = 10;
-        var command = this.commandFactory.CreateAsyncCommand<int?>(
+        var command = this.commandFactory.CreateAsyncCommand<int?, bool>(
             this.commandSync,
             value => value == commandParameter,
             async (_, _) =>
@@ -177,13 +181,14 @@ public class AsyncCommandTests
         Assert.True(this.commandSync.Enter());
 
         const int commandParameter = 10;
-        var command = this.commandFactory.CreateAsyncCommand<int?>(
+        var command = this.commandFactory.CreateAsyncCommand<int?, bool>(
             this.commandSync,
             value => value == commandParameter,
             async (_, _) =>
             {
                 await Task.CompletedTask;
                 Assert.Fail("should be an error");
+                return false;
             },
             async (_, _) =>
             {
@@ -198,13 +203,14 @@ public class AsyncCommandTests
     public void Execute_ShouldNotStart_IfCanExecuteFails()
     {
         const int commandParameter = 10;
-        var command = this.commandFactory.CreateAsyncCommand<int?>(
+        var command = this.commandFactory.CreateAsyncCommand<int?, bool>(
             this.commandSync,
             value => value != commandParameter,
             async (_, _) =>
             {
                 await Task.CompletedTask;
                 Assert.Fail("should be an error");
+                return false;
             },
             async (_, _) =>
             {
@@ -222,7 +228,7 @@ public class AsyncCommandTests
         var isDeactivated = false;
 
         const int commandParameter = 10;
-        var command = this.commandFactory.CreateAsyncCommand<int?>(
+        var command = this.commandFactory.CreateAsyncCommand<int?, bool>(
             this.commandSync,
             value => value == commandParameter,
             async (_, _) =>
@@ -269,7 +275,7 @@ public class AsyncCommandTests
         var executed = false;
 
         const int commandParameter = 10;
-        var command = this.commandFactory.CreateAsyncCommand<int?>(
+        var command = this.commandFactory.CreateAsyncCommand<int?, bool>(
             this.commandSync,
             value => value == commandParameter,
             async (value, _) =>
@@ -279,6 +285,7 @@ public class AsyncCommandTests
                     commandParameter,
                     value);
                 executed = true;
+                return true;
             },
             async (_, _) =>
             {
@@ -306,7 +313,7 @@ public class AsyncCommandTests
         var isDeactivated = false;
 
         const int commandParameter = 10;
-        var command = this.commandFactory.CreateAsyncCommand<int?>(
+        var command = this.commandFactory.CreateAsyncCommand<int?, bool>(
             this.commandSync,
             value => value == commandParameter,
             async (value, _) =>
@@ -315,6 +322,7 @@ public class AsyncCommandTests
                 Assert.Equal(
                     commandParameter,
                     value);
+                return true;
             },
             async (_, _) =>
             {

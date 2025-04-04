@@ -15,6 +15,7 @@ internal class CommandFactory(ICancelWindowService cancelWindowService) : IComma
     ///     Initializes a new instance of the <see cref="ICancellableCommand" /> implementation.
     /// </summary>
     /// <typeparam name="TCommandParameter">The type of the command parameter.</typeparam>
+    /// <typeparam name="TExecuteResult">The result type of the execution function.</typeparam>
     /// <param name="commandSync">Synchronizes the command execution to ensure only one command at the same is executed.</param>
     /// <param name="canExecute">Determines whether the command can execute in its current state.</param>
     /// <param name="executeAsync">Defines the method to be called when the command is invoked.</param>
@@ -26,23 +27,26 @@ internal class CommandFactory(ICancelWindowService cancelWindowService) : IComma
     /// <param name="translatableCancelButton">
     ///     The data of the cancel button.
     /// </param>
-    public ICancellableCommand CreateAsyncCommand<TCommandParameter>(
+    /// <param name="postCommandFunc">The function is called after command termination.</param>
+    public ICancellableCommand CreateAsyncCommand<TCommandParameter, TExecuteResult>(
         ICommandSync commandSync,
         Func<TCommandParameter?, bool> canExecute,
-        Func<TCommandParameter?, CancellationToken, Task> executeAsync,
+        Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
         bool force = false,
-        TranslatableCancelButton? translatableCancelButton = null
+        TranslatableCancelButton? translatableCancelButton = null,
+        Func<TExecuteResult?, Task>? postCommandFunc = null
     )
     {
-        return new AsyncCommand<TCommandParameter>(
+        return new AsyncCommand<TCommandParameter, TExecuteResult>(
             commandSync,
             canExecute,
             executeAsync,
             handleErrorAsync,
             cancelWindowService,
             force,
-            translatableCancelButton);
+            translatableCancelButton,
+            postCommandFunc);
     }
 
     /// <summary>
@@ -59,22 +63,25 @@ internal class CommandFactory(ICancelWindowService cancelWindowService) : IComma
     /// <param name="translatableCancelButton">
     ///     The data of the cancel button.
     /// </param>
-    public ICancellableCommand CreateAsyncCommand(
+    /// <param name="postCommandFunc">The function is called after command termination.</param>
+    public ICancellableCommand CreateAsyncCommand<TExecuteResult>(
         ICommandSync commandSync,
         Func<bool> canExecute,
-        Func<CancellationToken, Task> executeAsync,
+        Func<CancellationToken, Task<TExecuteResult?>> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
         bool force = false,
-        TranslatableCancelButton? translatableCancelButton = null
+        TranslatableCancelButton? translatableCancelButton = null,
+        Func<TExecuteResult?, Task>? postCommandFunc = null
     )
     {
-        return this.CreateAsyncCommand<object?>(
+        return this.CreateAsyncCommand<object?, TExecuteResult>(
             commandSync,
             _ => canExecute(),
             async (_, cancellationToken) => await executeAsync(cancellationToken),
             handleErrorAsync,
             force,
-            translatableCancelButton);
+            translatableCancelButton,
+            postCommandFunc);
     }
 
     /// <summary>

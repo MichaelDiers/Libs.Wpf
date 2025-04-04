@@ -29,11 +29,12 @@ internal class ControlsViewModel : ViewModelBase
                 {
                     var messageBoxService = provider.GetRequiredService<IMessageBoxService>();
                     var result = messageBoxService.Show(
-                        "The Message!",
-                        "The Caption!",
-                        MessageBoxButtons.Yes | MessageBoxButtons.No,
-                        MessageBoxButtons.Yes,
-                        MessageBoxImage.Question);
+                        new MessageBoxData(
+                            "The Message!",
+                            "The Caption!",
+                            MessageBoxButtons.Yes | MessageBoxButtons.No,
+                            MessageBoxButtons.Yes,
+                            MessageBoxImage.Question));
                     this.MessageBoxResult = result.ToString();
                 });
 

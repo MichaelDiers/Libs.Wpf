@@ -9,9 +9,10 @@ using Libs.Wpf.ViewModels;
 ///     An implementation of <see cref="ICommand" /> using async and await.
 /// </summary>
 /// <typeparam name="TCommandParameter">The <see cref="Type" /> of the command parameter.</typeparam>
+/// <typeparam name="TExecuteResult">The result type of the execution function.</typeparam>
 /// <seealso cref="ViewModelBase" />
 /// <seealso cref="ICancellableCommand" />
-public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableCommand
+public class AsyncCommand<TCommandParameter, TExecuteResult> : ViewModelBase, ICancellableCommand
 {
     /// <summary>
     ///     A factory for creating an <see cref="ICancelWindow" />.
@@ -31,7 +32,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     /// <summary>
     ///     Defines the method to be called when the command is invoked.
     /// </summary>
-    private readonly Func<TCommandParameter?, CancellationToken, Task> executeAsync;
+    private readonly Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>> executeAsync;
 
     /// <summary>
     ///     Allow to run the command in parallel to other commands.
@@ -46,10 +47,13 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     private readonly Func<Exception, CancellationToken, Task> handleErrorAsync;
 
     /// <summary>
-    ///     Indicates if the only purpose of this <see cref="AsyncCommand{TCommandParameter}" /> is to cancel the execution of
-    ///     a different <see cref="AsyncCommand{TCommandParameter}" />.
+    ///     Indicates if the only purpose of this <see cref="AsyncCommand{TCommandParameter,TExecuteResult}" /> is to cancel
+    ///     the execution of
+    ///     a different <see cref="AsyncCommand{TCommandParameter,TExecuteResult}" />.
     /// </summary>
     private readonly bool isCancelCommand;
+
+    private readonly Func<TExecuteResult?, Task>? postCommandFunc;
 
     /// <summary>
     ///     The data of the cancel button.
@@ -68,7 +72,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     private bool isActive;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="AsyncCommand{TCommandParameter}" /> class.
+    ///     Initializes a new instance of the <see cref="AsyncCommand{TCommandParameter,TExecuteResult}" /> class.
     /// </summary>
     /// <param name="commandSync">
     ///     Synchronizes the command execution to ensure only one command at the same is
@@ -85,14 +89,16 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     /// <param name="translatableCancelButton">
     ///     The data of the cancel button.
     /// </param>
+    /// <param name="postCommandFunc">The function is called after command termination.</param>
     public AsyncCommand(
         ICommandSync commandSync,
         Func<TCommandParameter?, bool> canExecute,
-        Func<TCommandParameter?, CancellationToken, Task> executeAsync,
+        Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
         ICancelWindowService cancelWindowService,
         bool force = false,
-        TranslatableCancelButton? translatableCancelButton = null
+        TranslatableCancelButton? translatableCancelButton = null,
+        Func<TExecuteResult?, Task>? postCommandFunc = null
     )
         : this(
             commandSync,
@@ -102,12 +108,13 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
             cancelWindowService,
             force,
             false,
-            translatableCancelButton)
+            translatableCancelButton,
+            postCommandFunc)
     {
     }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="AsyncCommand{TCommandParameter}" /> class.
+    ///     Initializes a new instance of the <see cref="AsyncCommand{TCommandParameter,TExecuteResult}" /> class.
     /// </summary>
     /// <param name="commandSync">
     ///     Synchronizes the command execution to ensure only one command at the same is
@@ -122,21 +129,23 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
     /// <param name="cancelWindowService">A factory for creating an <see cref="ICancelWindow" />.</param>
     /// <param name="force">Allow to run the command in parallel to other commands.</param>
     /// <param name="isCancelCommand">
-    ///     Indicates if the only purpose of this <see cref="AsyncCommand{TCommandParameter}" /> is
-    ///     to cancel the execution of a different <see cref="AsyncCommand{TCommandParameter}" />.
+    ///     Indicates if the only purpose of this <see cref="AsyncCommand{TCommandParameter,TExecuteResult}" /> is
+    ///     to cancel the execution of a different <see cref="AsyncCommand{TCommandParameter,TExecuteResult}" />.
     /// </param>
     /// <param name="translatableCancelButton">
     ///     The data of the cancel button.
     /// </param>
+    /// <param name="postCommandFunc">The function is called after command termination.</param>
     private AsyncCommand(
         ICommandSync commandSync,
         Func<TCommandParameter?, bool> canExecute,
-        Func<TCommandParameter?, CancellationToken, Task> executeAsync,
+        Func<TCommandParameter?, CancellationToken, Task<TExecuteResult?>> executeAsync,
         Func<Exception, CancellationToken, Task> handleErrorAsync,
         ICancelWindowService cancelWindowService,
         bool force,
         bool isCancelCommand,
-        TranslatableCancelButton? translatableCancelButton
+        TranslatableCancelButton? translatableCancelButton,
+        Func<TExecuteResult?, Task>? postCommandFunc = null
     )
     {
         this.commandSync = commandSync;
@@ -148,6 +157,7 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
         this.force = force;
         this.isCancelCommand = isCancelCommand;
         this.translatableCancelButton = translatableCancelButton;
+        this.postCommandFunc = postCommandFunc;
     }
 
     /// <summary>
@@ -249,10 +259,14 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
 
                 if (!this.isCancelCommand && this.translatableCancelButton is not null)
                 {
-                    this.CancelCommand = new AsyncCommand<object?>(
+                    this.CancelCommand = new AsyncCommand<object?, object?>(
                         new CommandSync(),
                         _ => this.IsActive && cancellationTokenSource.IsCancellationRequested != true,
-                        async (_, _) => { await cancellationTokenSource.CancelAsync(); },
+                        async (_, _) =>
+                        {
+                            await cancellationTokenSource.CancelAsync();
+                            return null;
+                        },
                         (_, _) => Task.CompletedTask,
                         this.cancelWindowService,
                         false,
@@ -264,9 +278,16 @@ public class AsyncCommand<TCommandParameter> : ViewModelBase, ICancellableComman
                     cancelWindow.Show();
                 }
 
-                await this.executeAsync(
+                var executionResult = await this.executeAsync(
                     (TCommandParameter?) parameter,
                     cancellationTokenSource.Token);
+
+                if (this.postCommandFunc is not null)
+                {
+                    this.IsActive = false;
+                    cancelWindow?.Close();
+                    await this.postCommandFunc(executionResult);
+                }
             }
             finally
             {

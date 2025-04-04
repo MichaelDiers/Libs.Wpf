@@ -1,7 +1,5 @@
 ﻿namespace Libs.Wpf.Controls.CustomMessageBox;
 
-using System.Globalization;
-using System.Resources;
 using System.Windows;
 using Libs.Wpf.Commands;
 
@@ -13,39 +11,25 @@ public class MessageBoxService(ICommandFactory commandFactory, Window? window = 
     /// <summary>
     ///     Shows a custom message box.
     /// </summary>
-    /// <param name="message">The displayed message.</param>
-    /// <param name="caption">The caption of the message box.</param>
-    /// <param name="messageBoxButtons">The buttons to display.</param>
-    /// <param name="defaultMessageBoxButtons">The default result of the message box.</param>
-    /// <param name="messageBoxImage">The image that is displayed.</param>
-    /// <param name="resourceManager">A resource manager that provides the button names.</param>
-    /// <param name="cultureInfo">The current culture info.</param>
+    /// <param name="messageBoxData">The required data to create the <see cref="CustomMessageBox" />.</param>
     /// <returns>The user selected message box result.</returns>
-    public MessageBoxButtons Show(
-        string message,
-        string caption,
-        MessageBoxButtons messageBoxButtons,
-        MessageBoxButtons defaultMessageBoxButtons,
-        MessageBoxImage messageBoxImage,
-        ResourceManager? resourceManager = null,
-        CultureInfo? cultureInfo = null
-    )
+    public MessageBoxButtons Show(MessageBoxData messageBoxData)
     {
         var messageBoxWindow = new MessageBoxWindow {Owner = window};
         var viewModel = new MessageBoxViewModel
         {
-            Result = defaultMessageBoxButtons,
-            Caption = caption,
-            Message = message,
-            ImageSource = MessageBoxService.ToImageSource(messageBoxImage)
+            Result = messageBoxData.DefaultMessageBoxButtons,
+            Caption = messageBoxData.Caption,
+            Message = messageBoxData.Message,
+            ImageSource = MessageBoxService.ToImageSource(messageBoxData.MessageBoxImage)
         };
         var buttons = Enum.GetValues<MessageBoxButtons>()
-            .Where(value => (value & messageBoxButtons) == value)
+            .Where(value => (value & messageBoxData.MessageBoxButtons) == value)
             .Select(
                 value => new ButtonViewModel(
-                    resourceManager?.GetString(
+                    messageBoxData.ResourceManager?.GetString(
                         value.ToString(),
-                        cultureInfo) ??
+                        messageBoxData.CultureInfo) ??
                     value.ToString(),
                     commandFactory.CreateSyncCommand<object>(
                         _ =>
